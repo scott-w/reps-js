@@ -6,15 +6,18 @@
  */
 
 module.exports = {
-	
+
 
 
   /**
    * `ExerciseController.list()`
    */
   list: function (req, res) {
-    return res.json({
-      todo: 'list() is not implemented yet!'
+		if (req.session.authenticated) {
+			return res.json({auth: true});
+		}
+    return res.status(401).json({
+      todo: 'list() is not implemented at all!'
     });
   },
 
@@ -48,4 +51,3 @@ module.exports = {
     });
   }
 };
-
