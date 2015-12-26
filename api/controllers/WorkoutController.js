@@ -1,5 +1,3 @@
-var moment = require("moment");
-
 /**
  * WorkoutController
  *
@@ -31,26 +29,17 @@ module.exports = {
   create: function (req, res) {
 		var user = req.session.user;
 
-		Workout.create({
-			workout_date: moment(req.body.workout_date, 'DD/MM/YYYY').toDate(),
-			user: user.id
-		}).exec(function(err, created) {
+		var workout = _.clone(req.body);
+		workout.user = user.id;
+
+		Workout.createWithSets(workout, function(err, created) {
+			console.log(err);
+			console.log(created);
 			if (err) {
 				return res.status(400).json(err.invalidAttributes);
 			}
 
-			var sets = _.each(_.clone(req.body.sets || []), function(item) {
-				item.workout = created.id;
-			});
-
-			if (sets) {
-				Set.create(sets).exec(function(setErr, createdSet) {
-					return res.status(201).json(createdSet);
-				});
-			}
-			else {
-				return res.status(201).json(created);
-			}
+			return res.status(201).json(created);
 		});
   },
 
