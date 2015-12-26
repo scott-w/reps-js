@@ -33,8 +33,6 @@ module.exports = {
 		workout.user = user.id;
 
 		Workout.createWithSets(workout, function(err, created) {
-			console.log(err);
-			console.log(created);
 			if (err) {
 				return res.status(400).json(err.invalidAttributes);
 			}

@@ -13,15 +13,20 @@ module.exports = {
 
   attributes: {
     user: {
-      model: 'user'
+      model: 'User',
+      required: true
     },
     workout_date: {
       type: 'date',
       required: true
     },
     sets: {
-      collection: 'set',
+      collection: 'Set',
       via: 'workout'
+    },
+    location: {
+      model: 'Location',
+      required: true
     }
   },
 
@@ -29,16 +34,20 @@ module.exports = {
   * Take the necessary attributes and a callback to add.
   */
   createWithSets: function(attr, callback) {
-    Workout.create({
-      workout_date: moment(attr.workout_date, 'DD/MM/YYYY').toDate(),
-      user: attr.user
-    }).exec(function(err, created) {
+    var data = _.clone(attr);
+
+    _.merge(
+      data,
+      {workout_date: moment(data.workout_date, 'DD/MM/YYYY').toDate()}
+    );
+
+    Workout.create(data).exec(function(err, created) {
 
       if (err) {
         return callback(err);
       }
 
-      var sets = _.map(_.clone(attr.sets || []), function(set) {
+      var sets = _.map(_.clone(data.sets || []), function(set) {
         set.workout = created.id;
         return set;
       });
