@@ -7,13 +7,16 @@
 
 module.exports = {
 
-  identity: 'workout',
+  identity: 'Workout',
 
   attributes: {
     user: {
       model: 'user'
     },
-    workout_date: 'DATE',
+    workout_date: {
+      type: 'date',
+      required: true
+    },
     sets: {
       collection: 'set',
       via: 'workout'

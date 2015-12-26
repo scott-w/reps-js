@@ -7,9 +7,12 @@
 
 module.exports = {
 
-  identity: 'exercise',
+  identity: 'Exercise',
 
   attributes: {
-    name: 'STRING'
+    name: {
+      type: 'string',
+      required: true
+    }
   }
 };

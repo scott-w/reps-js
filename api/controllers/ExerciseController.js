@@ -26,9 +26,23 @@ module.exports = {
    * `ExerciseController.create()`
    */
   create: function (req, res) {
-    return res.json({
-      todo: 'create() is not implemented yet!'
-    });
+
+		if (!req.body.name) {
+			return res.status(400).json({
+				name: 'Must set a valid name'
+			});
+		}
+
+		Exercise.create(req.body).exec(function(err, created) {
+			if (err) {
+				console.log(err.invalidAttributes.name[0].message);
+				return res.status(400).json({
+					name: err.invalidAttributes.name[0].message
+				});
+			}
+
+			return res.status(201).json(created);
+		});
   },
 
 

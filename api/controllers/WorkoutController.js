@@ -1,3 +1,5 @@
+var moment = require("moment");
+
 /**
  * WorkoutController
  *
@@ -6,7 +8,7 @@
  */
 
 module.exports = {
-	
+
 
 
   /**
@@ -23,9 +25,17 @@ module.exports = {
    * `WorkoutController.create()`
    */
   create: function (req, res) {
-    return res.json({
-      todo: 'create() is not implemented yet!'
-    });
+		var user = req.session.user;
+		Workout.create({
+			workout_date: moment(req.body.workout_date, 'DD/MM/YYYY').toDate(),
+			user: user.id
+		}).exec(function(err, created) {
+			if (err) {
+				return res.status(400).json(err.invalidAttributes);
+			}
+
+			return res.status(201).json(created);
+		});
   },
 
 
@@ -48,4 +58,3 @@ module.exports = {
     });
   }
 };
-

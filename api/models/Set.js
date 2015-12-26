@@ -7,7 +7,7 @@
 
 module.exports = {
 
-  identity: 'set',
+  identity: 'Set',
 
   attributes: {
     exercise: {
@@ -16,7 +16,13 @@ module.exports = {
     workout: {
       model: 'workout'
     },
-    weight: 'INTEGER',
-    reps: 'INTEGER'
+    weight: {
+      type: 'integer',
+      required: true
+    },
+    reps: {
+      type: 'integer',
+      required: true
+    }
   }
 };
