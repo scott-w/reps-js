@@ -3,6 +3,7 @@ assert = require('assert'),
 describe('WorkoutsModel', function() {
 
   describe('#createWithSets()', function() {
+
     it('will create a workout with attached sets', function (done) {
       Workout.createWithSets({
         workout_date: '24/20/2015',
@@ -42,6 +43,16 @@ describe('WorkoutsModel', function() {
         done();
       });
     });
+
+    it('cannot save without a user and date', function(done) {
+      Workout.createWithSets({
+        location: 1
+      }, function(err, created) {
+        assert.notEqual(err, null);
+        done();
+      });
+    });
+
   });
 
 });
