@@ -80,6 +80,10 @@ module.exports.connections = {
     user: 'workouts',
     password: 'password',
     database: 'workouts'
+  },
+
+  workouts_test: {
+    adapter: 'sails-memory'
   }
 
 

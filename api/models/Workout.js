@@ -36,10 +36,8 @@ module.exports = {
   createWithSets: function(attr, callback) {
     var data = _.clone(attr);
 
-    _.merge(
-      data,
-      {workout_date: moment(data.workout_date, 'DD/MM/YYYY').toDate()}
-    );
+    var formattedDate = moment.utc(data.workout_date, 'DD/MM/YYYY').toDate();
+    _.merge(data, {workout_date: formattedDate});
 
     Workout.create(data).exec(function(err, created) {
 

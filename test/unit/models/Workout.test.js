@@ -1,4 +1,5 @@
-assert = require('assert'),
+var assert = require('assert'),
+  moment = require('moment');
 
 describe('WorkoutsModel', function() {
 
@@ -6,7 +7,7 @@ describe('WorkoutsModel', function() {
 
     it('will create a workout with attached sets', function (done) {
       Workout.createWithSets({
-        workout_date: '24/20/2015',
+        workout_date: '24/10/2015',
         user: 1,
         location: 1,
         sets: [
@@ -15,31 +16,45 @@ describe('WorkoutsModel', function() {
       }, function(err, created) {
         assert.equal(err, null);
         assert.equal(created.sets.length, 1);
+        assert.equal(
+          moment.utc(created.workout_date).format('DD/MM/YYYY'),
+          moment.utc('2015-10-24').format('DD/MM/YYYY')
+        );
         done();
       });
     });
 
     it('will create a workout with no attached sets', function(done) {
       Workout.createWithSets({
-        workout_date: '24/20/2015',
+        workout_date: '24/10/2015',
         user: 1,
         location: 1,
         sets: []
       }, function(err, created) {
         assert.equal(err, null);
-        assert.equal(created.sets.length, 0);
+        assert.equal(created.sets.length, 0, 'Empty list had sets');
+        assert.equal(
+          moment.utc(created.workout_date).format('DD/MM/YYYY'),
+          moment.utc('2015-10-24').format('DD/MM/YYYY')
+        );
+
         done();
       });
     });
 
     it('will create a workout with undefined sets', function(done) {
       Workout.createWithSets({
-        workout_date: '24/20/2015',
+        workout_date: '24/10/2015',
         user: 1,
         location: 1
       }, function(err, created) {
         assert.equal(err, null);
-        assert.equal(created.sets.length, 0);
+        assert.equal(created.sets.length, 0, 'Undefined had sets');
+        assert.equal(
+          moment.utc(created.workout_date).format('DD/MM/YYYY'),
+          moment.utc('2015-10-24').format('DD/MM/YYYY')
+        );
+
         done();
       });
     });

@@ -7,12 +7,22 @@ before(function(done) {
   this.timeout(5000);
 
   Sails.lift({
-    port: 1338
+    port: 1338,
+    models: {
+      connection: 'workouts_test',
+      migrate: 'drop'
+    },
+    // Strip authentication for testing
+    policies: {
+      '*': true,
+      Workout: true
+    }
     // configuration for testing purposes
   }, function(err, server) {
     sails = server;
     if (err) return done(err);
     // here you can load fixtures, etc.
+
     done(err, sails);
   });
 });
