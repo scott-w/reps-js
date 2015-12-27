@@ -1,5 +1,6 @@
 var Sails = require('sails'),
-  sails;
+Barrels = require('barrels'),
+sails;
 
 before(function(done) {
 
@@ -15,15 +16,22 @@ before(function(done) {
     // Strip authentication for testing
     policies: {
       '*': true,
-      Workout: true
+      Workout: ['sessionAuth']
     }
     // configuration for testing purposes
   }, function(err, server) {
     sails = server;
     if (err) return done(err);
-    // here you can load fixtures, etc.
 
-    done(err, sails);
+    // here you can load fixtures, etc.
+    var barrels = new Barrels();
+
+    // Populate the DB
+    barrels.populate(function(err) {
+      done(err, sails);
+    });
+
+    // done(err, sails);
   });
 });
 

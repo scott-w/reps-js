@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "email": "test@example.com",
+    "password": "$2a$10$K8z4iyupILqk2C4c1QklS.BzZzPTQjAy2WrLfGB5p4wDSEiZ3Tl2O",
+    "resetToken": null
+  },
+  {
+    "id": 2,
+    "email": "user@example.com",
+    "password": "$2a$10$K8z4iyupILqk2C4c1QklS.BzZzPTQjAy2WrLfGB5p4wDSEiZ3Tl2O",
+    "resetToken": null
+  }
+
+]

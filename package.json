@@ -40,7 +40,10 @@
   "author": "Scott Walton",
   "license": "BSD",
   "devDependencies": {
+    "async": "^1.5.0",
+    "barrels": "^1.6.2",
     "chai": "^3.4.1",
+    "lodash": "^3.10.1",
     "mocha": "^2.3.4",
     "sails-memory": "^0.10.5",
     "supertest": "^1.1.0"

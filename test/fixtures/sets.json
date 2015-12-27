@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "exercise": 1,
+    "workout": 1,
+    "weight": "10kg",
+    "reps": 6
+  },
+  {
+    "id": 2,
+    "exercise": 2,
+    "workout": 1,
+    "weight": "80kg",
+    "reps": 6
+  },
+  {
+    "id": 3,
+    "exercise": 1,
+    "workout": 2,
+    "weight": "10kg",
+    "reps": 6
+  }
+]
