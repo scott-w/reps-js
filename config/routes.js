@@ -34,7 +34,7 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  }
+  },
 
   /***************************************************************************
   *                                                                          *
@@ -46,4 +46,6 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  'get /workout/': 'WorkoutController.list',
+  'post /workout/': 'WorkoutController.create'
 };

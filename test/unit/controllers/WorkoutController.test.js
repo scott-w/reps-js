@@ -21,11 +21,12 @@ describe('WorkoutsController', function() {
   describe('#list', function() {
 
     it('returns an empty list', function(done) {
-      auth.end(function() {
-        client.get('/Workout').expect(200).end(function(err, res) {
-          if (err) {
-            return done(err);
-          }
+      auth.end(function(authErr, authRes) {
+
+        if (authErr) done(authErr);
+
+        client.get('/workout/').expect(200).end(function(err, res) {
+          if (err) return done(err);
 
           assert.ok(_.isArray(res.body));
           assert.equal(res.body.length, 0, 'Response body not empty');
@@ -39,7 +40,7 @@ describe('WorkoutsController', function() {
   describe('#create', function() {
     it('creates a workout', function(done) {
       auth.end(function() {
-        client.post('/Workout').send({
+        client.post('/workout/').send({
           workout_date: '10/10/2015',
           location: 1,
           sets: []

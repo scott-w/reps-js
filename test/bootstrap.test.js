@@ -1,6 +1,6 @@
 var Sails = require('sails'),
-Barrels = require('barrels'),
-sails;
+  Barrels = require('barrels'),
+  sails;
 
 before(function(done) {
 

@@ -18,7 +18,7 @@ module.exports = {
 				user: req.session.user.id
 			}
 		}).exec(function(err, workouts) {
-			res.json(workouts);
+			return res.json(workouts);
 		});
   },
 
