@@ -30,6 +30,14 @@ module.exports = {
     }
   },
 
+
+  /** Return a query set pre-filtered for the selected user.
+  */
+  listForUser: function(user) {
+    return Workout.find({user: user});
+  },
+
+
   /** Create a workout with attached set
   * Take the necessary attributes and a callback to add.
   */

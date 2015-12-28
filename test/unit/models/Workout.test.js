@@ -3,6 +3,22 @@ var assert = require('assert'),
 
 describe('WorkoutsModel', function() {
 
+  describe('#listForUser()', function() {
+
+    it('returns a query that lists workouts for a given user', function(done) {
+      Workout.listForUser(1).exec(function(err, workouts) {
+        if (err) done(err);
+        _.each(workouts, function(item) {
+          assert.equal(item.user, 1);
+        });
+
+        done();
+      });
+    });
+
+  });
+
+
   describe('#createWithSets()', function() {
 
     it('will create a workout with attached sets', function (done) {

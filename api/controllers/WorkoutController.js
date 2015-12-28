@@ -13,11 +13,7 @@ module.exports = {
    * `WorkoutController.list()`
    */
   list: function (req, res) {
-		Workout.find({
-			where: {
-				user: req.session.user.id
-			}
-		}).exec(function(err, workouts) {
+		Workout.listForUser(req.session.user.id).exec(function(err, workouts) {
 			return res.json(workouts);
 		});
   },
@@ -42,6 +38,10 @@ module.exports = {
   },
 
 
+  detail: function(req, res) {
+
+  },
+
   /**
    * `WorkoutController.destroy()`
    */
@@ -53,9 +53,9 @@ module.exports = {
 
 
   /**
-   * `WorkoutController.update()`
+   * `WorkoutController.addSets()`
    */
-  update: function (req, res) {
+  addSets: function (req, res) {
     return res.json({
       todo: 'update() is not implemented yet!'
     });

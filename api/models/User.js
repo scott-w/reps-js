@@ -9,13 +9,17 @@
 module.exports = {
 
   attributes: require('waterlock').models.user.attributes({
-    
+
     /* e.g.
     nickname: 'string'
     */
-    
+    is_staff: {
+      type: 'boolean',
+      defaultsTo: false
+    }
+
   }),
-  
+
   beforeCreate: require('waterlock').models.user.beforeCreate,
   beforeUpdate: require('waterlock').models.user.beforeUpdate
 };
