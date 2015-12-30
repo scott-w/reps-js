@@ -38,8 +38,17 @@ module.exports = {
   },
 
 
-  detail: function(req, res) {
+  retrieve: function(req, res) {
+    Workout.getForUser(req.session.user.id).where({
+      id: req.param('workout')
+    }).exec(function(err, workout) {
+      if (err) return res.status(500);
+      if (!workout) {
+        return res.status(404).json({});
+      }
 
+      return res.status(200).json(workout);
+    });
   },
 
   /**

@@ -4,37 +4,43 @@ var request = require('supertest');
 var moment = require('moment');
 
 describe('WorkoutsController', function() {
-  var auth, client;
-
-  beforeEach(function() {
-    client = request.agent(sails.hooks.http.app);
-    auth = client.post('/auth/login').field(
-      'email', 'test@example.com').field('password', 'password'
-    );
-  });
-
-  afterEach(function() {
-    client = auth = null;
-  });
-
-
   describe('#list', function() {
 
-    it('returns an empty list', function(done) {
-      auth.end(function(authErr, authRes) {
+    it('returns workouts for a user', function(done) {
 
-        if (authErr) done(authErr);
+      sails.request.get('/workout/').expect(200).end(function(err, res) {
+        if (err) return done(err);
 
-        client.get('/workout/').expect(200).end(function(err, res) {
-          if (err) return done(err);
-
-          assert.ok(_.isArray(res.body));
-          assert.equal(res.body.length, 2, 'Response body not empty');
-          _.each(res.body, function(workout) {
-            assert.equal(workout.user, 1);
-          });
-          done();
+        assert.ok(_.isArray(res.body));
+        assert.equal(res.body.length, 2, 'Response body not empty');
+        _.each(res.body, function(workout) {
+          assert.equal(workout.user, 1);
         });
+        done();
+      });
+    });
+
+  });
+
+  describe('#retrieve', function() {
+    it('retrieves an individual workout', function(done) {
+
+      sails.request.get('/workout/1').expect(200).end(function(err, res) {
+        if (err) return done(err);
+
+        assert.equal(res.body.id, 1);
+        assert.equal(res.body.user, 1);
+        assert.equal(res.body.sets.length, 2, 'Sets not retrieved');
+        done();
+      });
+    });
+
+    it('cannot retrieve a workout belonging to another user', function(done) {
+
+      sails.request.get('/workout/3').expect(404).end(function(err, res) {
+        if (err) return done(err);
+
+        done();
       });
     });
 
@@ -42,22 +48,21 @@ describe('WorkoutsController', function() {
 
   describe('#create', function() {
     it('creates a workout', function(done) {
-      auth.end(function() {
-        client.post('/workout/').send({
-          workout_date: '10/10/2015',
-          location: 1,
-          sets: []
-        }).expect(201).expect(
-          'Content-type', /json/
-        ).end(function(err, res) {
-          if (err) return done(err);
+      sails.request.post('/workout/').send({
+        workout_date: '10/10/2015',
+        location: 1,
+        sets: []
+      }).expect(201).expect(
+        'Content-type', /json/
+      ).end(function(err, res) {
+        if (err) return done(err);
 
-          assert.equal(
-            moment.utc(res.body.workout_date).format('DD/MM/YYYY'), '10/10/2015'
-          );
-          assert.equal(res.body.user, 1);
-          done();
-        });
+        assert.equal(
+          moment.utc(res.body.workout_date).format('DD/MM/YYYY'),
+          '10/10/2015'
+        );
+        assert.equal(res.body.user, 1);
+        done();
       });
     });
   });

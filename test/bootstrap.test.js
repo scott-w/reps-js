@@ -2,7 +2,9 @@ var fs = require('fs');
 
 var Sails = require('sails'),
   Barrels = require('barrels'),
+  request = require('supertest'),
   sails;
+
 
 before(function(done) {
 
@@ -28,8 +30,9 @@ before(function(done) {
 
       // configuration for testing purposes
     }, function(err, sails) {
-      // done(err, sails);
       if (err) return done(err);
+
+        sails.request = request(sails.hooks.http.app);
 
       // here you can load fixtures, etc.
       var barrels = new Barrels();

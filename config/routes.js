@@ -47,5 +47,6 @@ module.exports.routes = {
   ***************************************************************************/
 
   'get /workout/': 'WorkoutController.list',
+  'get /workout/:workout': 'WorkoutController.retrieve',
   'post /workout/': 'WorkoutController.create'
 };

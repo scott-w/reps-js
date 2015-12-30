@@ -37,6 +37,12 @@ module.exports = {
     return Workout.find({user: user});
   },
 
+  /** Return a Workout with the user pre-filtered.
+  */
+  getForUser: function(user) {
+    return Workout.findOne({user: user}).populate('sets').populate('location');
+  },
+
 
   /** Create a workout with attached set
   * Take the necessary attributes and a callback to add.
