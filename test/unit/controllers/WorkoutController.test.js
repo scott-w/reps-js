@@ -55,6 +55,7 @@ describe('WorkoutsController', function() {
           assert.equal(
             moment.utc(res.body.workout_date).format('DD/MM/YYYY'), '10/10/2015'
           );
+          assert.equal(res.body.user, 1);
           done();
         });
       });
