@@ -29,7 +29,10 @@ describe('WorkoutsController', function() {
           if (err) return done(err);
 
           assert.ok(_.isArray(res.body));
-          assert.equal(res.body.length, 0, 'Response body not empty');
+          assert.equal(res.body.length, 2, 'Response body not empty');
+          _.each(res.body, function(workout) {
+            assert.equal(workout.user, 1);
+          });
           done();
         });
       });

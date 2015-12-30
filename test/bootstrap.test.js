@@ -23,8 +23,9 @@ before(function(done) {
       // Strip authentication for testing
       policies: {
         '*': true,
-        Workout: ['sessionAuth']
+        Workout: ['testLogin']
       }
+
       // configuration for testing purposes
     }, function(err, sails) {
       // done(err, sails);
@@ -34,12 +35,12 @@ before(function(done) {
       var barrels = new Barrels();
 
       // Populate the DB
-      barrels.populate(['auth', 'location'], function() {
+      barrels.populate(['user', 'location'], function() {
         barrels.populate(['exercise', 'workout'], function() {
           barrels.populate(['set'], done);
         });
       });
-      // barrels.populate(['User', 'Location', 'Exercise', 'Workout', 'Set'], done);
+
     });
   });
 

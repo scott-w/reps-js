@@ -35,7 +35,6 @@ module.exports = {
 
 		Exercise.create(req.body).exec(function(err, created) {
 			if (err) {
-				console.log(err.invalidAttributes.name[0].message);
 				return res.status(400).json({
 					name: err.invalidAttributes.name[0].message
 				});
