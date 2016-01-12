@@ -1,25 +1,17 @@
-/**
- * User
- *
- * @module      :: Model
- * @description :: This is the base user model
- * @docs        :: http://waterlock.ninja/documentation
- */
-
-module.exports = {
-
-  attributes: require('waterlock').models.user.attributes({
-
-    /* e.g.
-    nickname: 'string'
-    */
-    is_staff: {
-      type: 'boolean',
-      defaultsTo: false
+/* jshint node: true */
+'use strict';
+module.exports = function(sequelize, DataTypes) {
+  var User = sequelize.define('User', {
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+    first_name: DataTypes.STRING,
+    last_name: DataTypes.STRING
+  }, {
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+      }
     }
-
-  }),
-
-  beforeCreate: require('waterlock').models.user.beforeCreate,
-  beforeUpdate: require('waterlock').models.user.beforeUpdate
+  });
+  return User;
 };

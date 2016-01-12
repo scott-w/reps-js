@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "scott",
+    "password": "password",
+    "database": "workouts",
+    "host": "127.0.0.1",
+    "dialect": "pg"
+  },
+  "test": {
+    "username": "scott",
+    "password": "password",
+    "database": "test_workouts",
+    "host": "127.0.0.1",
+    "dialect": "pg"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "pg"
+  }
+}
