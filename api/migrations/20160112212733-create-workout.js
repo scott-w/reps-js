@@ -11,6 +11,14 @@ module.exports = {
       workout_date: {
         type: Sequelize.DATE
       },
+      userId: {
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        type: Sequelize.BIGINT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

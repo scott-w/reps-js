@@ -14,6 +14,22 @@ module.exports = {
       reps: {
         type: Sequelize.INTEGER
       },
+      workoutId: {
+        allowNull: false,
+        references: {
+          model: 'Workouts',
+          key: 'id'
+        },
+        type: Sequelize.BIGINT
+      },
+      exerciseId: {
+        allowNull: false,
+        references: {
+          model: 'Exercises',
+          key: 'id'
+        },
+        type: Sequelize.BIGINT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -1,6 +1,8 @@
 /* jshint node: true */
 'use strict';
 module.exports = function(sequelize, DataTypes) {
+  var Exercise = require('./exercise');
+
   var Set = sequelize.define('Set', {
     weight: DataTypes.STRING,
     reps: DataTypes.INTEGER
@@ -11,5 +13,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
+
+  Set.belongsTo(Exercise);
   return Set;
 };
