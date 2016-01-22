@@ -13,6 +13,7 @@
   "scripts": {
     "debug": "node debug app.js",
     "start": "node app.js",
+    "migrate": "sequelize db:migrate",
     "test": "mocha test/bootstrap.test.js test/unit/**/*.test.js"
   },
   "main": "app.js",

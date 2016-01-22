@@ -1,38 +1,46 @@
 # Reps
 
-A service that tracks workouts and progress in the gym
+A service that tracks workouts and progress in the gym for maximum gainz! Use
+Reps to track your latest workouts and plot your next lifts
 
 
 ## Installing dependencies
 
 To install dependencies, install Node and NPM for your system and then:
 
-  1. `sudo npm install -g sails`
-  2. `git checkout git@github.com:scott-w/reps-js`
-  3. `cd reps-js`
-  4. `npm install`
-  5. `npm install --dev`
+```bash
+git checkout git@github.com:scott-w/reps-js.git
+cd reps-js
+npm install
+npm install --dev
+```
 
+You'll also need to install Postgres and create our database and tables:
 
-You'll also need to install Postgres and create the following databases:
-
-  1. `sudo -u postgres createuser -PRd workouts`
-  2. `sudo -u postgres createdb -O workouts -T template0 -E UTF8 workouts`
-
+```bash
+sudo -u postgres createuser -PRd workouts
+sudo -u postgres createdb -O workouts -T template0 -E UTF8 workouts
+npm run-script migrate
+```
 
 ## Running the server
 
-This is just a Sails app, so just run:
+Running a server is as easy as starting the NPM script:
 
+```bash
+npm run-script start
 ```
-sails lift
-```
+
+
+## Building the client-side application
+
+When the client-side JS is written, this will need to be written.
 
 
 ## Running the tests
 
 If you've ran `npm install --dev` above, just run:
 
-```
+```bash
 npm test
 ```
