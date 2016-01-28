@@ -1,7 +1,7 @@
 /* jshint node: true */
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Exercise = require('./exercise');
+  var Exercise = require('./exercise')(sequelize, DataTypes);
 
   var Set = sequelize.define('Set', {
     weight: DataTypes.STRING,

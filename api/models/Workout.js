@@ -1,9 +1,9 @@
 /* jshint node: true */
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Location = require('./location');
-  var Set = require('./set');
-  var User = require('./user');
+  var Location = require('./location')(sequelize, DataTypes);
+  var Set = require('./set')(sequelize, DataTypes);
+  var User = require('./user')(sequelize, DataTypes);
 
   var Workout = sequelize.define('Workout', {
     workout_date: DataTypes.DATE
