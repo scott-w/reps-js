@@ -3,7 +3,9 @@
 'use strict';
 
 var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
 
+var jwtConfig = require('../config/jwt');
 var models = require('../models');
 
 
@@ -29,8 +31,15 @@ var token = function (request, reply) {
   getUserByEmail(request.query.email)
     .then(function (result) {
       if (result && bcrypt.compareSync(request.query.password, result.password)) {
+        var tokenData = {
+          userName: result.email,
+          scope: ['all'],
+          id: result.id
+        };
         reply({
-          token: 'mytoken'
+          email: result.email,
+          scope: 'all',
+          token: jwt.sign(tokenData, jwtConfig.privateKey)
         });
       } else {
         reply({
