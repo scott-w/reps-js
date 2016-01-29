@@ -32,6 +32,7 @@ server.register(require('hapi-auth-jwt2'), (err) => {
   });
 
   server.route(require('./api/auth/routes'));
+  server.route(require('./api/user/routes'));
 
 });
 

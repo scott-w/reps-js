@@ -50,6 +50,7 @@ var token = function (request, reply) {
     });
 };
 
+
 /** Create a new user */
 var createUser = function (request, reply) {
   getUserByEmail(request.payload.email)
