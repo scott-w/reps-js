@@ -1,24 +1,14 @@
-/**
-* Location.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
-
-module.exports = {
-
-  attributes: {
-    name: {
-      type: 'string',
-      required: true
-    },
-    address_line: {
-      type: 'string',
-      required: true
-    },
-    postcode: {
-      type: 'string',
-      required: true
+/* jshint node: true */
+'use strict';
+module.exports = function(sequelize, DataTypes) {
+  var Location = sequelize.define('Location', {
+    name: DataTypes.STRING
+  }, {
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+      }
     }
-  }
+  });
+  return Location;
 };
