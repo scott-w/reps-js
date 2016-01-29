@@ -6,6 +6,7 @@ const jwt = require('./api/auth/jwt');
 
 const Hapi = require('hapi');
 var models = require('./api/models');
+var jwtConfig = require('./api/config/jwt');
 
 const server = new Hapi.Server();
 server.connection({ port: 3000 });
@@ -16,7 +17,7 @@ server.register(require('hapi-auth-jwt2'), (err) => {
   }
 
   server.auth.strategy('jwt', 'jwt', {
-    key: 'secret_key',
+    key: jwtConfig.privateKey,
     validateFunc: jwt,
     verifyOptions: {
       algorithms: [ 'HS256' ]
