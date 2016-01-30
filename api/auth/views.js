@@ -32,7 +32,7 @@ var token = function (request, reply) {
     .then(function (result) {
       if (result && bcrypt.compareSync(request.query.password, result.password)) {
         var tokenData = {
-          userName: result.email,
+          email: result.email,
           scope: ['all'],
           id: result.id
         };

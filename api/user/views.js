@@ -1,5 +1,5 @@
 var viewUser = function(request, reply) {
-  reply('me');
+  reply(request.auth.credentials.dataValues);
 };
 
 module.exports = {
