@@ -27,7 +27,7 @@ module.exports = [
       auth: 'jwt',
     },
     method: 'GET',
-    path: '/workouts/{date}/',
-    handler: views.workoutOnDate
+    path: '/workouts/{workout}',
+    handler: views.retrieveWorkout
   }
 ];

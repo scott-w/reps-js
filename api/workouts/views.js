@@ -2,6 +2,8 @@
 /* jshint esversion: 6 */
 'use strict';
 
+var _ = require('lodash');
+
 var models = require('../models');
 
 
@@ -30,23 +32,44 @@ var workoutsByDate = function(request, reply) {
 
   models.Workout.findAll({
     attributes: [
-      'workout_date'
+      'workout_date', 'id'
     ],
     where: {
       userId: userId
     }
   }).then(function(results) {
-    reply(results);
+    reply(_.map(results, function(item) {
+      return {
+        id: item.id,
+        workout_date: item.workout_date,
+        url: `/workouts/${item.id}`
+      };
+    }));
   });
 };
 
-var workoutOnDate = function(request, reply) {
-
+var retrieveWorkout = function(request, reply) {
+  models.Workout.findOne({
+    attributes: [
+      'id', 'workout_date'
+    ],
+    where: {
+      id: request.params.workout
+    },
+    include: [
+      {
+        model: models.Location,
+        as: 'location'
+      }
+    ]
+  }).then(function(instance) {
+    reply(instance.dataValues);
+  });
 };
 
 
 module.exports = {
   recordWorkout: recordWorkout,
   workoutsByDate: workoutsByDate,
-  workoutOnDate: workoutOnDate
+  retrieveWorkout: retrieveWorkout
 };
