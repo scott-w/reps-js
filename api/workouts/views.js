@@ -10,15 +10,11 @@ var recordWorkout = function(request, reply) {
   var date = request.payload.date;
   var location = request.payload.location;
 
-  console.log('Build');
-  var workout = models.Workout.build({
+  var workout = models.Workout.create({
     'workout_date': date,
-    user: userId,
-    location: location
-  });
-  console.log('Save');
-
-  workout.save().then(function(workout){
+    userId: userId,
+    locationId: location
+  }).then(function(workout){
     reply({
       id: workout.dataValues.id,
       date: workout.dataValues.workout_date,
