@@ -18,6 +18,14 @@ module.exports = [
     config: {
       auth: 'jwt',
     },
+    method: 'POST',
+    path: '/workouts/',
+    handler: views.recordWorkout
+  },
+  {
+    config: {
+      auth: 'jwt',
+    },
     method: 'GET',
     path: '/workouts/{date}/',
     handler: views.workoutOnDate

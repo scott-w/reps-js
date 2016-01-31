@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Workout.hasMany(Set, {as: 'Sets'});
-  Workout.belongsTo(Location);
-  Workout.belongsTo(User);
+  Workout.belongsTo(Location, {as: 'location'});
+  Workout.belongsTo(User, {as: 'user'});
   return Workout;
 };
