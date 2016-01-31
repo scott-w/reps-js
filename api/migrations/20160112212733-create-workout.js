@@ -19,6 +19,15 @@ module.exports = {
         },
         type: Sequelize.BIGINT
       },
+      locationId: {
+        allowNull: false,
+        references: {
+          model: 'Locations',
+          key: 'id'
+        },
+        type: Sequelize.BIGINT
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
