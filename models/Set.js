@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
-        var Exercise = require('./exercise')(sequelize, DataTypes);
+        var Exercise = require('./Exercise')(sequelize, DataTypes);
         Set.belongsTo(Exercise);
       }
     }

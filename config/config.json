@@ -6,7 +6,7 @@
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
-  "devtest": {
+  "test": {
     "username": "scott",
     "password": "password",
     "database": "test_workouts",
@@ -20,7 +20,7 @@
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
-  "test": {
+  "ci": {
     "username": "ubuntu",
     "password": null,
     "database": "circle_test",
