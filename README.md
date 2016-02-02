@@ -1,5 +1,7 @@
 # Reps
 
+[![Circle CI](https://circleci.com/gh/scott-w/reps-js.svg?style=svg)](https://circleci.com/gh/scott-w/reps-js)
+
 A service that tracks workouts and progress in the gym for maximum gainz! Use
 Reps to track your latest workouts and plot your next lifts
 
