@@ -5,8 +5,8 @@
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-var jwtConfig = require('../config/jwt');
-var models = require('../models');
+var jwtConfig = require('../../config/jwt');
+var models = require('../../models');
 
 
 var getUserByEmail = function (email) {

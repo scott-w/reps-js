@@ -4,7 +4,7 @@
 
 var _ = require('lodash');
 
-var models = require('../models');
+var models = require('../../models');
 
 
 var recordWorkout = function(request, reply) {

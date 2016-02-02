@@ -1,7 +1,7 @@
 'use strict';
 /* jshint node: true */
 /* jshint esversion: 6 */
-var models = require('../models');
+var models = require('../../models');
 
 
 module.exports = function(decoded, request, callback) {

@@ -18,7 +18,7 @@
     "debug": "node debug app.js",
     "start": "node --harmony app.js",
     "migrate": "sequelize db:migrate",
-    "test": "mocha test/bootstrap.test.js test/unit/**/*.test.js"
+    "test": "NODE_ENV=test sequelize db:migrate && lab"
   },
   "main": "app.js",
   "repository": {
@@ -28,7 +28,10 @@
   "author": "Scott Walton",
   "license": "BSD",
   "devDependencies": {
+    "code": "^2.1.0",
+    "lab": "^8.2.0",
     "mocha": "^2.3.4",
-    "sequelize-cli": "^2.3.0"
+    "sequelize-cli": "^2.3.0",
+    "sequelize-fixtures": "^0.4.8"
   }
 }
