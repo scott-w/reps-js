@@ -19,7 +19,7 @@
     "start": "node --harmony app.js",
     "migrate": "sequelize db:migrate",
     "fulltest": "sequelize db:migrate && lab",
-    "test": "echo $NODE_ENV && lab"
+    "test": "lab -e $NODE_ENV -c -L -r junit"
   },
   "main": "app.js",
   "repository": {
