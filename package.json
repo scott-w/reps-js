@@ -18,7 +18,8 @@
     "debug": "node debug app.js",
     "start": "node --harmony app.js",
     "migrate": "sequelize db:migrate",
-    "test": "sequelize db:migrate && lab"
+    "fulltest": "sequelize db:migrate && lab",
+    "test": "lab"
   },
   "main": "app.js",
   "repository": {
