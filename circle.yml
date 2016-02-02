@@ -1,6 +1,6 @@
 machine:
   environment:
-    NODE_ENV: test
+    NODE_ENV: ci
   node:
     version: 5.1.0
 
