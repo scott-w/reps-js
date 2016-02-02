@@ -19,7 +19,7 @@ var models = require('../models');
 
 describe('Workout list', () => {
   before((done) => {
-    Fixtures.loadFile('../fixtures/workouts.yaml', models).then(() => {
+    Fixtures.loadFile('./fixtures/workouts.yaml', models).then(() => {
       done();
     });
   });
