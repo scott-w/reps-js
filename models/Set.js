@@ -1,7 +1,6 @@
 /* jshint node: true */
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Exercise = require('./exercise')(sequelize, DataTypes);
 
   var Set = sequelize.define('Set', {
     weight: DataTypes.STRING,
@@ -10,10 +9,11 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
+        var Exercise = require('./Exercise')(sequelize, DataTypes);
+        Set.belongsTo(Exercise);
       }
     }
   });
 
-  Set.belongsTo(Exercise);
   return Set;
 };

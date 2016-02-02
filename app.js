@@ -5,8 +5,8 @@
 const jwt = require('./api/auth/jwt');
 
 const Hapi = require('hapi');
-var models = require('./api/models');
-var jwtConfig = require('./api/config/jwt');
+var models = require('./models');
+var jwtConfig = require('./config/jwt');
 
 const server = new Hapi.Server();
 server.connection({ port: 3000 });
