@@ -33,19 +33,13 @@ Running a server is as easy as starting the NPM script:
 npm run-script start
 ```
 
-### Google+ Auth
+### Custom Configuration
 
-```bash
-GOOGLE_CLIENT_ID=YourAppsClientId.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=SuperSecret
-PORT=3000
-BASE_URL=http://localhost:3000 # Must be identical to "Authorized JavaScript Origin"
-JWT_SECRET=SomethingSuperHardToGuess-->grc.com/passwords.htm # Optionally use JWTs
-```
+The accepted values for NODE_ENV are `test`, `development`, `staging`, and
+`production`.
 
-Using the above setup, configure your Google+ Developer's Console with a CLIENT
-ID and SECRET. Follow the [hapi-auth-google Guide][googleplus] for a more
-detailed guide.
+We can also change the JWT secret key using the `JWT_PRIVATE_KEY` environment
+variable.
 
 
 ## Building the client-side application
