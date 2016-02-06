@@ -14,7 +14,7 @@ module.exports = function(decoded, request, callback) {
     }
   }).then(function(result) {
     if (result) {
-      return callback(null, true, result);
+      return callback(null, true, result.dataValues);
     }
     else {
       return callback(null, false);

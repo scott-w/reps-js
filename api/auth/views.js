@@ -19,7 +19,7 @@ var getUserByEmail = function (email) {
 
 
 var createUserInstance = function (email, password) {
-  models.User.create({
+  return models.User.create({
     email: email,
     password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
   });

@@ -2,13 +2,14 @@
 /* jshint esversion: 6 */
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
+const moment = require('moment');
 
-var models = require('../../models');
+const models = require('../../models');
 
 
-var recordWorkout = function(request, reply) {
-  var userId = request.auth.credentials.dataValues.id;
+const recordWorkout = function(request, reply) {
+  var userId = request.auth.credentials.id;
   var date = request.payload.date;
   var location = request.payload.location;
 
@@ -27,8 +28,8 @@ var recordWorkout = function(request, reply) {
 };
 
 
-var workoutsByDate = function(request, reply) {
-  var userId = request.auth.credentials.dataValues.id;
+const workoutsByDate = function(request, reply) {
+  var userId = request.auth.credentials.id;
 
   models.Workout.findAll({
     attributes: [
@@ -41,14 +42,14 @@ var workoutsByDate = function(request, reply) {
     reply(_.map(results, function(item) {
       return {
         id: item.id,
-        workout_date: item.workout_date,
+        workout_date: moment(item.workout_date).format('YYYY-MM-DD'),
         url: `/workouts/${item.id}`
       };
     }));
   });
 };
 
-var retrieveWorkout = function(request, reply) {
+const retrieveWorkout = function(request, reply) {
   models.Workout.findOne({
     attributes: [
       'id', 'workout_date'

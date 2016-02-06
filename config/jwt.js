@@ -8,11 +8,11 @@ const env_private_key = process.env.JWT_PRIVATE_KEY;
 const testing = _.includes(['test', 'ci', 'development'], process.env.NODE_ENV);
 var privateKey;
 
-if (_.isUndefined(process.env.JWT_PRIVATE_KEY) && testing) {
+if (_.isUndefined(env_private_key) && testing) {
   privateKey = 'myprivatekey';
 }
 else {
-  privateKey = process.env.JWT_PRIVATE_KEY;
+  privateKey = env_private_key;
 }
 
 exports.privateKey = 'myprivatekey';
