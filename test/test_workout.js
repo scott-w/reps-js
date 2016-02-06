@@ -8,6 +8,7 @@ const Shot = require('shot');
 
 const lab = exports.lab = Lab.script();
 
+const before = lab.before;
 const beforeEach = lab.beforeEach;
 const describe = lab.describe;
 const expect = Code.expect;
@@ -26,7 +27,7 @@ const headers = {
 
 
 describe('Workout list', () => {
-  beforeEach((done) => {
+  before((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });
 
@@ -69,7 +70,7 @@ describe('Workout list', () => {
     });
   });
 
-  it('does not allow a user  another user\'s workouts', (done) => {
+  it('does not allow a user to view another user\'s workouts', (done) => {
     const reqData = {
       method: 'get',
       url: '/workouts/2',
@@ -81,6 +82,12 @@ describe('Workout list', () => {
 
       done();
     });
+  });
+});
+
+describe('Create workout', () => {
+  beforeEach((done) => {
+    construct.fixtures('./fixtures/workouts.yaml', done);
   });
 
   it('can create a workout assigned to the user', (done) => {
@@ -102,4 +109,43 @@ describe('Workout list', () => {
       done();
     });
   });
+
+  it('cannot duplicate a workout date for a user', (done) => {
+    const reqData = {
+      method: 'post',
+      url: '/workouts/',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-10',
+        location: 1
+      }
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(400);
+
+      done();
+    });
+  });
+
+  it('can duplicate the date across different users', (done) => {
+    const reqData = {
+      method: 'post',
+      url: '/workouts/',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-06',
+        location: 1
+      }
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.workout_date).to.equal('2016-01-06');
+      expect(response.result.location.name).to.equal('Test Location');
+
+      done();
+    });
+  });
+
 });

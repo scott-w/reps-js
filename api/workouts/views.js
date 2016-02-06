@@ -13,31 +13,44 @@ const recordWorkout = function(request, reply) {
   var date = request.payload.workout_date;
   var locationId = request.payload.location;
 
-  var workout = models.Workout.create({
-    'workout_date': date,
-    userId: userId,
-    locationId: locationId
-  }).then((instance) => {
-    var workout = instance.dataValues;
-    models.Location.findOne({
-      where: {
-        id: locationId
-      },
-      attributes: ['name', 'createdAt', 'updatedAt']
-    }).then((result) => {
-      const location = result.dataValues;
+  models.Workout.findOne({
+    attributes: ['workout_date'],
+    where: {
+      workout_date: date,
+      userId: userId
+    }
+  }).then((check) => {
+    if (check) {
+      reply({workout_date: 'Cannot duplicate the workout_date'}).code(400);
+    }
+    else {
+      models.Workout.create({
+        'workout_date': date,
+        userId: userId,
+        locationId: locationId
+      }).then((instance) => {
+        var workout = instance.dataValues;
+        models.Location.findOne({
+          where: {
+            id: locationId
+          },
+          attributes: ['name', 'createdAt', 'updatedAt']
+        }).then((result) => {
+          const location = result.dataValues;
 
-      reply({
-        id: workout.id,
-        workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
-        location: {
-          id: locationId,
-          name: location.name,
-          updatedAt: location.updatedAt,
-          createdAt: location.createdAt
-        }
-      }).code(201);
-    });
+          reply({
+            id: workout.id,
+            workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
+            location: {
+              id: locationId,
+              name: location.name,
+              updatedAt: location.updatedAt,
+              createdAt: location.createdAt
+            }
+          }).code(201);
+        });
+      });
+    }
   });
 };
 
