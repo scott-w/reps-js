@@ -1,14 +1,12 @@
 fixtures:
   - model: User
     data:
-      id: 1
       email: test@example.com
       password: password
       first_name: Test
       last_name: User
   - model: User
     data:
-      id: 2
       email: test2@example.com
       password: password123
       first_name: Other
@@ -17,19 +15,20 @@ fixtures:
 
   - model: Location
     data:
-      id: 1
       name: Test Location
 
   - model: Workout
     data:
-      id: 1
-      UserId: 1
-      LocationId: 1
+      User:
+        email: test@example.com
+      Location:
+        name: Test Location
       workout_date: 2016-01-10
 
   - model: Workout
     data:
-      id: 2
-      UserId: 2
-      LocationId: 1
+      User:
+        email: test2@example.com
+      Location:
+        name: Test Location
       workout_date: 2016-01-06

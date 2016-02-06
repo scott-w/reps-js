@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       workout_date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       UserId: {
         allowNull: false,

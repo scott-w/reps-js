@@ -86,7 +86,7 @@ const retrieveWorkout = function(request, reply) {
       'id', 'workout_date'
     ],
     where: {
-      id: request.params.workout,
+      workout_date: request.params.workout_date,
       UserId: userId
     },
     include: [

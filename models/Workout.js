@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes) {
 
   var Workout = sequelize.define('Workout', {
-    workout_date: DataTypes.DATE
+    workout_date: DataTypes.DATEONLY
   }, {
     classMethods: {
       associate: function(models) {

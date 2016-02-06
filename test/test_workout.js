@@ -53,7 +53,7 @@ describe('Workout list', () => {
   it('retrieves a workout from a given URL', (done) => {
     const reqData = {
       method: 'get',
-      url: '/workouts/1',
+      url: '/workouts/2016-01-10',
       headers: headers
     };
 
@@ -73,7 +73,7 @@ describe('Workout list', () => {
   it('does not allow a user to view another user\'s workouts', (done) => {
     const reqData = {
       method: 'get',
-      url: '/workouts/2',
+      url: '/workouts/2016-01-06',
       headers: headers
     };
 
@@ -104,7 +104,7 @@ describe('Create workout', () => {
     server.inject(reqData, (response) => {
       expect(response.statusCode).to.equal(201);
       expect(response.result.workout_date).to.equal('2016-01-20');
-      expect(response.result.location.name).to.equal('Test Location');
+      expect(response.result.Location.name).to.equal('Test Location');
 
       done();
     });
@@ -142,7 +142,7 @@ describe('Create workout', () => {
     server.inject(reqData, (response) => {
       expect(response.statusCode).to.equal(201);
       expect(response.result.workout_date).to.equal('2016-01-06');
-      expect(response.result.location.name).to.equal('Test Location');
+      expect(response.result.Location.name).to.equal('Test Location');
 
       done();
     });
