@@ -1,4 +1,7 @@
+/* jshint node: true */
+/* jshint esversion: 6 */
 'use strict';
+
 module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('Workouts', {
@@ -11,7 +14,7 @@ module.exports = {
       workout_date: {
         type: Sequelize.DATE
       },
-      userId: {
+      UserId: {
         allowNull: false,
         references: {
           model: 'Users',
@@ -19,7 +22,7 @@ module.exports = {
         },
         type: Sequelize.BIGINT
       },
-      locationId: {
+      LocationId: {
         allowNull: false,
         references: {
           model: 'Locations',

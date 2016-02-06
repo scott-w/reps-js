@@ -23,13 +23,13 @@ fixtures:
   - model: Workout
     data:
       id: 1
-      userId: 1
-      locationId: 1
+      UserId: 1
+      LocationId: 1
       workout_date: 2016-01-10
 
   - model: Workout
     data:
       id: 2
-      userId: 2
-      locationId: 1
+      UserId: 2
+      LocationId: 1
       workout_date: 2016-01-06

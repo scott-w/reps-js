@@ -27,7 +27,7 @@ const headers = {
 
 
 describe('Workout list', () => {
-  before((done) => {
+  beforeEach((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });
 
@@ -64,7 +64,7 @@ describe('Workout list', () => {
       ).to.equal('application/json');
 
       expect(response.result.workout_date).to.equal('2016-01-10');
-      expect(response.result.location.name).to.equal('Test Location');
+      expect(response.result.Location.name).to.equal('Test Location');
 
       done();
     });
@@ -86,7 +86,7 @@ describe('Workout list', () => {
 });
 
 describe('Create workout', () => {
-  before((done) => {
+  beforeEach((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });
 

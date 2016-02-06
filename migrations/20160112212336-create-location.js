@@ -1,4 +1,7 @@
+/* jshint node: true */
+/* jshint esversion: 6 */
 'use strict';
+
 module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('Locations', {

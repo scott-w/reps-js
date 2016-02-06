@@ -17,7 +17,7 @@ const recordWorkout = function(request, reply) {
     attributes: ['workout_date'],
     where: {
       workout_date: date,
-      userId: userId
+      UserId: userId
     }
   }).then((check) => {
     if (check) {
@@ -26,8 +26,8 @@ const recordWorkout = function(request, reply) {
     else {
       models.Workout.create({
         'workout_date': date,
-        userId: userId,
-        locationId: locationId
+        UserId: userId,
+        LocationId: locationId
       }).then((instance) => {
         var workout = instance.dataValues;
         models.Location.findOne({
@@ -41,7 +41,7 @@ const recordWorkout = function(request, reply) {
           reply({
             id: workout.id,
             workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
-            location: {
+            Location: {
               id: locationId,
               name: location.name,
               updatedAt: location.updatedAt,
@@ -65,7 +65,7 @@ const workoutsByDate = function(request, reply) {
       'workout_date', 'id'
     ],
     where: {
-      userId: userId
+      UserId: userId
     }
   }).then(function(results) {
     reply(_.map(results, function(item) {
@@ -87,12 +87,11 @@ const retrieveWorkout = function(request, reply) {
     ],
     where: {
       id: request.params.workout,
-      userId: userId
+      UserId: userId
     },
     include: [
       {
-        model: models.Location,
-        as: 'location'
+        model: models.Location
       }
     ]
   }).then(function(instance) {
@@ -102,7 +101,7 @@ const retrieveWorkout = function(request, reply) {
         if (key === 'workout_date') {
           return moment(val).format('YYYY-MM-DD');
         }
-        if (key === 'location') {
+        if (key === 'Location') {
           return val.dataValues;
         }
         return val;

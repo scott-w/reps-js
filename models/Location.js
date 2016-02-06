@@ -6,9 +6,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
-        var Workout = require('./Workout')(sequelize, DataTypes);
-        Location.hasMany(Workout, {as: 'Workout'});
+        Location.hasMany(models.Workout);
       }
     }
   });
