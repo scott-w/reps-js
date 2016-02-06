@@ -10,19 +10,33 @@ const models = require('../../models');
 
 const recordWorkout = function(request, reply) {
   var userId = request.auth.credentials.id;
-  var date = request.payload.date;
-  var location = request.payload.location;
+  var date = request.payload.workout_date;
+  var locationId = request.payload.location;
 
   var workout = models.Workout.create({
     'workout_date': date,
     userId: userId,
-    locationId: location
-  }).then(function(workout){
-    reply({
-      id: workout.dataValues.id,
-      date: workout.dataValues.workout_date,
-      user: workout.dataValues.userId,
-      location: workout.dataValues.locationId
+    locationId: locationId
+  }).then((instance) => {
+    var workout = instance.dataValues;
+    models.Location.findOne({
+      where: {
+        id: locationId
+      },
+      attributes: ['name', 'createdAt', 'updatedAt']
+    }).then((result) => {
+      const location = result.dataValues;
+
+      reply({
+        id: workout.id,
+        workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
+        location: {
+          id: locationId,
+          name: location.name,
+          updatedAt: location.updatedAt,
+          createdAt: location.createdAt
+        }
+      }).code(201);
     });
   });
 };

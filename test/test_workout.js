@@ -2,19 +2,18 @@
 /* jshint node: true */
 /* jshint esversion: 6 */
 
-const Fixtures = require('sequelize-fixtures');
-
 const Code = require('code');
 const Lab = require('lab');
 const Shot = require('shot');
 
 const lab = exports.lab = Lab.script();
 
-const before = lab.before;
+const beforeEach = lab.beforeEach;
 const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
+var construct = require('./construct');
 var models = require('../models');
 var server = require('../app.js');
 
@@ -27,10 +26,8 @@ const headers = {
 
 
 describe('Workout list', () => {
-  before((done) => {
-    Fixtures.loadFile('./fixtures/workouts.yaml', models).then(() => {
-      done();
-    });
+  beforeEach((done) => {
+    construct.fixtures('./fixtures/workouts.yaml', done);
   });
 
   it('retrieves a list of workouts from the API', (done) => {
@@ -81,6 +78,26 @@ describe('Workout list', () => {
 
     server.inject(reqData, (response) => {
       expect(response.statusCode).to.equal(404);
+
+      done();
+    });
+  });
+
+  it('can create a workout assigned to the user', (done) => {
+    const reqData = {
+      method: 'post',
+      url: '/workouts/',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-20',
+        location: 1
+      }
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.workout_date).to.equal('2016-01-20');
+      expect(response.result.location.name).to.equal('Test Location');
 
       done();
     });
