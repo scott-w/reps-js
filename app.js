@@ -43,3 +43,6 @@ models.sequelize.sync().then(function() {
       console.log('Server running at:', server.info.uri);
   });
 });
+
+
+module.exports = server;
