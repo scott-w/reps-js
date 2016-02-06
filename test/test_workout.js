@@ -86,7 +86,7 @@ describe('Workout list', () => {
 });
 
 describe('Create workout', () => {
-  beforeEach((done) => {
+  before((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });
 
