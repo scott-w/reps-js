@@ -49,6 +49,8 @@ const recordWorkout = function(request, reply) {
             }
           }).code(201);
         });
+      }).catch((err) => {
+        console.log(err);
       });
     }
   });
