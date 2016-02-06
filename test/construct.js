@@ -15,6 +15,10 @@ exports.fixtures = function(fixtures, done) {
       if (done) {
         done();
       }
+    }).catch((err) => {
+      console.error('loadFileErr', err);
     });
+  }).catch((err) => {
+    console.error('syncErr', err);
   });
 };
