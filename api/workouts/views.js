@@ -10,20 +10,49 @@ const models = require('../../models');
 
 const recordWorkout = function(request, reply) {
   var userId = request.auth.credentials.id;
-  var date = request.payload.date;
-  var location = request.payload.location;
+  var date = request.payload.workout_date;
+  var locationId = request.payload.location;
 
-  var workout = models.Workout.create({
-    'workout_date': date,
-    userId: userId,
-    locationId: location
-  }).then(function(workout){
-    reply({
-      id: workout.dataValues.id,
-      date: workout.dataValues.workout_date,
-      user: workout.dataValues.userId,
-      location: workout.dataValues.locationId
-    });
+  models.Workout.findOne({
+    attributes: ['workout_date'],
+    where: {
+      workout_date: date,
+      UserId: userId
+    }
+  }).then((check) => {
+    if (check) {
+      reply({workout_date: 'Cannot duplicate the workout_date'}).code(400);
+    }
+    else {
+      models.Workout.create({
+        'workout_date': date,
+        UserId: userId,
+        LocationId: locationId
+      }).then((instance) => {
+        var workout = instance.dataValues;
+        models.Location.findOne({
+          where: {
+            id: locationId
+          },
+          attributes: ['name', 'createdAt', 'updatedAt']
+        }).then((result) => {
+          const location = result.dataValues;
+
+          reply({
+            id: workout.id,
+            workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
+            Location: {
+              id: locationId,
+              name: location.name,
+              updatedAt: location.updatedAt,
+              createdAt: location.createdAt
+            }
+          }).code(201);
+        });
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   });
 };
 
@@ -36,7 +65,7 @@ const workoutsByDate = function(request, reply) {
       'workout_date', 'id'
     ],
     where: {
-      userId: userId
+      UserId: userId
     }
   }).then(function(results) {
     reply(_.map(results, function(item) {
@@ -50,21 +79,39 @@ const workoutsByDate = function(request, reply) {
 };
 
 const retrieveWorkout = function(request, reply) {
+  var userId = request.auth.credentials.id;
+
   models.Workout.findOne({
     attributes: [
       'id', 'workout_date'
     ],
     where: {
-      id: request.params.workout
+      workout_date: request.params.workout_date,
+      UserId: userId
     },
     include: [
       {
-        model: models.Location,
-        as: 'location'
+        model: models.Location
       }
     ]
   }).then(function(instance) {
-    reply(instance.dataValues);
+    if (instance) {
+
+      const workout = _.mapValues(instance.dataValues, (val, key) => {
+        if (key === 'workout_date') {
+          return moment(val).format('YYYY-MM-DD');
+        }
+        if (key === 'Location') {
+          return val.dataValues;
+        }
+        return val;
+      });
+
+      reply(workout);
+    }
+    else {
+      reply({error: 'Not Found'}).code(404);
+    }
   });
 };
 

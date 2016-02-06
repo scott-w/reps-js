@@ -2,8 +2,6 @@
 /* jshint node: true */
 /* jshint esversion: 6 */
 
-const Fixtures = require('sequelize-fixtures');
-
 const Code = require('code');
 const Lab = require('lab');
 const Shot = require('shot');
@@ -11,10 +9,12 @@ const Shot = require('shot');
 const lab = exports.lab = Lab.script();
 
 const before = lab.before;
+const beforeEach = lab.beforeEach;
 const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
+var construct = require('./construct');
 var models = require('../models');
 var server = require('../app.js');
 
@@ -27,19 +27,8 @@ const headers = {
 
 
 describe('Workout list', () => {
-  before((done) => {
-    Fixtures.loadFile('./fixtures/workouts.yaml', models).then(() => {
-      done();
-    });
-  });
-
-  it('returns a list of workouts from the database', (done) => {
-    models.User.findAll({
-      attributes: ['email']
-    }).then((results) => {
-      expect(results.length).to.equal(1);
-      done();
-    });
+  beforeEach((done) => {
+    construct.fixtures('./fixtures/workouts.yaml', done);
   });
 
   it('retrieves a list of workouts from the API', (done) => {
@@ -56,7 +45,107 @@ describe('Workout list', () => {
       ).to.equal('application/json');
       expect(response.result.length).to.equal(1);
       expect(response.result[0].workout_date).to.equal('2016-01-10');
+
       done();
     });
   });
+
+  it('retrieves a workout from a given URL', (done) => {
+    const reqData = {
+      method: 'get',
+      url: '/workouts/2016-01-10',
+      headers: headers
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(
+        response.headers['content-type'].split(';')[0]
+      ).to.equal('application/json');
+
+      expect(response.result.workout_date).to.equal('2016-01-10');
+      expect(response.result.Location.name).to.equal('Test Location');
+
+      done();
+    });
+  });
+
+  it('does not allow a user to view another user\'s workouts', (done) => {
+    const reqData = {
+      method: 'get',
+      url: '/workouts/2016-01-06',
+      headers: headers
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(404);
+
+      done();
+    });
+  });
+});
+
+describe('Create workout', () => {
+  beforeEach((done) => {
+    construct.fixtures('./fixtures/workouts.yaml', done);
+  });
+
+  it('can create a workout assigned to the user', (done) => {
+    const reqData = {
+      method: 'post',
+      url: '/workouts/',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-20',
+        location: 1
+      }
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.workout_date).to.equal('2016-01-20');
+      expect(response.result.Location.name).to.equal('Test Location');
+
+      done();
+    });
+  });
+
+  it('cannot duplicate a workout date for a user', (done) => {
+    const reqData = {
+      method: 'post',
+      url: '/workouts/',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-10',
+        location: 1
+      }
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(400);
+
+      done();
+    });
+  });
+
+  it('can duplicate the date across different users', (done) => {
+    const reqData = {
+      method: 'post',
+      url: '/workouts/',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-06',
+        location: 1
+      }
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.workout_date).to.equal('2016-01-06');
+      expect(response.result.Location.name).to.equal('Test Location');
+
+      done();
+    });
+  });
+
 });

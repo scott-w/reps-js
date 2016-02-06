@@ -1,4 +1,7 @@
+/* jshint node: true */
+/* jshint esversion: 6 */
 'use strict';
+
 module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('Sets', {
@@ -14,7 +17,7 @@ module.exports = {
       reps: {
         type: Sequelize.INTEGER
       },
-      workoutId: {
+      WorkoutId: {
         allowNull: false,
         references: {
           model: 'Workouts',
@@ -22,7 +25,7 @@ module.exports = {
         },
         type: Sequelize.BIGINT
       },
-      exerciseId: {
+      ExerciseId: {
         allowNull: false,
         references: {
           model: 'Exercises',
