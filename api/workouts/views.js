@@ -50,12 +50,15 @@ const workoutsByDate = function(request, reply) {
 };
 
 const retrieveWorkout = function(request, reply) {
+  var userId = request.auth.credentials.id;
+
   models.Workout.findOne({
     attributes: [
       'id', 'workout_date'
     ],
     where: {
-      id: request.params.workout
+      id: request.params.workout,
+      userId: userId
     },
     include: [
       {
@@ -64,7 +67,23 @@ const retrieveWorkout = function(request, reply) {
       }
     ]
   }).then(function(instance) {
-    reply(instance.dataValues);
+    if (instance) {
+
+      const workout = _.mapValues(instance.dataValues, (val, key) => {
+        if (key === 'workout_date') {
+          return moment(val).format('YYYY-MM-DD');
+        }
+        if (key === 'location') {
+          return val.dataValues;
+        }
+        return val;
+      });
+
+      reply(workout);
+    }
+    else {
+      reply({error: 'Not Found'}).code(404);
+    }
   });
 };
 

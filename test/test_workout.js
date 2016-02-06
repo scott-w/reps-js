@@ -33,15 +33,6 @@ describe('Workout list', () => {
     });
   });
 
-  it('returns a list of workouts from the database', (done) => {
-    models.User.findAll({
-      attributes: ['email']
-    }).then((results) => {
-      expect(results.length).to.equal(1);
-      done();
-    });
-  });
-
   it('retrieves a list of workouts from the API', (done) => {
     const reqData = {
       method: 'get',
@@ -56,6 +47,41 @@ describe('Workout list', () => {
       ).to.equal('application/json');
       expect(response.result.length).to.equal(1);
       expect(response.result[0].workout_date).to.equal('2016-01-10');
+
+      done();
+    });
+  });
+
+  it('retrieves a workout from a given URL', (done) => {
+    const reqData = {
+      method: 'get',
+      url: '/workouts/1',
+      headers: headers
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(
+        response.headers['content-type'].split(';')[0]
+      ).to.equal('application/json');
+
+      expect(response.result.workout_date).to.equal('2016-01-10');
+      expect(response.result.location.name).to.equal('Test Location');
+
+      done();
+    });
+  });
+
+  it('does not allow a user  another user\'s workouts', (done) => {
+    const reqData = {
+      method: 'get',
+      url: '/workouts/2',
+      headers: headers
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(404);
+
       done();
     });
   });
