@@ -3,7 +3,3 @@ machine:
     NODE_ENV: ci
   node:
     version: 5.1.0
-
-test:
-  pre:
-    - npm run-script migrate
