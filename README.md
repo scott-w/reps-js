@@ -6,6 +6,12 @@ A service that tracks workouts and progress in the gym for maximum gainz! Use
 Reps to track your latest workouts and plot your next lifts
 
 
+## System Requirements
+
+This app is tested and runs on OS X El Capitan and Ubuntu 14.04, with Postgres
+9.x.
+
+
 ## Installing dependencies
 
 To install dependencies, install Node and NPM for your system and then:
