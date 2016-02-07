@@ -24,12 +24,22 @@ const recordWorkout = function(request, reply) {
       reply({workout_date: 'Cannot duplicate the workout_date'}).code(400);
     }
     else {
+      let sets = request.payload.sets || [];
+
+      let createWorkout =
+
       models.Workout.create({
         'workout_date': date,
         UserId: userId,
-        LocationId: locationId
+        LocationId: locationId,
+        Sets: _.map(sets, (set) => _.mapKeys(
+          set, (val, key) => key === 'exercise' ? 'ExerciseId' : key))
+      }, {
+        include: [models.Set]
       }).then((instance) => {
         const workout = instance.dataValues;
+        const sets = _.map(instance.dataValues.Sets, (set) => set.dataValues);
+
         models.Location.findOne({
           where: {
             id: locationId
@@ -41,6 +51,7 @@ const recordWorkout = function(request, reply) {
           reply({
             id: workout.id,
             workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
+            Sets: sets,
             Location: {
               id: locationId,
               name: location.name,

@@ -32,3 +32,17 @@ fixtures:
       Location:
         name: Test Location
       workout_date: 2016-01-06
+
+  - model: Exercise
+    data:
+      exercise_name: Bench Press
+      machine_code: "17"
+      Location:
+        name: Test Location
+
+  - model: Exercise
+    data:
+      exercise_name: Overhead Press
+      machine_code: "134"
+      Location:
+        name: Test Location

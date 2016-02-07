@@ -105,10 +105,6 @@ describe('Create workout', () => {
 
       done();
     });
-
-    it('can create a workout with pre-filled Sets', (done) => {
-
-    });
   });
 
   it('cannot duplicate a workout date for a user', (done) => {
@@ -149,4 +145,28 @@ describe('Create workout', () => {
     });
   });
 
+  it('can create a workout with pre-filled Sets', (done) => {
+    const data = {
+      method: 'post',
+      url: '/workouts/',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-20',
+        location: 1,
+        sets: [
+          {exercise: 1, weight: '60Kg', reps: 6},
+          {exercise: 1, weight: '70Kg', reps: 6},
+          {exercise: 1, weight: '70Kg', reps: 6}
+        ]
+      }
+    };
+
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.Sets.length).to.equal(3);
+      expect(response.result.Sets[0].weight).to.equal('60Kg');
+      expect(response.result.Sets[0].ExerciseId).to.equal(1);
+      done();
+    });
+  });
 });

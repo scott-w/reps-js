@@ -7,6 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Location.hasMany(models.Workout);
+        Location.hasMany(models.Exercise);
       }
     }
   });
