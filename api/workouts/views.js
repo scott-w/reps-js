@@ -32,8 +32,9 @@ const recordWorkout = function(request, reply) {
         'workout_date': date,
         UserId: userId,
         LocationId: locationId,
-        Sets: _.map(sets, (set) => _.mapKeys(
-          set, (val, key) => key === 'exercise' ? 'ExerciseId' : key))
+        Sets: _.map(sets, (set) => _.mapKeys(set, (val, key) => {
+          return key === 'exercise' ? 'ExerciseId' : key;
+        }))
       }, {
         include: [models.Set]
       }).then((instance) => {
