@@ -30,26 +30,24 @@ var createUserInstance = function (email, password, first_name, last_name) {
 
 /** Get the JWT token from the request user */
 var token = function (request, reply) {
-  getUserByEmail(request.query.email)
-    .then(function (result) {
-      if (result && bcrypt.compareSync(request.query.password, result.password)) {
-        var tokenData = {
-          email: result.email,
-          scope: ['all'],
-          id: result.id
-        };
-        reply({
-          email: result.email,
-          scope: 'all',
-          token: jwt.sign(tokenData, jwtConfig.privateKey)
-        });
-      } else {
-        reply({
-            password: 'Incorrect'
-          })
-          .code(400);
-      }
-    });
+  getUserByEmail(request.query.email).then(function (result) {
+    if (result && bcrypt.compareSync(request.query.password, result.password)) {
+      var tokenData = {
+        email: result.email,
+        scope: ['all'],
+        id: result.id
+      };
+      reply({
+        email: result.email,
+        scope: 'all',
+        token: jwt.sign(tokenData, jwtConfig.privateKey)
+      });
+    } else {
+      reply({
+          password: 'Incorrect'
+        }).code(400);
+    }
+  });
 };
 
 

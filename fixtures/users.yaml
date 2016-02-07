@@ -2,12 +2,12 @@ fixtures:
   - model: User
     data:
       email: test@example.com
-      password: password
+      password: '$2a$10$160qKbSH0jsXWjxzeFn/de7As7xcBexEU12eEOJavfEMXEoRXkCZu'
       first_name: Test
       last_name: User
   - model: User
     data:
       email: test2@example.com
-      password: password123
+      password: '$2a$10$Uhc.r4ZMb309ln/k7dLUhOJQHJOqtsjlHkqOmj670Gf8h6du59v16'
       first_name: Other
       last_name: User2

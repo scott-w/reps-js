@@ -86,23 +86,16 @@ describe('Login user', () => {
     construct.fixtures('./fixtures/users.yaml', done);
   });
 
-  it('can login an existing user', (done) => {
+  it('can get a token for an existing user', (done) => {
     const req = {
-      method: 'get',
-      url: '/token',
-      query: {
-        email: 'test@example.com',
-        password: 'password'
-      }
+      url: '/token?email=test@example.com&password=password'
     };
 
     server.inject(req, (response) => {
+      const tokenParts = response.result.token.split('.');
       expect(response.statusCode).to.equal(200);
-      expect(response.result.token).to.equal(
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS' +
-        '5jb20iLCJzY29wZSI6WyJhbGwiXSwiaWQiOjcsImlhdCI6MTQ1NDc1NTU3MH0.EzQTj' +
-        'kaQ0SfT5_8SxuYAW9pVg9ZbWUrMEfOI79T0YZQ'
-      );
+      expect(tokenParts[0]).to.equal('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9');
+      done();
     });
   });
 });
