@@ -22,3 +22,9 @@ exports.fixtures = function(fixtures, done) {
     console.error('syncErr', err);
   });
 };
+
+
+exports.authHeader = 'Bearer ' +
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20' +
+  'iLCJzY29wZSI6WyJhbGwiXSwiaWQiOjcsImlhdCI6MTQ1NDc1NTU3MH0.EzQTjkaQ0SfT5_8' +
+  'SxuYAW9pVg9ZbWUrMEfOI79T0YZQ';
