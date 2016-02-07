@@ -1,0 +1,13 @@
+fixtures:
+  - model: User
+    data:
+      email: test@example.com
+      password: password
+      first_name: Test
+      last_name: User
+  - model: User
+    data:
+      email: test2@example.com
+      password: password123
+      first_name: Other
+      last_name: User2

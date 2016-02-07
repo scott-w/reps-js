@@ -18,10 +18,12 @@ var getUserByEmail = function (email) {
 };
 
 
-var createUserInstance = function (email, password) {
+var createUserInstance = function (email, password, first_name, last_name) {
   return models.User.create({
     email: email,
-    password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+    password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
+    first_name: first_name,
+    last_name: last_name
   });
 };
 
@@ -53,21 +55,22 @@ var token = function (request, reply) {
 
 /** Create a new user */
 var createUser = function (request, reply) {
-  getUserByEmail(request.payload.email)
-    .then(function (result) {
+  getUserByEmail(request.payload.email).then(function (result) {
       if (result) {
         reply({
             email: 'Already exists'
-          })
-          .code(400);
+          }).code(400);
       } else {
-        createUserInstance(request.payload.email, request.payload.password)
-          .then(function (instance) {
+        createUserInstance(
+          request.payload.email, request.payload.password,
+          request.payload.first_name, request.payload.last_name
+        ).then(function (instance) {
             reply({
                 email: instance.email,
-                id: instance.id
-              })
-              .code(201);
+                id: instance.id,
+                first_name: instance.first_name,
+                last_name: instance.last_name
+              }).code(201);
           });
       }
     });
