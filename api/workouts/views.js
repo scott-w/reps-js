@@ -9,9 +9,9 @@ const models = require('../../models');
 
 
 const recordWorkout = function(request, reply) {
-  var userId = request.auth.credentials.id;
-  var date = request.payload.workout_date;
-  var locationId = request.payload.location;
+  const userId = request.auth.credentials.id;
+  const date = request.payload.workout_date;
+  const locationId = request.payload.location;
 
   models.Workout.findOne({
     attributes: ['workout_date'],
@@ -29,7 +29,7 @@ const recordWorkout = function(request, reply) {
         UserId: userId,
         LocationId: locationId
       }).then((instance) => {
-        var workout = instance.dataValues;
+        const workout = instance.dataValues;
         models.Location.findOne({
           where: {
             id: locationId
@@ -58,7 +58,7 @@ const recordWorkout = function(request, reply) {
 
 
 const workoutsByDate = function(request, reply) {
-  var userId = request.auth.credentials.id;
+  const userId = request.auth.credentials.id;
 
   models.Workout.findAll({
     attributes: [
@@ -79,7 +79,7 @@ const workoutsByDate = function(request, reply) {
 };
 
 const retrieveWorkout = function(request, reply) {
-  var userId = request.auth.credentials.id;
+  const userId = request.auth.credentials.id;
 
   models.Workout.findOne({
     attributes: [

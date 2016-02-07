@@ -1,4 +1,4 @@
-var viewUser = function(request, reply) {
+const viewUser = function(request, reply) {
   reply(request.auth.credentials);
 };
 

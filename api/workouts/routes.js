@@ -2,7 +2,7 @@
 /* jshint esversion: 6 */
 'use strict';
 
-var views = require('./views');
+const views = require('./views');
 
 
 module.exports = [

@@ -14,9 +14,9 @@ const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
-var construct = require('./construct');
-var models = require('../models');
-var server = require('../app.js');
+const construct = require('./construct');
+const models = require('../models');
+const server = require('../app.js');
 
 const headers = {
   Authorization: construct.authHeader
@@ -104,6 +104,10 @@ describe('Create workout', () => {
       expect(response.result.Location.name).to.equal('Test Location');
 
       done();
+    });
+
+    it('can create a workout with pre-filled Sets', (done) => {
+
     });
   });
 
