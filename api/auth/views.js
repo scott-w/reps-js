@@ -2,14 +2,14 @@
 /* jshint esversion: 6 */
 'use strict';
 
-var bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-var jwtConfig = require('../../config/jwt');
-var models = require('../../models');
+const jwtConfig = require('../../config/jwt');
+const models = require('../../models');
 
 
-var getUserByEmail = function (email) {
+const getUserByEmail = function (email) {
   return models.User.findOne({
     where: {
       email: email
@@ -18,7 +18,7 @@ var getUserByEmail = function (email) {
 };
 
 
-var createUserInstance = function (email, password, first_name, last_name) {
+const createUserInstance = function (email, password, first_name, last_name) {
   return models.User.create({
     email: email,
     password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
@@ -29,10 +29,10 @@ var createUserInstance = function (email, password, first_name, last_name) {
 
 
 /** Get the JWT token from the request user */
-var token = function (request, reply) {
+const token = function (request, reply) {
   getUserByEmail(request.query.email).then(function (result) {
     if (result && bcrypt.compareSync(request.query.password, result.password)) {
-      var tokenData = {
+      const tokenData = {
         email: result.email,
         scope: ['all'],
         id: result.id
@@ -52,17 +52,18 @@ var token = function (request, reply) {
 
 
 /** Create a new user */
-var createUser = function (request, reply) {
-  getUserByEmail(request.payload.email).then(function (result) {
+const createUser = function (request, reply) {
+  getUserByEmail(request.payload.email).then((result) => {
       if (result) {
         reply({
             email: 'Already exists'
           }).code(400);
+
       } else {
         createUserInstance(
           request.payload.email, request.payload.password,
           request.payload.first_name, request.payload.last_name
-        ).then(function (instance) {
+        ).then((instance) => {
             reply({
                 email: instance.email,
                 id: instance.id,

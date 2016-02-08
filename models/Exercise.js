@@ -8,6 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Exercise.hasMany(models.Set);
+        Exercise.belongsTo(models.Location);
       }
     }
   });
