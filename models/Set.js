@@ -10,6 +10,7 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         // associations can be defined here
         Set.belongsTo(models.Exercise);
+        Set.belongsTo(models.Workout);
       }
     }
   });

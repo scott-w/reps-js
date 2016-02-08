@@ -63,6 +63,12 @@ describe('Workout list', () => {
       expect(response.result.workout_date).to.equal('2016-01-10');
       expect(response.result.Location.name).to.equal('Test Location');
 
+      expect(response.result.Sets.length).to.equal(1);
+      expect(response.result.Sets[0].reps).to.equal(6);
+      expect(
+        response.result.Sets[0].Exercise.exercise_name
+      ).to.equal('Bench Press');
+
       done();
     });
   });
@@ -156,7 +162,7 @@ describe('Create workout', () => {
         sets: [
           {exercise: 1, weight: '60Kg', reps: 6},
           {exercise: 1, weight: '70Kg', reps: 6},
-          {exercise: 1, weight: '70Kg', reps: 6}
+          {exercise: 1, weight: '80Kg', reps: 6}
         ]
       }
     };
@@ -166,6 +172,39 @@ describe('Create workout', () => {
       expect(response.result.Sets.length).to.equal(3);
       expect(response.result.Sets[0].weight).to.equal('60Kg');
       expect(response.result.Sets[0].ExerciseId).to.equal(1);
+
+      done();
+    });
+  });
+});
+
+
+describe('Update workout', () => {
+  beforeEach((done) => {
+    construct.fixtures('./fixtures/workouts.yaml', done);
+  });
+
+  it('can add sets', (done) => {
+    const data = {
+      method: 'post',
+      url: '/workouts/2016-01-10',
+      headers: headers,
+      payload: {
+        sets: [
+          {exercise: 1, weight: '60Kg', reps: 6},
+          {exercise: 1, weight: '70Kg', reps: 6},
+          {exercise: 1, weight: '80Kg', reps: 6}
+        ]
+      }
+    };
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(201);
+      console.log(response.result);
+      expect(response.result.Sets.length).to.equal(4);
+      expect(response.result.Sets[1].weight).to.equal('60Kg');
+      expect(response.result.Sets[1].ExerciseId).to.equal(1);
+      expect(response.result.Sets[1].WorkoutId).to.equal(1);
+
       done();
     });
   });

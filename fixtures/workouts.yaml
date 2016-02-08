@@ -46,3 +46,11 @@ fixtures:
       machine_code: "134"
       Location:
         name: Test Location
+
+  - model: Set
+    data:
+      WorkoutId: 1
+      Exercise:
+        exercise_name: Bench Press
+      weight: 50Kg
+      reps: 6

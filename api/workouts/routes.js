@@ -29,5 +29,13 @@ module.exports = [
     method: 'GET',
     path: '/workouts/{workout_date}',
     handler: views.retrieveWorkout
+  },
+  {
+    config: {
+      auth: 'jwt',
+    },
+    method: 'POST',
+    path: '/workouts/{workout_date}',
+    handler: views.addSetsToWorkout
   }
 ];
