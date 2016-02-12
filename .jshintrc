@@ -1,0 +1,14 @@
+{
+  "globals" : {
+    "document": false,
+    "require": false,
+    "module": false,
+    "_": false,
+    "console": false,
+    "window": false,
+    "exports": false
+  },
+  "strict": "implied",
+  "unused": true,
+  "curly": true
+}
