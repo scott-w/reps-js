@@ -1,7 +1,3 @@
-var Mn = require('backbone.marionette');
-
-var App = new Mn.Application({
-
-});
+import App from './application';
 
 App.start();

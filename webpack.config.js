@@ -1,3 +1,5 @@
+/* jshint node: true */
+
 var webpack = require('webpack');
 
 module.exports = {
@@ -7,6 +9,14 @@ module.exports = {
       {
         test: /\.html$/,
         loader: 'underscore-template-loader'
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel', // 'babel-loader' is also a legal name to reference
+        query: {
+          presets: ['es2015']
+        }
       }
     ]
   },
