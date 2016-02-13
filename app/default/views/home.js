@@ -49,11 +49,16 @@ const Register = Marionette.View.extend({
   template: require('../templates/register.html'),
 
   ui: {
-    'form': 'form'
+    form: 'form',
+    login: '.login-button'
   },
 
   events: {
     'submit @ui.form': 'signup'
+  },
+
+  triggers: {
+    'click @ui.login': 'show:login'
   },
 
   signup: function(e) {
