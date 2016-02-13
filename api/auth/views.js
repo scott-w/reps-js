@@ -46,6 +46,8 @@ const token = function (request, reply) {
 
       reply({
         email: result.email,
+        first_name: result.first_name,
+        last_name: result.last_name,
         scope: 'all',
         token: getToken(result)
       });
