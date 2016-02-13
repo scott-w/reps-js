@@ -42,7 +42,7 @@
     "url": "git://github.com/scott-w/reps-js.git"
   },
   "author": "Scott Walton",
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "devDependencies": {
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.2",
