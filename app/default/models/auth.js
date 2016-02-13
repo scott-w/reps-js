@@ -1,4 +1,16 @@
 import Backbone from 'backbone';
+import LocalStorage from 'backbone.localstorage';
+
+export const UserModel = Backbone.Model.extend({
+  localStorage: new LocalStorage('UserModel'),
+  defaults: {
+    id: 'current',
+    first_name: '',
+    last_name: '',
+    email: '',
+    token: ''
+  }
+});
 
 export const LoginModel = Backbone.Model.extend({
   urlRoot: '/token',
@@ -23,6 +35,17 @@ export const LoginModel = Backbone.Model.extend({
       return `${url}?email=${data.email}&password=${data.password}`;
     }
     console.error('Form was not valid', this.validationError);
+  },
+
+  login: function(data) {
+    this.set(data);
+
+    this.fetch({success: () => {
+      const fields = this.pick('first_name', 'last_name', 'email', 'token');
+
+      const loggedIn = new UserModel(fields);
+      loggedIn.save();
+    }});
   }
 });
 
@@ -40,5 +63,14 @@ export const RegisterModel = Backbone.Model.extend({
     if (!_.isEmpty(errors)) {
       return errors;
     }
+  },
+
+  register: function(data) {
+    this.save(data, {success: () => {
+      const fields = this.pick('email', 'first_name', 'last_name', 'token');
+
+      const loggedIn = new UserModel(fields);
+      loggedIn.save();
+    }});
   }
 });

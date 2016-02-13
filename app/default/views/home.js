@@ -40,8 +40,7 @@ const Login = Marionette.View.extend({
   login: function(e) {
     e.preventDefault();
     var data = Syphon.serialize(this);
-    this.model.set(data);
-    this.model.fetch();
+    this.model.login(data);
   }
 });
 
@@ -64,7 +63,7 @@ const Register = Marionette.View.extend({
   signup: function(e) {
     e.preventDefault();
     var data = Syphon.serialize(this);
-    this.model.save(data);
+    this.model.register(data);
   }
 });
 
