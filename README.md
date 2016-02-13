@@ -71,3 +71,19 @@ If you've ran `npm install --dev` above, just run:
 ```bash
 npm test
 ```
+
+## Running Everything
+
+After configuring and installing everything, you can run a live system by
+starting the following scripts:
+
+```bash
+npm run-script start
+npm run-script serveassets
+npm run-script watch
+npm run-script proxy
+```
+
+The `watch` script will recompile the client JS, `serveassets` serves the JS,
+CSS, and index file. The `proxy` script binds everything behind
+`http://localhost:8000`

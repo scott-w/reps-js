@@ -31,6 +31,7 @@
     "migrate": "sequelize db:migrate",
     "fulltest": "sequelize db:migrate && lab",
     "serveassets": "http-server ./assets",
+    "proxy": "node proxy.js",
     "build": "webpack",
     "watch": "webpack -w",
     "test": "lab -e $NODE_ENV"
