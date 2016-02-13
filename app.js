@@ -1,7 +1,4 @@
 /* jshint node: true */
-/* jshint esversion: 6 */
-'use strict';
-
 const jwt = require('./api/auth/jwt');
 
 const Hapi = require('hapi');
@@ -9,7 +6,12 @@ var models = require('./models');
 var jwtConfig = require('./config/jwt');
 
 const server = new Hapi.Server();
-server.connection({ port: 3000 });
+server.connection({
+  routes: {
+    cors: true
+  },
+  port: 3000
+});
 
 server.register(require('hapi-auth-jwt2'), (err) => {
   if (err) {

@@ -51,6 +51,7 @@ describe('Create user', () => {
       expect(response.result.email).to.equal("new@example.com");
       expect(response.result.first_name).to.equal("First");
       expect(response.result.last_name).to.equal("Last");
+      expect(response.result.token).to.not.equal(undefined);
 
       done();
     });

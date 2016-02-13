@@ -17,6 +17,17 @@ const getUserByEmail = function (email) {
   });
 };
 
+const getToken = function(user) {
+  const tokenData = {
+    email: user.email,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    scope: ['all'],
+    id: user.id
+  };
+
+  return jwt.sign(tokenData, jwtConfig.privateKey);
+};
 
 const createUserInstance = function (email, password, first_name, last_name) {
   return models.User.create({
@@ -32,15 +43,13 @@ const createUserInstance = function (email, password, first_name, last_name) {
 const token = function (request, reply) {
   getUserByEmail(request.query.email).then(function (result) {
     if (result && bcrypt.compareSync(request.query.password, result.password)) {
-      const tokenData = {
-        email: result.email,
-        scope: ['all'],
-        id: result.id
-      };
+
       reply({
         email: result.email,
+        first_name: result.first_name,
+        last_name: result.last_name,
         scope: 'all',
-        token: jwt.sign(tokenData, jwtConfig.privateKey)
+        token: getToken(result)
       });
     } else {
       reply({
@@ -68,7 +77,8 @@ const createUser = function (request, reply) {
                 email: instance.email,
                 id: instance.id,
                 first_name: instance.first_name,
-                last_name: instance.last_name
+                last_name: instance.last_name,
+                token: getToken(instance)
               }).code(201);
           });
       }
