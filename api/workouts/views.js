@@ -133,12 +133,6 @@ const addSets = function(request, reply) {
 
   util.getWorkout(userId, workoutDate).then((instance) => {
     if (instance) {
-      console.log(_.map(request.payload.sets, (set) => ({
-        WorkoutId: instance.dataValues.id,
-        ExerciseId: set.exercise,
-        reps: set.reps,
-        weight: set.weight,
-      })));
       models.Set.bulkCreate(
         _.map(request.payload.sets, (set) => ({
           WorkoutId: instance.dataValues.id,
@@ -152,7 +146,6 @@ const addSets = function(request, reply) {
             WorkoutId: instance.dataValues.id
           }
         }).then((sets) => {
-          console.log(sets);
           let response = {
             id: instance.dataValues.id,
             Sets: _.map(sets, (set) => set.dataValues),

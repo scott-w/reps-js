@@ -27,7 +27,7 @@ export const LoginModel = Backbone.Model.extend({
 });
 
 export const RegisterModel = Backbone.Model.extend({
-  url: '/register',
+  url: '/user/',
 
   validate: function(attrs) {
     const errors = {};

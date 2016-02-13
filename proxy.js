@@ -11,8 +11,6 @@ const proxyServer = function(req) {
 };
 
 const server = http.createServer(function(req, res) {
-  console.log(req.headers);
-  console.log(req.url);
   if (proxyServer(req)) {
     console.log('json');
     proxy.web(req, res, {

@@ -1,6 +1,5 @@
 /* jshint node: true */
 /* jshint esversion: 6 */
-'use strict';
 
 const views = require('./views');
 
