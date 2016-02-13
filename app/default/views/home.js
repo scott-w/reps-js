@@ -4,7 +4,7 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
-import LoginModel from '../models/login';
+import {LoginModel, RegisterModel} from '../models/auth';
 
 
 const Index = Marionette.View.extend({
@@ -45,6 +45,24 @@ const Login = Marionette.View.extend({
   }
 });
 
+const Register = Marionette.View.extend({
+  template: require('../templates/register.html'),
+
+  ui: {
+    'form': 'form'
+  },
+
+  events: {
+    'submit @ui.form': 'signup'
+  },
+
+  signup: function(e) {
+    e.preventDefault();
+    var data = Syphon.serialize(this);
+    this.model.save(data);
+  }
+});
+
 export const Layout = Marionette.View.extend({
   template: require('../templates/layout.html'),
 
@@ -62,11 +80,20 @@ export const Layout = Marionette.View.extend({
     Backbone.history.navigate('login');
   },
 
+  showRegister: function() {
+    this.showChildView('layout', new Register({model: new RegisterModel()}));
+    Backbone.history.navigate('register');
+  },
+
   onChildviewShowLogin: function() {
     this.showLogin();
   },
 
   onChildviewShowIndex: function() {
     this.showIndex();
+  },
+
+  onChildviewShowRegister: function() {
+    this.showRegister();
   }
 });

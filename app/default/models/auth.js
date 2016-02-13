@@ -1,6 +1,6 @@
 import Backbone from 'backbone';
 
-export default Backbone.Model.extend({
+export const LoginModel = Backbone.Model.extend({
   urlRoot: '/token',
 
   validate: function(attrs) {
@@ -23,5 +23,22 @@ export default Backbone.Model.extend({
       return `${url}?email=${data.email}&password=${data.password}`;
     }
     console.error('Form was not valid', this.validationError);
+  }
+});
+
+export const RegisterModel = Backbone.Model.extend({
+  url: '/register',
+
+  validate: function(attrs) {
+    const errors = {};
+    if (_.isUndefined(attrs.email)) {
+      errors.email = 'Email address not set';
+    }
+    if (_.isUndefined(attrs.password)) {
+      errors.password = 'Password not set';
+    }
+    if (!_.isEmpty(errors)) {
+      return errors;
+    }
   }
 });

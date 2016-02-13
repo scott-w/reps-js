@@ -15,6 +15,11 @@ export const Controller = Marionette.Object.extend({
     layout.showLogin();
   },
 
+  register: function() {
+    const layout = this.showAndGetLayout();
+    layout.showRegister();
+  },
+
   showingMyView: function() {
     const view = root.getChildView('main');
     const cid = this.getOption('indexCid');
@@ -37,5 +42,6 @@ export const Controller = Marionette.Object.extend({
 
 export const routes =  {
   '': 'default',
-  'login': 'login'
+  'login': 'login',
+  'register': 'register'
 };
