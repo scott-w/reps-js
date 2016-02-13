@@ -1,5 +1,4 @@
 /* jshint node: true */
-'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Exercise = sequelize.define('Exercise', {
     exercise_name: DataTypes.STRING,
