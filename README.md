@@ -50,7 +50,18 @@ variable.
 
 ## Building the client-side application
 
-When the client-side JS is written, this will need to be written.
+The client application uses the latest dev build of Marionette 3. To build
+Marionette:
+
+1. Install gulp globally: `npm install -g gulp`
+2. Download the latest Marionette code from Github:
+  `git clone https://github.com/scott-w/backbone.marionette.git`
+3. Switch to the marionette3 branch:
+  `git fetch origin marionette3/marionette3 && git checkout marionette3`
+4. Install the dependencies: `npm install`
+5. Build: `gulp build`
+
+Then, from `reps-js`, install Marionette: `npm install ../backbone.marionette`
 
 
 ## Running the tests
@@ -60,5 +71,3 @@ If you've ran `npm install --dev` above, just run:
 ```bash
 npm test
 ```
-
-[googleplus]: https://github.com/dwyl/hapi-auth-google/blob/master/GOOGLE-APP-STEP-BY-STEP-GUIDE.md
