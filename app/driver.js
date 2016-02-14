@@ -16,7 +16,7 @@ const App = new Marionette.Application({
     this.showView(root);
     processRoutes();
 
-    Backbone.history.start();
+    Backbone.history.start({pushState: true});
   }
 });
 
