@@ -1,16 +1,6 @@
 import Backbone from 'backbone';
-import LocalStorage from 'backbone.localstorage';
 
-export const UserModel = Backbone.Model.extend({
-  localStorage: new LocalStorage('UserModel'),
-  defaults: {
-    id: 'current',
-    first_name: '',
-    last_name: '',
-    email: '',
-    token: ''
-  }
-});
+import {UserModel} from '../../base/models/auth';
 
 export const LoginModel = Backbone.Model.extend({
   urlRoot: '/token',
