@@ -37,14 +37,23 @@ const Login = Marionette.View.extend({
     'submit @ui.form': 'login'
   },
 
+  modelEvents: {
+    sync: 'redirectLogin'
+  },
+
   login: function(e) {
     e.preventDefault();
     var data = Syphon.serialize(this);
     this.model.login(data);
+  },
+
+  redirectLogin: function() {
+    Backbone.history.navigate('workout/', {trigger: true});
   }
 });
 
 const Register = Marionette.View.extend({
+  className: 'row',
   template: require('../templates/register.html'),
 
   ui: {
@@ -60,10 +69,18 @@ const Register = Marionette.View.extend({
     'click @ui.login': 'show:login'
   },
 
+  modelEvents: {
+    sync: 'redirectLogin'
+  },
+
   signup: function(e) {
     e.preventDefault();
     var data = Syphon.serialize(this);
     this.model.register(data);
+  },
+
+  redirectLogin: function() {
+    Backbone.history.navigate('workout/', {trigger: true});
   }
 });
 

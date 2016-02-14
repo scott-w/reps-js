@@ -10,6 +10,10 @@ const proxyServer = function(req) {
   }
 };
 
+const assetServer = function(req) {
+  return req.url.startsWith('/js/') || req.url.startsWith('/css/');
+};
+
 const server = http.createServer(function(req, res) {
   if (proxyServer(req)) {
     console.log('json');
@@ -17,8 +21,16 @@ const server = http.createServer(function(req, res) {
       target: 'http://localhost:3000'
     });
   }
-  else {
+  else if (assetServer(req)) {
     console.log('assets');
+    console.log(req.url);
+    proxy.web(req, res, {
+      target: 'http://localhost:8080'
+    });
+  }
+  else {
+    console.log('index');
+    req.url = '/';
     proxy.web(req, res, {
       target: 'http://localhost:8080'
     });
