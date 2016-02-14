@@ -1,4 +1,9 @@
+import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
+
+const WorkoutView = Marionette.View.extend({
+  template: require('../templates/workout/detail.html')
+});
 
 const WorkoutItem = Marionette.View.extend({
   className: 'col-md-6 col-lg-4 col-sm-12',
@@ -15,8 +20,13 @@ const WorkoutItem = Marionette.View.extend({
     };
 
     return {
-      iterType: panelIndexes[this.getOption('index') % 5]
+      iterType: panelIndexes[this.getOption('index') % 5],
+      formattedDate: () => this.model.formatDate()
     };
+  },
+
+  triggers: {
+    click: 'show:workout'
   }
 });
 
@@ -49,5 +59,14 @@ export const WorkoutList = Marionette.View.extend({
     this.showChildView('list', new WorkoutListView({
       collection: this.collection
     }));
+  },
+
+  showWorkout: function(model) {
+    model.fetch();
+    this.showChildView('list', new WorkoutView({model: model}));
+    Backbone.history.navigate(model.displayUrl());
+  },
+  onChildviewShowWorkout: function(options) {
+    this.showWorkout(options.model);
   }
 });

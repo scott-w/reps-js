@@ -7,7 +7,6 @@ import WorkoutList from './views/base';
 export const Controller = Marionette.Object.extend({
   listWorkout: function() {
     const layout = this.showAndGetLayout();
-    console.log('showWorkoutList');
     layout.showWorkoutList();
   },
 
