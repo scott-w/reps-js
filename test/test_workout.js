@@ -1,21 +1,17 @@
-'use strict';
 /* jshint node: true */
 /* jshint esversion: 6 */
 
 const Code = require('code');
 const Lab = require('lab');
-const Shot = require('shot');
 
 const lab = exports.lab = Lab.script();
 
-const before = lab.before;
 const beforeEach = lab.beforeEach;
 const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
 const construct = require('./construct');
-const models = require('../models');
 const server = require('../app.js');
 
 const headers = {

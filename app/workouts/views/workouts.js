@@ -5,20 +5,32 @@ const WorkoutItem = Marionette.View.extend({
 
   template: require('../templates/workout/item.html'),
 
-  templateHelpers: function() {
-    console.log(this.getOption('index'));
+  templateContext: function() {
+    const panelIndexes = {
+      0: 'info',
+      1: 'danger',
+      2: 'warning',
+      3: 'success',
+      4: 'default'
+    };
+
     return {
-      iterType: 'success'
+      iterType: panelIndexes[this.getOption('index') % 5]
     };
   }
 });
 
 const WorkoutListView = Marionette.CollectionView.extend({
-  childView: WorkoutItem
+  childView: WorkoutItem,
+
+  childViewOptions: function(model, index) {
+    return {
+      index: index
+    };
+  }
 });
 
 export const WorkoutList = Marionette.View.extend({
-  className: 'col-sm-12 col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1',
   template: require('../templates/workout/layout.html'),
 
   regions: {
