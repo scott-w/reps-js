@@ -21,8 +21,6 @@ const recordWorkout = function(request, reply) {
     else {
       let sets = request.payload.sets || [];
 
-      let createWorkout =
-
       models.Workout.create({
         'workout_date': workoutDate,
         UserId: userId,
@@ -73,13 +71,19 @@ const workoutsByDate = function(request, reply) {
     ],
     where: {
       UserId: userId
-    }
+    },
+    include: [
+      {model: models.Location}
+    ]
   }).then(function(results) {
     reply(_.map(results, function(item) {
       return {
         id: item.id,
         workout_date: moment(item.workout_date).format('YYYY-MM-DD'),
-        url: `/workouts/${item.id}`
+        url: `/workouts/${item.workout_date}`,
+        Location: {
+          name: item.Location.dataValues.name
+        }
       };
     }));
   });
