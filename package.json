@@ -33,6 +33,7 @@
     "serveassets": "http-server ./assets",
     "proxy": "node proxy.js",
     "build": "webpack",
+    "compile": "webpack -p",
     "watch": "webpack -w",
     "test": "lab -e $NODE_ENV"
   },
