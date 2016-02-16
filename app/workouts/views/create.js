@@ -1,3 +1,4 @@
+import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
@@ -31,6 +32,7 @@ export const CreateWorkout = Marionette.View.extend({
   },
 
   saveComplete: function() {
+    this.triggerMethod('add:to:collection', this.model);
     this.triggerMethod('show:list');
   },
 

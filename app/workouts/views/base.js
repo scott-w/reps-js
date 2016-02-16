@@ -38,5 +38,11 @@ export default Marionette.View.extend({
 
   onChildviewShowList: function() {
     this.showWorkoutList();
+  },
+
+  onChildviewAddToCollection: function(model) {
+    console.log(arguments);
+    const collection = this.getOption('workouts');
+    collection.add(model);
   }
 });
