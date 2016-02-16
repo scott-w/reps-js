@@ -27,7 +27,8 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
       _: 'underscore'
-    })
+    }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
   ],
   resolve: {
     modulesDirectories: [__dirname + '/node_modules'],

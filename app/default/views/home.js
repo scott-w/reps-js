@@ -5,7 +5,7 @@ import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
 import {LoginModel, RegisterModel} from '../models/auth';
-
+import {UserModel} from '../../base/models/auth';
 
 const Index = Marionette.View.extend({
   className: 'row',
@@ -96,14 +96,27 @@ export const Layout = Marionette.View.extend({
     Backbone.history.navigate('');
   },
 
+  checkLogin: function() {
+    const user = new UserModel();
+    user.fetch({
+      success: () => {
+        if (user.get('token')) {
+          this.redirectLogin();
+        }
+      }
+    });
+  },
+
   showLogin: function() {
     this.showChildView('layout', new Login({model: new LoginModel()}));
     Backbone.history.navigate('login');
+    this.checkLogin();
   },
 
   showRegister: function() {
     this.showChildView('layout', new Register({model: new RegisterModel()}));
     Backbone.history.navigate('register');
+    this.checkLogin();
   },
 
   onChildviewShowLogin: function() {
@@ -116,5 +129,9 @@ export const Layout = Marionette.View.extend({
 
   onChildviewShowRegister: function() {
     this.showRegister();
+  },
+
+  redirectLogin: function() {
+    Backbone.history.navigate('workout/', {trigger: true});
   }
 });
