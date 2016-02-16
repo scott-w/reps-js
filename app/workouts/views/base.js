@@ -1,8 +1,10 @@
 import Marionette from 'backbone.marionette';
 
+import WorkoutModel from '../models/workout';
 import WorkoutCollection from '../collections/workouts';
 
 import {WorkoutList} from './workouts';
+import {CreateWorkout} from './create';
 
 export default Marionette.View.extend({
   className: 'col-lg-10 col-lg-offset-1 col-sm-12',
@@ -21,5 +23,16 @@ export default Marionette.View.extend({
     this.showChildView('container', new WorkoutList({
       collection: this.getOption('workouts')
     }));
+  },
+
+  showCreateWorkout: function() {
+    this.showChildView('container', new CreateWorkout({
+      collection: this.getOption('workouts'),
+      model: new WorkoutModel()
+    }));
+  },
+
+  onChildviewShowCreateWorkout: function() {
+    this.showCreateWorkout();
   }
 });

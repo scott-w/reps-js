@@ -18,10 +18,12 @@ const WorkoutItem = Marionette.View.extend({
       3: 'success',
       4: 'default'
     };
+    const location = this.model.get('Location');
 
     return {
       iterType: panelIndexes[this.getOption('index') % 5],
-      formattedDate: () => this.model.formatDate()
+      formattedDate: () => this.model.formatDate(),
+      location: location ? location.name : '-'
     };
   },
 
@@ -68,5 +70,9 @@ export const WorkoutList = Marionette.View.extend({
   },
   onChildviewShowWorkout: function(options) {
     this.showWorkout(options.model);
+  },
+
+  onShowCreateWorkout: function() {
+    Backbone.history.navigate('workout/create');
   }
 });

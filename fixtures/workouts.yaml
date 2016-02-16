@@ -33,6 +33,12 @@ fixtures:
         name: Test Location
       workout_date: 2016-01-06
 
+  - model: Workout
+    data:
+      User:
+        email: test@example.com
+      workout_date: 2016-01-02
+
   - model: Exercise
     data:
       exercise_name: Bench Press

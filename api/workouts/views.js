@@ -20,15 +20,18 @@ const recordWorkout = function(request, reply) {
     }
     else {
       let sets = request.payload.sets || [];
-
-      models.Workout.create({
+      let createData = {
         'workout_date': workoutDate,
         UserId: userId,
-        LocationId: locationId,
         Sets: _.map(sets, (set) => _.mapKeys(set, (val, key) => {
           return key === 'exercise' ? 'ExerciseId' : key;
         }))
-      }, {
+      };
+      if (locationId) {
+        createData.LocationId = locationId;
+      }
+
+      models.Workout.create(createData, {
         include: [models.Set]
       }).then((instance) => {
         const workout = instance.dataValues;
@@ -40,18 +43,24 @@ const recordWorkout = function(request, reply) {
           },
           attributes: ['name', 'createdAt', 'updatedAt']
         }).then((result) => {
-          const location = result.dataValues;
+          let location;
+          if (result) {
+            location = {
+              id: locationId,
+              name: result.dataValues.name,
+              updatedAt: result.dataValues.updatedAt,
+              createdAt: result.dataValues.createdAt
+            };
+          }
+          else {
+            location = null;
+          }
 
           reply({
             id: workout.id,
             workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
             Sets: sets,
-            Location: {
-              id: locationId,
-              name: location.name,
-              updatedAt: location.updatedAt,
-              createdAt: location.createdAt
-            }
+            Location: location
           }).code(201);
         });
       }).catch((err) => {
@@ -74,16 +83,27 @@ const workoutsByDate = function(request, reply) {
     },
     include: [
       {model: models.Location}
+    ],
+    order: [
+      ['workout_date', 'DESC']
     ]
   }).then(function(results) {
     reply(_.map(results, function(item) {
+      let location;
+      if (item.Location) {
+        location = {
+          name: item.Location.dataValues.name,
+          id: item.Location.dataValues.id
+        };
+      }
+      else {
+        location = null;
+      }
       return {
         id: item.id,
         workout_date: moment(item.workout_date).format('YYYY-MM-DD'),
         url: `/workouts/${item.workout_date}`,
-        Location: {
-          name: item.Location.dataValues.name
-        }
+        Location: location
       };
     }));
   });

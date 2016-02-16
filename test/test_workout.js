@@ -36,8 +36,11 @@ describe('Workout list', () => {
       expect(
         response.headers['content-type'].split(';')[0]
       ).to.equal('application/json');
-      expect(response.result.length).to.equal(1);
+      expect(response.result.length).to.equal(2);
       expect(response.result[0].workout_date).to.equal('2016-01-10');
+      expect(response.result[0].Location.name).to.equal('Test Location');
+      expect(response.result[1].workout_date).to.equal('2016-01-02');
+      expect(response.result[1].Location).to.equal(null);
 
       done();
     });
@@ -168,6 +171,31 @@ describe('Create workout', () => {
       expect(response.result.Sets.length).to.equal(3);
       expect(response.result.Sets[0].weight).to.equal('60Kg');
       expect(response.result.Sets[0].ExerciseId).to.equal(1);
+
+      done();
+    });
+  });
+
+  it('can create a workout without a location', (done) => {
+    const data = {
+      method: 'post',
+      url: '/workouts/',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-20',
+        sets: [
+          {exercise: 1, weight: '60Kg', reps: 6},
+          {exercise: 1, weight: '70Kg', reps: 6},
+          {exercise: 1, weight: '80Kg', reps: 6}
+        ]
+      }
+    };
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.Sets.length).to.equal(3);
+      expect(response.result.Sets[0].weight).to.equal('60Kg');
+      expect(response.result.Sets[0].ExerciseId).to.equal(1);
+      expect(response.result.Location).to.equal(null);
 
       done();
     });
