@@ -34,5 +34,9 @@ export default Marionette.View.extend({
 
   onChildviewShowCreateWorkout: function() {
     this.showCreateWorkout();
+  },
+
+  onChildviewShowList: function() {
+    this.showWorkoutList();
   }
 });

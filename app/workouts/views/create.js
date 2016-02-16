@@ -10,8 +10,11 @@ export const CreateWorkout = Marionette.View.extend({
   },
 
   events: {
-    submit: 'saveWorkout',
-    'click @ui.cancel': 'undoCreate'
+    submit: 'saveWorkout'
+  },
+
+  triggers: {
+    'click @ui.cancel': 'show:list'
   },
 
   modelEvents: {
@@ -24,16 +27,14 @@ export const CreateWorkout = Marionette.View.extend({
 
   saveWorkout: function(e) {
     e.preventDefault();
-    console.log(Syphon.serialize(this));
     this.model.save(Syphon.serialize(this));
-    console.log('saved');
-  },
-
-  undoCreate: function() {
-    console.log('undo');
   },
 
   saveComplete: function() {
-    log('syncComplete');
+    this.triggerMethod('show:list');
+  },
+
+  onShowList: function() {
+    Backbone.history.navigate('workout/');
   }
 });
