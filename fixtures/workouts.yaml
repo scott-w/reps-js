@@ -45,6 +45,8 @@ fixtures:
       machine_code: "17"
       Location:
         name: Test Location
+      User:
+        email: test@example.com
 
   - model: Exercise
     data:
@@ -52,6 +54,8 @@ fixtures:
       machine_code: "134"
       Location:
         name: Test Location
+      User:
+        email: test@example.com
 
   - model: Set
     data:
