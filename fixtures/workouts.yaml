@@ -33,12 +33,20 @@ fixtures:
         name: Test Location
       workout_date: 2016-01-06
 
+  - model: Workout
+    data:
+      User:
+        email: test@example.com
+      workout_date: 2016-01-02
+
   - model: Exercise
     data:
       exercise_name: Bench Press
       machine_code: "17"
       Location:
         name: Test Location
+      User:
+        email: test@example.com
 
   - model: Exercise
     data:
@@ -46,6 +54,8 @@ fixtures:
       machine_code: "134"
       Location:
         name: Test Location
+      User:
+        email: test@example.com
 
   - model: Set
     data:
