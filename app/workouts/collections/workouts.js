@@ -1,10 +1,14 @@
 import Backbone from 'backbone';
-import Workout from '../models/workout';
+import {SetModel, WorkoutModel} from '../models/workout';
 
 import {authSync} from '../../base/models/auth';
 
-export default Backbone.Collection.extend({
-  model: Workout,
+export const SetList = Backbone.Collection.extend({
+  model: SetModel
+});
+
+export const WorkoutList = Backbone.Collection.extend({
+  model: WorkoutModel,
   url: '/workouts/',
   sync: authSync
 });

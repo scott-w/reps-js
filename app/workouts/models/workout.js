@@ -3,7 +3,15 @@ import Backbone from 'backbone';
 
 import {authSync} from '../../base/models/auth';
 
-export default Backbone.Model.extend({
+export const SetModel = Backbone.Model.extend({
+  defaults: {
+    weight: '',
+    reps: 0,
+    exercise_name: ''
+  }
+});
+
+export const WorkoutModel = Backbone.Model.extend({
   idAttribute: 'workout_date',
   urlRoot: '/workouts/',
   sync: authSync,

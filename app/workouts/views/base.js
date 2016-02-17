@@ -1,7 +1,7 @@
 import Marionette from 'backbone.marionette';
 
-import WorkoutModel from '../models/workout';
-import WorkoutCollection from '../collections/workouts';
+import {WorkoutModel} from '../models/workout';
+import {WorkoutList as WorkoutCollection} from '../collections/workouts';
 
 import {WorkoutList} from './workouts';
 import {CreateWorkout} from './create';
