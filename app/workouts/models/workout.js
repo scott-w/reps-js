@@ -8,6 +8,30 @@ export const SetModel = Backbone.Model.extend({
     weight: '',
     reps: 0,
     exercise_name: ''
+  },
+
+  clearExerciseAttrs: function() {
+    this.set({
+      weight: '',
+      reps: 0
+    });
+  },
+
+  validate: function(attrs) {
+    const errors = {};
+
+    if (!attrs.exercise_name) {
+      errors.exercise_name = 'This field must be set';
+    }
+    if (!attrs.reps) {
+      errors.reps = 'Come on, you can do more than 0 reps!';
+    }
+    if (!attrs.weight) {
+      errors.weight = 'Did you just lift air?';
+    }
+    if (!_.isEmpty(errors)) {
+      return errors;
+    }
   }
 });
 

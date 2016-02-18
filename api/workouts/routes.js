@@ -37,5 +37,21 @@ module.exports = [
     method: 'POST',
     path: '/workouts/{workout_date}',
     handler: views.addSetsToWorkout
+  },
+  {
+    config: {
+      auth: 'jwt',
+    },
+    method: 'POST',
+    path: '/exercises/',
+    handler: views.createExercise
+  },
+  {
+    config: {
+      auth: 'jwt',
+    },
+    method: 'GET',
+    path: '/exercises/',
+    handler: views.getExercise
   }
 ];

@@ -4,7 +4,6 @@
     "document": false,
     "require": false,
     "module": false,
-    "_": false,
     "console": false,
     "window": false,
     "exports": false

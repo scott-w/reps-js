@@ -35,7 +35,7 @@
     "build": "webpack",
     "compile": "webpack -p",
     "watch": "webpack -w",
-    "test": "lab -e $NODE_ENV"
+    "test": "lab -T ./babelcompiler.js -I window,localStorage,__core-js_shared__ -e $NODE_ENV "
   },
   "main": "app.js",
   "repository": {
@@ -53,7 +53,7 @@
     "http-proxy": "^1.13.1",
     "http-server": "^0.8.5",
     "lab": "^8.2.0",
-    "mocha": "^2.3.4",
+    "mock-browser": "^0.91.34",
     "sequelize-fixtures": "^0.4.8",
     "shot": "^3.0.0",
     "sinon": "^1.17.3"

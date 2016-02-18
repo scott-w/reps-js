@@ -8,13 +8,52 @@ const moment = require('moment');
 const models = require('../../models');
 const util = require('./util');
 
+const _replyExercise = function(data, reply) {
+  return reply({
+    exercise_name: data.exercise_name,
+    id: data.id
+  });
+};
+
+const getExercise = function(request, reply) {
+  const userId = request.auth.credentials.id;
+  const exerciseName = request.query.exercise_name;
+
+  util.getExercise(userId, exerciseName).then(function(instance) {
+    if (instance) {
+      _replyExercise(instance.dataValues, reply);
+    }
+    else {
+      reply({error: 'Not Found'}).code(404);
+    }
+  });
+};
+
+const createExercise = function(request, reply) {
+  const userId = request.auth.credentials.id;
+  const exerciseName = request.payload.exercise_name;
+
+  util.getExercise(userId, exerciseName).then(function(check) {
+    if (check) {
+      _replyExercise(check.dataValues, reply);
+    }
+    else {
+      models.Exercise.create({
+        UserId: userId,
+        exercise_name: exerciseName
+      }).then(function(instance) {
+        _replyExercise(instance.dataValues, reply).code(201);
+      });
+    }
+  });
+};
 
 const recordWorkout = function(request, reply) {
   const userId = request.auth.credentials.id;
   const workoutDate = request.payload.workout_date;
   const locationId = request.payload.location;
 
-  util.getWorkout(userId, workoutDate).then((check) => {
+  util.getWorkout(userId, workoutDate).then(function(check) {
     if (check) {
       reply({workout_date: 'Cannot duplicate the workout_date'}).code(400);
     }
@@ -190,5 +229,7 @@ module.exports = {
   recordWorkout: recordWorkout,
   workoutsByDate: workoutsByDate,
   retrieveWorkout: retrieveWorkout,
-  addSetsToWorkout: addSets
+  addSetsToWorkout: addSets,
+  getExercise: getExercise,
+  createExercise: createExercise
 };

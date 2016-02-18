@@ -18,10 +18,17 @@ const SetListView = Marionette.CollectionView.extend({
 });
 
 const SetLayoutView = Marionette.View.extend({
+  tagName: 'form',
+
+  attributes: {
+    method: 'post',
+    action: ''
+  },
+
   template: require('../templates/create/setform.html'),
 
   ui: {
-    form: '.set-form'
+    initial: '#id_weight'
   },
 
   regions: {
@@ -29,19 +36,31 @@ const SetLayoutView = Marionette.View.extend({
   },
 
   events: {
-    'submit @ui.form': 'addSet'
+    submit: 'addSet'
+  },
+
+  modelEvents: {
+    change: 'render refocus'
   },
 
   onRender: function() {
-    this.showChildView('list', new SetListView({
-      collection: this.collection
-    }));
+    if (this.getRegion('list').hasView()) {
+      return;
+    }
   },
 
   addSet: function(e) {
     e.preventDefault();
-    const data = Syphon.serialize(this);
-    this.collection.add(data);
+    this.model.set(Syphon.serialize(this));
+
+    if (this.model.isValid()) {
+      this.collection.add(this.model.pick('exercise_name', 'weight', 'reps'));
+      this.model.clearExerciseAttrs();
+    }
+  },
+
+  refocus: function() {
+    this.ui.initial.focus();
   }
 });
 
@@ -49,7 +68,7 @@ export const CreateWorkout = Marionette.View.extend({
   template: require('../templates/create/layout.html'),
 
   events: {
-    'submit @ui.form': 'saveWorkout'
+    'click @ui.save': 'saveWorkout'
   },
 
   triggers: {
@@ -62,23 +81,34 @@ export const CreateWorkout = Marionette.View.extend({
 
   ui: {
     cancel: '.cancel-create',
-    form: '.workout-form'
+    save: '.save-workout'
   },
 
   regions: {
-    sets: '.set-hook'
+    setForm: '.setform-hook',
+    setList: '.setlist-hook'
+  },
+
+  initialize: function() {
+    this.collection = new SetList(null);
   },
 
   onRender: function() {
-    this.showChildView('sets', new SetLayoutView({
+    this.showChildView('setForm', new SetLayoutView({
       model: new SetModel(),
-      collection: new SetList(null)
+      collection: this.collection
+    }));
+    this.showChildView('setList', new SetListView({
+      collection: this.collection
     }));
   },
 
   saveWorkout: function(e) {
     e.preventDefault();
-    this.model.save(Syphon.serialize(this));
+    const data = Syphon.serialize(this);
+    this.model.set({
+      workout_date: data.workout_date
+    });
   },
 
   saveComplete: function() {

@@ -4,26 +4,17 @@
 
 const Code = require('code');
 const Lab = require('lab');
-const Shot = require('shot');
 
 const lab = exports.lab = Lab.script();
 
-const before = lab.before;
 const beforeEach = lab.beforeEach;
 const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
 var construct = require('./construct');
-var models = require('../models');
-var server = require('../app.js');
-
-const headers = {
-  Authorization: 'Bearer ' +
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20' +
-    'iLCJzY29wZSI6WyJhbGwiXSwiaWQiOjcsImlhdCI6MTQ1NDc1NTU3MH0.EzQTjkaQ0SfT5_8' +
-    'SxuYAW9pVg9ZbWUrMEfOI79T0YZQ'
-};
+require('../../models');
+var server = require('../../app.js');
 
 
 describe('Create user', () => {

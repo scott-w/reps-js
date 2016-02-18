@@ -17,3 +17,17 @@ exports.getWorkout = (userId, workoutDate, joins) => models.Workout.findOne({
   },
   include: _.map(joins || [], (modelName) => ({model: modelName}))
 });
+
+/** Get a single exercise for a user and name. Returns a Promise for the
+  exercise */
+exports.getExercise = (userId, exercise_name) => models.Exercise.findOne({
+  attributes: [
+    'id', 'exercise_name'
+  ],
+  where: {
+    UserId: userId,
+    exercise_name: {
+      $iLike: exercise_name
+    }
+  }
+});
