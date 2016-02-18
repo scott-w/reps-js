@@ -233,3 +233,83 @@ describe('Update workout', () => {
     });
   });
 });
+
+
+describe('Exercise', () => {
+  beforeEach((done) => {
+    construct.fixtures('./fixtures/workouts.yaml', done);
+  });
+
+  it('can create new exercises for a user', (done) => {
+    const data = {
+      method: 'post',
+      url: '/exercises/',
+      headers: headers,
+      payload: {
+        exercise_name: 'Squat'
+      }
+    };
+
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.exercise_name).to.equal('Squat');
+
+      done();
+    });
+  });
+
+  it('can match existing exercises from a string', (done) => {
+    const data = {
+      method: 'post',
+      url: '/exercises/',
+      headers: headers,
+      payload: {
+        exercise_name: 'Bench Press'
+      }
+    };
+
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.exercise_name).to.equal('Bench Press');
+      expect(response.result.id).to.equal(1);
+
+      done();
+    });
+  });
+
+  it('can retrieve an Exercise by string', (done) => {
+    const data = {
+      method: 'get',
+      url: '/exercises/?exercise_name=Bench%20Press',
+      headers: headers
+    };
+
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.exercise_name).to.equal('Bench Press');
+      expect(response.result.id).to.equal(1);
+
+      done();
+    });
+  });
+
+  it('will return existing exercise on create duplicate', (done) => {
+    const data = {
+      method: 'post',
+      url: '/exercises/',
+      headers: headers,
+      payload: {
+        exercise_name: 'Bench Press'
+      }
+    };
+
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.exercise_name).to.equal('Bench Press');
+      expect(response.result.id).to.equal(1);
+
+      done();
+    });
+  });
+
+});
