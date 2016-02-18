@@ -223,7 +223,6 @@ describe('Update workout', () => {
     };
     server.inject(data, (response) => {
       expect(response.statusCode).to.equal(201);
-      console.log(response.result);
       expect(response.result.Sets.length).to.equal(4);
       expect(response.result.Sets[1].weight).to.equal('60Kg');
       expect(response.result.Sets[1].ExerciseId).to.equal(1);
