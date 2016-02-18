@@ -21,7 +21,8 @@ const SetLayoutView = Marionette.View.extend({
   template: require('../templates/create/setform.html'),
 
   ui: {
-    form: '.set-form'
+    form: '.set-form',
+    initial: '#id_weight'
   },
 
   regions: {
@@ -32,7 +33,14 @@ const SetLayoutView = Marionette.View.extend({
     'submit @ui.form': 'addSet'
   },
 
+  modelEvents: {
+    change: 'render refocus'
+  },
+
   onRender: function() {
+    if (this.getRegion('list').hasView()) {
+      return;
+    }
     this.showChildView('list', new SetListView({
       collection: this.collection
     }));
@@ -40,8 +48,16 @@ const SetLayoutView = Marionette.View.extend({
 
   addSet: function(e) {
     e.preventDefault();
-    const data = Syphon.serialize(this);
-    this.collection.add(data);
+    this.model.set(Syphon.serialize(this));
+
+    if (this.model.isValid()) {
+      this.collection.add(this.model.pick('exercise_name', 'weight', 'reps'));
+      this.model.clearExerciseAttrs();
+    }
+  },
+
+  refocus: function() {
+    this.ui.initial.focus();
   }
 });
 
