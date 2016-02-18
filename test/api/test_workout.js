@@ -12,7 +12,7 @@ const expect = Code.expect;
 const it = lab.it;
 
 const construct = require('./construct');
-const server = require('../app.js');
+const server = require('../../app.js');
 
 const headers = {
   Authorization: construct.authHeader
