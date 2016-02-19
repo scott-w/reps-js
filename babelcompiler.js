@@ -5,7 +5,10 @@ const MockBrowser = require('mock-browser').mocks.MockBrowser;
 const browser = new MockBrowser();
 
 global.window = {
-  localStorage: browser.getLocalStorage()
+  localStorage: browser.getLocalStorage(),
+  location: {
+    protocol: 'http'
+  }
 };
 
 _.each(global.window, (value, key) => {

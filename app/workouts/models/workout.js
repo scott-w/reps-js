@@ -1,9 +1,17 @@
+import _ from 'underscore';
 import moment from 'moment';
 import Backbone from 'backbone';
 
 import {authSync} from '../../base/models/auth';
 
+/** This synchronises with the exercise API to make it easier to map our sets
+*/
 export const SetModel = Backbone.Model.extend({
+  url: function() {
+    const exercise_name = this.get('exercise_name');
+    return `/exercises/?exercise_name=${exercise_name}`;
+  },
+
   defaults: {
     weight: '',
     reps: 0,
@@ -32,6 +40,21 @@ export const SetModel = Backbone.Model.extend({
     if (!_.isEmpty(errors)) {
       return errors;
     }
+  },
+
+  fetchExercise: function() {
+    this.fetch({
+      success: () => {
+        const id = this.id;
+        this.set({
+          id: undefined,
+          exercise: id
+        });
+      },
+      complete: () => {
+        this.trigger('sync:exercise');
+      }
+    });
   }
 });
 

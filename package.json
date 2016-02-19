@@ -35,7 +35,7 @@
     "build": "webpack",
     "compile": "webpack -p",
     "watch": "webpack -w",
-    "test": "lab -T ./babelcompiler.js -I window,localStorage,__core-js_shared__ -e $NODE_ENV "
+    "test": "lab -T ./babelcompiler.js -I window,localStorage,location,__core-js_shared__ -e $NODE_ENV "
   },
   "main": "app.js",
   "repository": {
