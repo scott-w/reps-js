@@ -6,7 +6,8 @@
     "module": false,
     "console": false,
     "window": false,
-    "exports": false
+    "exports": false,
+    "global": false
   },
   "strict": "implied",
   "unused": true,
