@@ -46,13 +46,12 @@ export const SetModel = Backbone.Model.extend({
     this.fetch({
       success: () => {
         const id = this.id;
-        console.log('success', id);
         this.set({
           id: undefined,
           exercise: id
         });
       },
-      complete: (res) => {
+      complete: () => {
         this.trigger('sync:exercise');
       }
     });
