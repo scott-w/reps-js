@@ -29,11 +29,6 @@ const getToken = function(user) {
   return jwt.sign(tokenData, jwtConfig.privateKey);
 };
 
-const createUserInstance = function (email, password, first_name, last_name) {
-
-};
-
-
 /** Get the JWT token from the request user */
 const token = function (request, reply) {
   getUserByEmail(request.query.email).then(function (result) {
