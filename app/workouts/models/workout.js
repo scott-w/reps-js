@@ -8,6 +8,7 @@ import {authSync} from '../../base/models/auth';
 */
 export const SetModel = Backbone.Model.extend({
   url: '/exercises/',
+  sync: authSync,
 
   defaults: {
     weight: '',
