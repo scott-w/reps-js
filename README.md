@@ -31,6 +31,11 @@ sudo -u postgres createdb -O workouts -T template0 -E UTF8 workouts
 npm run-script migrate
 ```
 
+### Windows
+
+This app depends on `bcrypt` which Windows has no default bindings for.
+Windows users should [follow the bcrypt instructions][bcrypt].
+
 ## Running the server
 
 Running a server is as easy as starting the NPM script:
@@ -87,3 +92,5 @@ npm run-script proxy
 The `watch` script will recompile the client JS, `serveassets` serves the JS,
 CSS, and index file. The `proxy` script binds everything behind
 `http://localhost:8000`
+
+[bcrypt]: https://www.npmjs.com/package/bcrypt
