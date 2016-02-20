@@ -2,7 +2,14 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
 const WorkoutView = Marionette.View.extend({
-  template: require('../templates/workout/detail.html')
+  className: 'col-md-12',
+  template: require('../templates/workout/detail.html'),
+
+  templateContext: function() {
+    return {
+      formattedDate: this.model.formatDate()
+    };
+  }
 });
 
 const WorkoutItem = Marionette.View.extend({
@@ -59,16 +66,19 @@ export const WorkoutList = Marionette.View.extend({
 
   onRender: function() {
     this.showChildView('list', new WorkoutListView({
-      collection: this.collection,
-      sort: true
+      collection: this.collection
     }));
   },
 
   showWorkout: function(model) {
     model.fetch();
-    this.showChildView('list', new WorkoutView({model: model}));
+    this.showChildView(
+      'list', new WorkoutView({model: model}),
+      {replaceElement: true}
+    );
     Backbone.history.navigate(model.displayUrl());
   },
+
   onChildviewShowWorkout: function(options) {
     this.showWorkout(options.model);
   },
