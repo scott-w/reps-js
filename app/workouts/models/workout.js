@@ -86,6 +86,21 @@ export const WorkoutModel = Backbone.Model.extend({
     });
   },
 
+  /** Returns the list of exercises for this workout with each Set attached in
+      the form:
+      Exercise ->
+        id -> Int
+        exercise_name -> String
+        sets -> [
+          reps -> Int
+          weight -> String
+          created -> DateString (sort field)
+        ]
+  */
+  getExercises: function() {
+
+  },
+
   displayUrl: function() {
     return `/workout/${this.get('workout_date')}`;
   },

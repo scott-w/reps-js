@@ -145,7 +145,7 @@ const workoutsByDate = function(request, reply) {
         id: item.id,
         workout_date: moment(item.workout_date).format('YYYY-MM-DD'),
         url: `/workouts/${item.workout_date}`,
-        Location: location
+        location: location
       };
     }));
   });
@@ -169,21 +169,26 @@ const retrieveWorkout = function(request, reply) {
     ]
   }).then((instance) => {
     if (instance) {
+      const workout = instance.dataValues;
+      let location = null;
+      if (workout.Location) {
+        let locationVal = workout.Location.dataValues;
+        location = {
+          name: locationVal.name,
+          id: locationVal.id
+        };
+      }
 
-      const workout = _.mapValues(instance.dataValues, (val, key) => {
-        if (key === 'workout_date') {
-          return moment(val).format('YYYY-MM-DD');
-        }
-        if (key === 'Location') {
-          return val.dataValues;
-        }
-        if (key === 'Sets') {
-          return _.map(val, (item) => item.dataValues);
-        }
-        return val;
+      reply({
+        workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
+        location: location,
+        sets: _.map(workout.Sets, (set) => ({
+          id: set.dataValues.id,
+          reps: set.dataValues.reps,
+          exercise: set.dataValues.Exercise.dataValues.id,
+          exercise_name: set.dataValues.Exercise.dataValues.exercise_name
+        }))
       });
-
-      reply(workout);
     }
     else {
       reply({error: 'Not Found'}).code(404);

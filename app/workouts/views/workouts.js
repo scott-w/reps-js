@@ -1,14 +1,27 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
+import {ExerciseListView} from './exercise';
+
+
 const WorkoutView = Marionette.View.extend({
   className: 'col-md-12',
   template: require('../templates/workout/detail.html'),
+
+  regions: {
+    exercises: '.exercise-list-hook'
+  },
 
   templateContext: function() {
     return {
       formattedDate: this.model.formatDate()
     };
+  },
+
+  onRender: function() {
+    this.showChildView('exercises', new ExerciseListView({
+      collection: list
+    }), {replaceElement: true});
   }
 });
 
