@@ -6,6 +6,7 @@ const browser = new MockBrowser();
 global.window = browser.getWindow();
 global.window.localStorage = browser.getLocalStorage();
 global.window.location = browser.getLocation();
+
 global.localStorage = global.window.localStorage;
 
 module.exports = [{

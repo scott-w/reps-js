@@ -39,12 +39,11 @@ export const SetList = Backbone.Collection.extend({
     const byExercise = this.groupBy('exercise_name');
     const emptyExercise = _.filter(
       _.map(byExercise, (item) => item[0]),
-      (item) => !item.get('exercise'));
+      (item) => !item.get('exercise')
+    );
 
     let synched = 0;
     const length = emptyExercise.length;
-
-    console.log(Backbone.$.ajax);
 
     _.each(emptyExercise, (exercise) => {
       this.listenToOnce(exercise, 'sync:exercise', () => {
