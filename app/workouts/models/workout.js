@@ -78,7 +78,12 @@ export const WorkoutModel = Backbone.Model.extend({
   }),
 
   formatDate: function() {
-    return moment(this.get('workout_date')).fromNow();
+    return moment(this.get('workout_date')).calendar(null, {
+      sameDay: '[Today]',
+      lastDay: '[Yesterday]',
+      lastWeek: '[Last] dddd',
+      sameElse: 'DD/MM/YYYY'
+    });
   },
 
   displayUrl: function() {
