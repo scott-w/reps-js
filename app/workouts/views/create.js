@@ -4,6 +4,7 @@ import Syphon from 'backbone.syphon';
 
 import {SetModel} from '../models/workout';
 import {SetList} from '../collections/workouts';
+import {SetListView} from './exercise';
 
 const SetView = Marionette.View.extend({
   tagName: 'li',
@@ -11,9 +12,7 @@ const SetView = Marionette.View.extend({
   template: require('../templates/create/set.html')
 });
 
-const SetListView = Marionette.CollectionView.extend({
-  tagName: 'ol',
-  className: 'list-group',
+const SmallSetListView = SetListView.extend({
   childView: SetView
 });
 
@@ -111,7 +110,7 @@ export const CreateWorkout = Marionette.View.extend({
       model: new SetModel(),
       collection: this.collection
     }));
-    this.showChildView('setList', new SetListView({
+    this.showChildView('setList', new SmallSetListView({
       collection: this.collection
     }));
   },

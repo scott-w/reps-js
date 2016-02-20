@@ -50,13 +50,8 @@ export default Marionette.View.extend({
       model = new WorkoutModel({
         workout_date: workout_date
       });
-      model.fetch({
-        success: () => list.showWorkout(model)
-      });
     }
-    else {
-      list.showWorkout(model);
-    }
+    list.showWorkout(model);
   },
 
   onChildviewShowCreateWorkout: function() {

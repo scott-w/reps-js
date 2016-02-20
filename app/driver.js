@@ -19,6 +19,7 @@ const App = new Marionette.Application({
   region: '#root',
 
   onStart: function() {
+    console.log(root);
     this.showView(root);
     processRoutes();
 

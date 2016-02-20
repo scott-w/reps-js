@@ -1,8 +1,12 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
-import {SetModel, WorkoutModel} from '../models/workout';
+import {SetModel, ExerciseModel, WorkoutModel} from '../models/workout';
 
 import {authSync} from '../../base/models/auth';
+
+export const ExerciseList = Backbone.Collection.extend({
+  model: ExerciseModel
+});
 
 export const SetList = Backbone.Collection.extend({
   model: SetModel,
