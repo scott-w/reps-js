@@ -53,15 +53,15 @@ variable.
 The client application uses the latest dev build of Marionette 3. To build
 Marionette:
 
-1. Install gulp globally: `npm install -g gulp`
+1. Install gulp globally: `npm i -g gulp --no-progress`
 2. Download the latest Marionette code from Github:
-  `git clone https://github.com/scott-w/backbone.marionette.git`
-3. Switch to the marionette3 branch:
-  `git fetch origin marionette3/marionette3 && git checkout marionette3`
-4. Install the dependencies: `npm install`
+  `git clone https://github.com/marionettejs/backbone.marionette.git`
+3. Switch to the `next` branch:
+  `git fetch origin next/next && git checkout next`
+4. Install the dependencies: `npm i --no-progress`
 5. Build: `gulp build`
 
-Then, from `reps-js`, install Marionette: `npm install ../backbone.marionette`
+Then, from `reps-js`, install Marionette: `npm i ../backbone.marionette --no-progress`
 
 
 ## Running the tests
