@@ -67,7 +67,7 @@ const SetLayoutView = Marionette.View.extend({
     this.ui.initial.focus();
   },
 
-  fetchIds: function(collection, model) {
+  fetchIds: function(model, collection) {
     collection.setExerciseIds();
     if (!model.get('exercise')) {
       model.fetchExercise({
