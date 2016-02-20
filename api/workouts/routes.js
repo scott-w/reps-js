@@ -42,7 +42,7 @@ module.exports = [
     config: {
       auth: 'jwt',
     },
-    method: 'POST',
+    method: 'PATCH',
     path: '/exercises/',
     handler: views.createExercise
   },

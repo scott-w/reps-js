@@ -43,6 +43,10 @@ const SetLayoutView = Marionette.View.extend({
     change: 'render refocus'
   },
 
+  collectionEvents: {
+    add: 'fetchIds'
+  },
+
   onRender: function() {
     if (this.getRegion('list').hasView()) {
       return;
@@ -61,6 +65,15 @@ const SetLayoutView = Marionette.View.extend({
 
   refocus: function() {
     this.ui.initial.focus();
+  },
+
+  fetchIds: function(collection, model) {
+    collection.setExerciseIds();
+    if (!model.get('exercise')) {
+      model.fetchExercise({
+        success: () => collection.setExerciseIds()
+      });
+    }
   }
 });
 

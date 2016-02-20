@@ -69,7 +69,16 @@ describe('Set List', () => {
       done();
     });
     collection.fetchExerciseIds();
+
     expect(requests.length).to.equal(1);
+    expect(requests[0].url).to.equal('/exercises/');
+    expect(
+      requests[0].requestBody
+    ).to.equal(
+      JSON.stringify({exercise_name: 'Squat'})
+    );
+    expect(requests[0].method).to.equal('PATCH');
+
     requests[0].respond(200, headers, JSON.stringify(responseBody));
   });
 });

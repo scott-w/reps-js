@@ -7,10 +7,7 @@ import {authSync} from '../../base/models/auth';
 /** This synchronises with the exercise API to make it easier to map our sets
 */
 export const SetModel = Backbone.Model.extend({
-  url: function() {
-    const exercise_name = this.get('exercise_name');
-    return `/exercises/?exercise_name=${exercise_name}`;
-  },
+  url: '/exercises/',
 
   defaults: {
     weight: '',
@@ -43,18 +40,23 @@ export const SetModel = Backbone.Model.extend({
   },
 
   fetchExercise: function() {
-    this.fetch({
-      success: () => {
-        const id = this.id;
-        this.set({
-          id: undefined,
-          exercise: id
-        });
-      },
-      complete: () => {
-        this.trigger('sync:exercise');
+    this.set('id', 1);  // Force a patch
+    this.save(
+      {exercise_name: this.get('exercise_name')},
+      {
+        patch: true,
+        success: () => {
+          const id = this.id;
+          this.set({
+            id: undefined,
+            exercise: id
+          });
+        },
+        complete: () => {
+          this.trigger('sync:exercise');
+        }
       }
-    });
+    );
   }
 });
 
