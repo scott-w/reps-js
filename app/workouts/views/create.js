@@ -119,8 +119,9 @@ export const CreateWorkout = Marionette.View.extend({
   saveWorkout: function(e) {
     e.preventDefault();
     const data = Syphon.serialize(this);
-    this.model.set({
-      workout_date: data.workout_date
+    this.model.save({
+      workout_date: data.workout_date,
+      sets: this.collection
     });
   },
 
