@@ -39,8 +39,15 @@ export const SetModel = Backbone.Model.extend({
     }
   },
 
+  /** Fetch an exercise from the server and synchronise the exercise ID to the
+      exercise field to let this Set be synchronised into a Workout.
+      Events:
+        before:sync:exercise (this) => Before the sync request is fired
+        sync:exercise (this, exercise) => When the sync is finished
+  */
   fetchExercise: function() {
     this.set('id', 1);  // Force a patch
+    this.trigger('before:sync:exercise', this);
     this.save(
       {exercise_name: this.get('exercise_name')},
       {
@@ -53,7 +60,7 @@ export const SetModel = Backbone.Model.extend({
           });
         },
         complete: () => {
-          this.trigger('sync:exercise');
+          this.trigger('sync:exercise', this, this.get('exercise'));
         }
       }
     );

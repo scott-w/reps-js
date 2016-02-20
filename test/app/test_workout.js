@@ -13,7 +13,64 @@ const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
+import {SetModel} from '../../app/workouts/models/workout';
 import {SetList} from '../../app/workouts/collections/workouts';
+
+
+describe('Set Model', () => {
+  var xhr;
+  var requests = [];
+
+  beforeEach(function(done) {
+    xhr = sinon.useFakeXMLHttpRequest();
+    global.window.XMLHttpRequest = xhr;
+    xhr.onCreate = function(req) {
+      requests.push(req);
+    };
+    done();
+  });
+
+  afterEach(function(done) {
+    xhr.restore();
+    requests = [];
+    xhr = null;
+    done();
+  });
+
+  it('fetches individual workouts from the server', function(done) {
+    const responseBody = {
+      id: 4,
+      exercise_name: 'Squat'
+    };
+    const headers = {
+      'Content-type': 'application/json'
+    };
+
+    const set = new SetModel({
+      exercise_name: 'Bench Press', reps: 6, weight: '60Kg'
+    });
+
+    set.once('sync:exercise', function(model, exercise) {
+      expect(exercise).to.equal(4);
+      expect(set.get('exercise')).to.equal(4);
+      expect(model.get('exercise')).to.equal(4);
+      done();
+    });
+
+    set.fetchExercise();
+
+    expect(requests.length).to.equal(1);
+    expect(requests[0].url).to.equal('/exercises/');
+    expect(
+      requests[0].requestBody
+    ).to.equal(
+      JSON.stringify({exercise_name: 'Bench Press'})
+    );
+    expect(requests[0].method).to.equal('PATCH');
+
+    requests[0].respond(200, headers, JSON.stringify(responseBody));
+  });
+});
 
 describe('Set List', () => {
   var collection;
@@ -30,7 +87,6 @@ describe('Set List', () => {
   });
 
   afterEach(function(done) {
-    // server.restore();
     collection = null;
     xhr.restore();
     requests = [];
