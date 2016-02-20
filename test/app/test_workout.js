@@ -7,12 +7,15 @@ const sinon = require('sinon');
 
 const lab = exports.lab = Lab.script();
 
+const after = lab.after;
 const afterEach = lab.afterEach;
+const before = lab.before;
 const beforeEach = lab.beforeEach;
 const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
+import {UserModel} from '../../app/base/models/auth';
 import {SetModel} from '../../app/workouts/models/workout';
 import {SetList} from '../../app/workouts/collections/workouts';
 
@@ -20,6 +23,19 @@ import {SetList} from '../../app/workouts/collections/workouts';
 describe('Set Model', () => {
   var xhr;
   var requests = [];
+  const user = new UserModel();
+
+  before(function(done) {
+    user.save({
+      token: 'test'
+    });
+    done();
+  });
+
+  after(function(done) {
+    global.localStorage.clear();
+    done();
+  });
 
   beforeEach(function(done) {
     xhr = sinon.useFakeXMLHttpRequest();
@@ -76,6 +92,19 @@ describe('Set List', () => {
   var collection;
   var xhr;
   var requests = [];
+  const user = new UserModel();
+
+  before(function(done) {
+    user.save({
+      token: 'test'
+    });
+    done();
+  });
+
+  after(function(done) {
+    global.localStorage.clear();
+    done();
+  });
 
   beforeEach(function(done) {
     xhr = sinon.useFakeXMLHttpRequest();
