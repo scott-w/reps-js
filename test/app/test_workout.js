@@ -227,21 +227,22 @@ describe('Workout Model', function () {
       id: 19,
       workout_date: '2016-02-20',
       location: null,
-      sets: [{
-        id: 3,
-        weight: "80Kg",
-        reps: 6,
-        createdAt: "2016-02-20T16:04:03.407Z",
-        updatedAt: "2016-02-20T16:04:03.407Z",
-        exercise: 1,
-        exercise_name: 'Bench Press'
-      },
+      sets: [
       {
         id: 4,
         weight: "85Kg",
         reps: 6,
         createdAt: "2016-02-20T16:04:03.409Z",
         updatedAt: "2016-02-20T16:04:03.409Z",
+        exercise: 1,
+        exercise_name: 'Bench Press'
+      },
+      {
+        id: 3,
+        weight: "80Kg",
+        reps: 6,
+        createdAt: "2016-02-20T16:04:03.407Z",
+        updatedAt: "2016-02-20T16:04:03.407Z",
         exercise: 1,
         exercise_name: 'Bench Press'
       },
@@ -257,7 +258,23 @@ describe('Workout Model', function () {
     });
     done();
   });
+
   it('gives a list of exercises with mapped sets', function (done) {
+    const exercises = model.getExercises();
+    expect(exercises.length).to.equal(2);
+
+    const bench = exercises[0];
+    const flies = exercises[1];
+
+    expect(bench.get('exercise_name')).to.equal('Bench Press');
+    expect(bench.get('sets').length).to.equal(2);
+    expect(bench.get('sets')[0].id).to.equal(3);
+    expect(bench.get('sets')[1].id).to.equal(4);
+
+    expect(flies.get('exercise_name')).to.equal('Flies');
+    expect(flies.get('sets').length).to.equal(1);
+    expect(flies.get('sets')[0].id).to.equal(6);
+
     done();
   });
 });

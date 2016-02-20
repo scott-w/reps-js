@@ -4,6 +4,10 @@ import Backbone from 'backbone';
 
 import {authSync} from '../../base/models/auth';
 
+export const ExerciseModel = Backbone.Model.extend({
+
+});
+
 /** This synchronises with the exercise API to make it easier to map our sets
 */
 export const SetModel = Backbone.Model.extend({
@@ -98,7 +102,14 @@ export const WorkoutModel = Backbone.Model.extend({
         ]
   */
   getExercises: function() {
+    const exercises = new Backbone.Collection(this.get('sets'));
+    const grouped = exercises.groupBy('exercise');
 
+    return _.map(grouped, (val, key) => (new ExerciseModel({
+      id: key,
+      exercise_name: val[0].get('exercise_name'),
+      sets: _.sortBy(val, (model) => model.get('createdAt'))
+    })));
   },
 
   displayUrl: function() {

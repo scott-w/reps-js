@@ -185,6 +185,7 @@ const retrieveWorkout = function(request, reply) {
         sets: _.map(workout.Sets, (set) => ({
           id: set.dataValues.id,
           reps: set.dataValues.reps,
+          createdAt: set.dataValues.createdAt,
           exercise: set.dataValues.Exercise.dataValues.id,
           exercise_name: set.dataValues.Exercise.dataValues.exercise_name
         }))
