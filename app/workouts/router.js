@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 
 import root from '../root';
@@ -13,6 +14,11 @@ export const Controller = Marionette.Object.extend({
   createWorkout: function() {
     const layout = this.showAndGetLayout();
     layout.showCreateWorkout();
+  },
+
+  showWorkout: function(workout_date) {
+    const layout = this.showAndGetLayout();
+    layout.showWorkoutDetail(workout_date);
   },
 
   showingMyView: function() {
@@ -37,5 +43,6 @@ export const Controller = Marionette.Object.extend({
 
 export const routes = {
   'workout/': 'listWorkout',
-  'workout/create': 'createWorkout'
+  'workout/create': 'createWorkout',
+  'workout/:workout_date': 'showWorkout'
 };

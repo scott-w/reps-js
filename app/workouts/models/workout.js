@@ -4,6 +4,10 @@ import Backbone from 'backbone';
 
 import {authSync} from '../../base/models/auth';
 
+export const ExerciseModel = Backbone.Model.extend({
+
+});
+
 /** This synchronises with the exercise API to make it easier to map our sets
 */
 export const SetModel = Backbone.Model.extend({
@@ -84,6 +88,46 @@ export const WorkoutModel = Backbone.Model.extend({
       lastWeek: '[Last] dddd',
       sameElse: 'DD/MM/YYYY'
     });
+  },
+
+  /** Returns the list of exercises for this workout with each Set attached in
+      the form:
+      Exercise ->
+        id -> Int
+        exercise_name -> String
+        sets -> [
+          reps -> Int
+          weight -> String
+          created -> DateString (sort field)
+        ]
+  */
+  getExercises: function() {
+    const exercises = new Backbone.Collection(_.sortBy(
+      this.get('sets'), 'exercise_name'
+    ));
+    const grouped = exercises.groupBy('exercise');
+
+    return _.map(grouped, (val, key) => (new ExerciseModel({
+      id: key,
+      exercise_name: val[0].get('exercise_name'),
+      sets: _.sortBy(val, (model) => model.get('createdAt'))
+    })));
+  },
+
+  /** Grab the workout referenced by workout_date
+  */
+  getWorkout: function(workout_date) {
+    if (_.isUndefined(workout_date)) {
+      workout_date = this.get('workout_date');
+    }
+    if (_.isUndefined(workout_date)) {
+      console.error('Workout Date is not defined. Cannot fetch.');
+    }
+    this.set({
+      id: 1,
+      workout_date: workout_date
+    });
+    this.fetch();
   },
 
   displayUrl: function() {

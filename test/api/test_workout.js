@@ -38,9 +38,9 @@ describe('Workout list', () => {
       ).to.equal('application/json');
       expect(response.result.length).to.equal(2);
       expect(response.result[0].workout_date).to.equal('2016-01-10');
-      expect(response.result[0].Location.name).to.equal('Test Location');
+      expect(response.result[0].location.name).to.equal('Test Location');
       expect(response.result[1].workout_date).to.equal('2016-01-02');
-      expect(response.result[1].Location).to.equal(null);
+      expect(response.result[1].location).to.equal(null);
 
       done();
     });
@@ -60,13 +60,15 @@ describe('Workout list', () => {
       ).to.equal('application/json');
 
       expect(response.result.workout_date).to.equal('2016-01-10');
-      expect(response.result.Location.name).to.equal('Test Location');
+      expect(response.result.location.name).to.equal('Test Location');
+      expect(response.result.location.UserId).to.equal(undefined);
 
-      expect(response.result.Sets.length).to.equal(1);
-      expect(response.result.Sets[0].reps).to.equal(6);
-      expect(
-        response.result.Sets[0].Exercise.exercise_name
-      ).to.equal('Bench Press');
+      expect(response.result.sets.length).to.equal(1);
+      expect(response.result.sets[0].UserId).to.equal(undefined);
+      expect(response.result.sets[0].reps).to.equal(6);
+      expect(response.result.sets[0].exercise_name).to.equal('Bench Press');
+      expect(response.result.sets[0].exercise).to.equal(1);
+      expect(response.result.sets[0].Exercise).to.equal(undefined);
 
       done();
     });
