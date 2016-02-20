@@ -238,15 +238,6 @@ describe('Workout Model', function () {
         exercise_name: 'Bench Press'
       },
       {
-        id: 3,
-        weight: "80Kg",
-        reps: 6,
-        createdAt: "2016-02-20T16:04:03.407Z",
-        updatedAt: "2016-02-20T16:04:03.407Z",
-        exercise: 1,
-        exercise_name: 'Bench Press'
-      },
-      {
         id: 6,
         weight: "18Kg",
         reps: 8,
@@ -254,6 +245,15 @@ describe('Workout Model', function () {
         updatedAt: "2016-02-20T16:04:03.411Z",
         exercise: 3,
         exercise_name: 'Flies'
+      },
+      {
+        id: 3,
+        weight: "80Kg",
+        reps: 6,
+        createdAt: "2016-02-20T16:04:03.407Z",
+        updatedAt: "2016-02-20T16:04:03.407Z",
+        exercise: 1,
+        exercise_name: 'Bench Press'
       }]
     });
     done();

@@ -102,7 +102,9 @@ export const WorkoutModel = Backbone.Model.extend({
         ]
   */
   getExercises: function() {
-    const exercises = new Backbone.Collection(this.get('sets'));
+    const exercises = new Backbone.Collection(_.sortBy(
+      this.get('sets'), 'exercise_name'
+    ));
     const grouped = exercises.groupBy('exercise');
 
     return _.map(grouped, (val, key) => (new ExerciseModel({
