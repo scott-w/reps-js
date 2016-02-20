@@ -53,7 +53,6 @@ export const SetModel = Backbone.Model.extend({
         });
       },
       complete: (res) => {
-        console.log('sync', res);
         this.trigger('sync:exercise');
       }
     });
