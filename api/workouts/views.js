@@ -43,6 +43,9 @@ const createExercise = function(request, reply) {
         exercise_name: exerciseName
       }).then(function(instance) {
         _replyExercise(instance.dataValues, reply).code(201);
+      }).catch(function(err) {
+        console.log(err);
+        reply({error: err}).code(400);
       });
     }
   });

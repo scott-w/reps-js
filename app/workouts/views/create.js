@@ -43,6 +43,10 @@ const SetLayoutView = Marionette.View.extend({
     change: 'render refocus'
   },
 
+  collectionEvents: {
+    add: 'fetchIds'
+  },
+
   onRender: function() {
     if (this.getRegion('list').hasView()) {
       return;
@@ -61,6 +65,15 @@ const SetLayoutView = Marionette.View.extend({
 
   refocus: function() {
     this.ui.initial.focus();
+  },
+
+  fetchIds: function(model, collection) {
+    collection.setExerciseIds();
+    if (!model.get('exercise')) {
+      model.fetchExercise({
+        success: () => collection.setExerciseIds()
+      });
+    }
   }
 });
 
@@ -106,8 +119,9 @@ export const CreateWorkout = Marionette.View.extend({
   saveWorkout: function(e) {
     e.preventDefault();
     const data = Syphon.serialize(this);
-    this.model.set({
-      workout_date: data.workout_date
+    this.model.save({
+      workout_date: data.workout_date,
+      sets: this.collection
     });
   },
 

@@ -59,7 +59,8 @@ export const WorkoutList = Marionette.View.extend({
 
   onRender: function() {
     this.showChildView('list', new WorkoutListView({
-      collection: this.collection
+      collection: this.collection,
+      sort: true
     }));
   },
 

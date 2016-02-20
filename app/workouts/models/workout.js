@@ -7,10 +7,8 @@ import {authSync} from '../../base/models/auth';
 /** This synchronises with the exercise API to make it easier to map our sets
 */
 export const SetModel = Backbone.Model.extend({
-  url: function() {
-    const exercise_name = this.get('exercise_name');
-    return `/exercises/?exercise_name=${exercise_name}`;
-  },
+  url: '/exercises/',
+  sync: authSync,
 
   defaults: {
     weight: '',
@@ -42,19 +40,31 @@ export const SetModel = Backbone.Model.extend({
     }
   },
 
+  /** Fetch an exercise from the server and synchronise the exercise ID to the
+      exercise field to let this Set be synchronised into a Workout.
+      Events:
+        before:sync:exercise (this) => Before the sync request is fired
+        sync:exercise (this, exercise) => When the sync is finished
+  */
   fetchExercise: function() {
-    this.fetch({
-      success: () => {
-        const id = this.id;
-        this.set({
-          id: undefined,
-          exercise: id
-        });
-      },
-      complete: () => {
-        this.trigger('sync:exercise');
+    this.set('id', 1);  // Force a patch
+    this.trigger('before:sync:exercise', this);
+    this.save(
+      {exercise_name: this.get('exercise_name')},
+      {
+        patch: true,
+        success: () => {
+          const id = this.id;
+          this.set({
+            id: undefined,
+            exercise: id
+          });
+        },
+        complete: () => {
+          this.trigger('sync:exercise', this, this.get('exercise'));
+        }
       }
-    });
+    );
   }
 });
 
@@ -68,7 +78,12 @@ export const WorkoutModel = Backbone.Model.extend({
   }),
 
   formatDate: function() {
-    return moment(this.get('workout_date')).fromNow();
+    return moment(this.get('workout_date')).calendar(null, {
+      sameDay: '[Today]',
+      lastDay: '[Yesterday]',
+      lastWeek: '[Last] dddd',
+      sameElse: 'DD/MM/YYYY'
+    });
   },
 
   displayUrl: function() {

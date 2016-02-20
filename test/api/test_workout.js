@@ -241,7 +241,7 @@ describe('Exercise', () => {
 
   it('can create new exercises for a user', (done) => {
     const data = {
-      method: 'post',
+      method: 'patch',
       url: '/exercises/',
       headers: headers,
       payload: {
@@ -259,7 +259,7 @@ describe('Exercise', () => {
 
   it('can match existing exercises from a string', (done) => {
     const data = {
-      method: 'post',
+      method: 'patch',
       url: '/exercises/',
       headers: headers,
       payload: {
@@ -291,24 +291,4 @@ describe('Exercise', () => {
       done();
     });
   });
-
-  it('will return existing exercise on create duplicate', (done) => {
-    const data = {
-      method: 'post',
-      url: '/exercises/',
-      headers: headers,
-      payload: {
-        exercise_name: 'Bench Press'
-      }
-    };
-
-    server.inject(data, (response) => {
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.exercise_name).to.equal('Bench Press');
-      expect(response.result.id).to.equal(1);
-
-      done();
-    });
-  });
-
 });
