@@ -1,6 +1,3 @@
-/* jshint node: true */
-/* jshint esversion: 6 */
-
 const Code = require('code');
 const Lab = require('lab');
 const sinon = require('sinon');

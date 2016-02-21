@@ -7,12 +7,28 @@ export const SetList = Backbone.Collection.extend({
   comparator: function(first, second) {
     const workout1 = first.get('workout_date');
     const workout2 = second.get('workout_date');
+    const created1 = first.get('createdAt');
+    const created2 = second.get('createdAt');
 
-    if (workout1 > workout2) {
-      return -1;
+    const dateOrder = this._orderOneTwo(workout2, workout1);
+
+    if (dateOrder === 0) {
+      return this._orderOneTwo(created1, created2);
     }
-    else if (workout1 < workout2) {
+    return dateOrder;
+  },
+
+  /** Handle the actual sorting of:
+    first > second -> 1
+    first < second -> -1
+    first == second -> 0
+  */
+  _orderOneTwo: function(first, second) {
+    if (first > second) {
       return 1;
+    }
+    else if (first < second) {
+      return -1;
     }
     return 0;
   }
