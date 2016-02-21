@@ -1,5 +1,7 @@
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
+import Syphon from 'backbone.syphon';
+
 import moment from 'moment';
 
 import {SetList} from '../collections/exercises';
@@ -12,7 +14,6 @@ export const SetView = Marionette.View.extend({
 
   templateContext: function() {
     const firstDate = this.getOption('firstDate');
-    console.log(firstDate);
     return {
       isFirstDate: function(workout_date) {
         return moment(firstDate).format('YYYY-MM-DD') ===
@@ -92,9 +93,22 @@ export const ExerciseLayoutView = Marionette.View.extend({
     }
   },
 
+  ui: {
+    search: '.exercise_name'
+  },
+
+  events: {
+    'input @ui.search': 'filterExercises'
+  },
+
   onRender: function() {
     this.showChildView('list', new ExerciseListView({
       collection: this.collection
     }));
-  }
+  },
+
+  filterExercises: _.debounce(function() {
+    this.model.set(Syphon.serialize(this));
+    this.collection.fetch();
+  }, 300)
 });

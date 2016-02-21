@@ -13,7 +13,7 @@ export const ExerciseLayout = Marionette.View.extend({
 
   initialize: function() {
     this.model = new SearchModel();
-    this.collection = new ExerciseList(null);
+    this.collection = new ExerciseList(null, {searchModel: this.model});
     this.collection.fetch();
   },
 

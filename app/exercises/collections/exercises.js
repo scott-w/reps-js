@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import Backbone from 'backbone';
 
 import {authSync} from '../../base/models/auth';
@@ -35,8 +36,18 @@ export const SetList = Backbone.Collection.extend({
 });
 
 export const ExerciseList = Backbone.Collection.extend({
-  url: '/exercises/',
   sync: authSync,
 
-  comparator: 'exercise_name'
+  comparator: 'exercise_name',
+
+  initialize: function(data, options) {
+    this.searchModel = options.searchModel;
+  },
+
+  url: function() {
+    if (_.isUndefined(this.searchModel)) {
+      return '/exercises/';
+    }
+    return this.searchModel.url();
+  }
 });
