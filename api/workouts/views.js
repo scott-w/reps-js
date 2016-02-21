@@ -15,18 +15,38 @@ const _replyExercise = function(data, reply) {
   });
 };
 
-const getExercise = function(request, reply) {
+const getExercises = function(request, reply) {
   const userId = request.auth.credentials.id;
   const exerciseName = request.query.exercise_name;
 
-  util.getExercise(userId, exerciseName).then(function(instance) {
-    if (instance) {
-      _replyExercise(instance.dataValues, reply);
-    }
-    else {
-      reply({error: 'Not Found'}).code(404);
-    }
-  });
+  const whereClause = {
+    UserId: userId
+  };
+  if (exerciseName) {
+    whereClause.exercise_name  = {
+      $ilike: `%${exerciseName}%`
+    };
+  }
+  models.Exercise.findAll({
+    select: ['id', 'exercise_name', 'createdAt', 'updatedAt'],
+    where: whereClause,
+    include: [
+      {
+        model: models.Set,
+        select: ['id', 'reps', 'weight', 'createdAt', 'updatedAt']
+      }
+    ]
+  }).then((results) => reply(_.map(results, (exercise) => ({
+    id: exercise.dataValues.id,
+    exercise_name: exercise.dataValues.exercise_name,
+    sets: _.map(exercise.dataValues.Sets, (set) => ({
+      id: set.dataValues.id,
+      reps: set.dataValues.reps,
+      weight: set.dataValues.weight,
+      createdAt: set.dataValues.createdAt,
+      updatedAt: set.dataValues.updatedAt
+    }))
+  }))));
 };
 
 const createExercise = function(request, reply) {
@@ -240,6 +260,6 @@ module.exports = {
   workoutsByDate: workoutsByDate,
   retrieveWorkout: retrieveWorkout,
   addSetsToWorkout: addSets,
-  getExercise: getExercise,
+  getExercises: getExercises,
   createExercise: createExercise
 };
