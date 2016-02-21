@@ -52,6 +52,6 @@ module.exports = [
     },
     method: 'GET',
     path: '/exercises/',
-    handler: views.getExercise
+    handler: views.getExercises
   }
 ];

@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 
 import {SetList} from '../collections/workouts';
@@ -40,9 +41,10 @@ const SetContainerView = Marionette.View.extend({
       3: 'success',
       4: 'default'
     };
+    const length = _.keys(panelIndexes).length;
 
     return {
-      panel: () => panelIndexes[this.getOption('index')]
+      panel: () => panelIndexes[this.getOption('index') % length]
     };
   }
 });
