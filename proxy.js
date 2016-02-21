@@ -11,7 +11,9 @@ const proxyServer = function(req) {
 };
 
 const assetServer = function(req) {
-  return req.url.startsWith('/js/') || req.url.startsWith('/css/');
+  return req.url.startsWith('/js/') ||
+    req.url.startsWith('/css/') ||
+    req.url.startsWith('/fonts/');
 };
 
 const server = http.createServer(function(req, res) {
@@ -23,7 +25,6 @@ const server = http.createServer(function(req, res) {
   }
   else if (assetServer(req)) {
     console.log('assets');
-    console.log(req.url);
     proxy.web(req, res, {
       target: 'http://localhost:8080'
     });
