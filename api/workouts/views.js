@@ -33,7 +33,17 @@ const getExercises = function(request, reply) {
     include: [
       {
         model: models.Set,
-        select: ['id', 'reps', 'weight', 'createdAt', 'updatedAt']
+        select: ['id', 'reps', 'weight', 'createdAt', 'updatedAt'],
+        include: [
+          {
+            model: models.Workout,
+            select: ['workout_date'],
+            where: {
+              UserId: userId
+            },
+            required: false
+          }
+        ]
       }
     ]
   }).then((results) => reply(_.map(results, (exercise) => ({
@@ -43,6 +53,8 @@ const getExercises = function(request, reply) {
       id: set.dataValues.id,
       reps: set.dataValues.reps,
       weight: set.dataValues.weight,
+      workout_date: moment(
+        set.dataValues.Workout.dataValues.workout_date).format('YYYY-MM-DD'),
       createdAt: set.dataValues.createdAt,
       updatedAt: set.dataValues.updatedAt
     }))

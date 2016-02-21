@@ -1,1 +1,10 @@
-<%- weight %> <%- reps %> Reps
+<% if (isFirstDate(workout_date)) { %>
+  <h4 class="list-group-item-header">
+    <%- weight %>
+    <span class="pull-right"><%- reps %> Reps</span>
+  </h4>
+  <p class="list-group-item-text">On <%- formatDate(workout_date) %></p>
+<% } else { %>
+  <span class="badge badge-info"><%- weight %></span>
+  <%- reps %> Reps (<%- formatDate(workout_date) %>)
+<% } %>

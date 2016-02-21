@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
+import moment from 'moment';
 
 import {SetList} from '../collections/exercises';
 
@@ -10,8 +11,14 @@ export const SetView = Marionette.View.extend({
   template: require('../templates/exercises/set.html'),
 
   templateContext: function() {
+    const firstDate = this.getOption('firstDate');
+    console.log(firstDate);
     return {
-
+      isFirstDate: function(workout_date) {
+        return moment(firstDate).format('YYYY-MM-DD') ===
+          moment(workout_date).format('YYYY-MM-DD');
+      },
+      formatDate: (workout_date) => moment(workout_date).format('YYYY-MM-DD')
     };
   }
 });
@@ -22,7 +29,10 @@ const SetListView = Marionette.CollectionView.extend({
   childView: SetView,
 
   childViewOptions: function() {
+    const first = this.collection.at(0);
+
     return {
+      firstDate: first ? first.get('workout_date') : null
     };
   }
 });

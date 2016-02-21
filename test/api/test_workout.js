@@ -253,6 +253,9 @@ describe('Exercise', () => {
       expect(response.result.length).to.equal(2);
       expect(response.result[0].exercise_name).to.equal('Bench Press');
       expect(response.result[1].exercise_name).to.equal('Overhead Press');
+      expect(response.result[0].sets.length).to.equal(1);
+      expect(response.result[0].sets[0].reps).to.equal(6);
+      expect(response.result[0].sets[0].workout_date).to.equal('2016-01-10');
 
       done();
     });
@@ -298,7 +301,7 @@ describe('Exercise', () => {
   it('can search Exercises by string', (done) => {
     const data = {
       method: 'get',
-      url: '/exercises/?exercise_name=Bench%20Press',
+      url: '/exercises/?exercise_name=bench',
       headers: headers
     };
 
