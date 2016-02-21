@@ -9,17 +9,21 @@ import {
   Controller as Workout, routes as workoutRoutes
 } from './workouts/router';
 
+import {
+  Controller as Exercise, routes as exerciseRoutes
+} from './exercises/router';
+
 const processRoutes = function() {
   var router = new Marionette.AppRouter();
   router.processAppRoutes(new Default(), defaultRoutes);
   router.processAppRoutes(new Workout(), workoutRoutes);
+  router.processAppRoutes(new Exercise(), exerciseRoutes);
 };
 
 const App = new Marionette.Application({
   region: '#root',
 
   onStart: function() {
-    console.log(root);
     this.showView(root);
     processRoutes();
 

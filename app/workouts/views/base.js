@@ -65,8 +65,6 @@ export default Marionette.View.extend({
   onChildviewAddToCollection: function(model) {
     const collection = this.collection;
     collection.add(model);
-    console.log(collection);
     collection.sort();
-    console.log(collection);
   }
 });

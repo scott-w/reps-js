@@ -24,7 +24,6 @@ const WorkoutView = Marionette.View.extend({
   },
 
   onRender: function() {
-    console.log(this.model.getExercises());
     this.showChildView('exercises', new ExerciseListView({
       collection: new ExerciseList(this.model.getExercises())
     }), {replaceElement: true});

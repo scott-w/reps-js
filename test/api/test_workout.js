@@ -241,6 +241,23 @@ describe('Exercise', () => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });
 
+  it('can list all exercises from a user ordered by name', (done) => {
+    const data = {
+      method: 'get',
+      url: '/exercises/',
+      headers: headers
+    };
+
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.length).to.equal(2);
+      expect(response.result[0].exercise_name).to.equal('Bench Press');
+      expect(response.result[1].exercise_name).to.equal('Overhead Press');
+
+      done();
+    });
+  });
+
   it('can create new exercises for a user', (done) => {
     const data = {
       method: 'patch',
@@ -278,7 +295,7 @@ describe('Exercise', () => {
     });
   });
 
-  it('can retrieve an Exercise by string', (done) => {
+  it('can search Exercises by string', (done) => {
     const data = {
       method: 'get',
       url: '/exercises/?exercise_name=Bench%20Press',
@@ -287,8 +304,9 @@ describe('Exercise', () => {
 
     server.inject(data, (response) => {
       expect(response.statusCode).to.equal(200);
-      expect(response.result.exercise_name).to.equal('Bench Press');
-      expect(response.result.id).to.equal(1);
+      expect(response.result.length).to.equal(1);
+      expect(response.result[0].exercise_name).to.equal('Bench Press');
+      expect(response.result[0].id).to.equal(1);
 
       done();
     });
