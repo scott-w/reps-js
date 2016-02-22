@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
@@ -19,7 +20,7 @@ export const SetView = Marionette.View.extend({
         return moment(firstDate).format('YYYY-MM-DD') ===
           moment(workout_date).format('YYYY-MM-DD');
       },
-      formatDate: (workout_date) => moment(workout_date).format('YYYY-MM-DD')
+      formatDate: () => this.model.formatDate()
     };
   }
 });
@@ -94,11 +95,13 @@ export const ExerciseLayoutView = Marionette.View.extend({
   },
 
   ui: {
-    search: '.exercise_name'
+    search: '.exercise_name',
+    create: '.start-session'
   },
 
   events: {
-    'input @ui.search': 'filterExercises'
+    'input @ui.search': 'filterExercises',
+    'click @ui.create': 'showCreate'
   },
 
   onRender: function() {
@@ -110,5 +113,10 @@ export const ExerciseLayoutView = Marionette.View.extend({
   filterExercises: _.debounce(function() {
     this.model.set(Syphon.serialize(this));
     this.collection.fetch();
-  }, 300)
+  }, 300),
+
+  showCreate: function(e) {
+    e.preventDefault();
+    Backbone.history.navigate('workout/create', {trigger: true});
+  }
 });

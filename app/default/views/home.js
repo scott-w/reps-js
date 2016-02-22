@@ -80,7 +80,7 @@ const Register = Marionette.View.extend({
   },
 
   redirectLogin: function() {
-    Backbone.history.navigate('workout/', {trigger: true});
+    Backbone.history.navigate('exercise/', {trigger: true});
   }
 });
 
@@ -132,6 +132,6 @@ export const Layout = Marionette.View.extend({
   },
 
   redirectLogin: function() {
-    Backbone.history.navigate('workout/', {trigger: true});
+    Backbone.history.navigate('exercise/', {trigger: true});
   }
 });
