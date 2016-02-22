@@ -19,7 +19,8 @@ const WorkoutView = Marionette.View.extend({
 
   templateContext: function() {
     return {
-      formattedDate: this.model.formatDate()
+      formattedDate: this.model.formatDate(),
+      editUrl: `${this.model.displayUrl()}/edit`
     };
   },
 
@@ -67,11 +68,11 @@ const WorkoutListView = Marionette.CollectionView.extend({
   }
 });
 
-export const WorkoutList = Marionette.View.extend({
-  template: require('../templates/workout/layout.html'),
+const WorkoutListLayout = Marionette.View.extend({
+  template: require('../templates/workout/list.html'),
 
   regions: {
-    list: '.list-hook'
+    list: '.workouts-list'
   },
 
   ui: {
@@ -84,6 +85,31 @@ export const WorkoutList = Marionette.View.extend({
 
   onRender: function() {
     this.showChildView('list', new WorkoutListView({
+      collection: this.collection
+    }));
+  },
+
+  onChildviewShowWorkout: function(options) {
+    this.triggerMethod('show:workout', options)
+  },
+
+  onShowCreateWorkout: function() {
+    Backbone.history.navigate('workout/create');
+  }
+});
+
+export const WorkoutList = Marionette.View.extend({
+  template: require('../templates/workout/layout.html'),
+
+  regions: {
+    list: {
+      selector: '.list-hook',
+      replaceElement: true
+    }
+  },
+
+  onRender: function() {
+    this.showChildView('list', new WorkoutListLayout({
       collection: this.collection
     }));
   },
@@ -101,7 +127,7 @@ export const WorkoutList = Marionette.View.extend({
     this.showWorkout(options.model);
   },
 
-  onShowCreateWorkout: function() {
-    Backbone.history.navigate('workout/create');
+  onChildviewShowCreateWorkout: function() {
+    this.triggerMethod('show:create:workout');
   }
 });

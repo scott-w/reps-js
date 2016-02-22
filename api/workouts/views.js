@@ -176,7 +176,7 @@ const workoutsByDate = function(request, reply) {
       return {
         id: item.id,
         workout_date: moment(item.workout_date).format('YYYY-MM-DD'),
-        url: `/workouts/${item.workout_date}`,
+        url: `/workouts/${moment(item.workout_date).format('YYYY-MM-DD')}`,
         location: location
       };
     }));
