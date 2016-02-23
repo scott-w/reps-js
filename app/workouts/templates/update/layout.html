@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-sm-6 col-xs-6 col-md-3">
+    <button type="button" class="btn btn-block btn-default cancel-create">
+      <i class="glyphicon glyphicon-menu-left"></i>
+      Cancel
+    </button>
+  </div>
+  <div class="hidden-sm col-md-6"></div>
+  <div class="col-sm-6 col-xs-6 col-md-3">
+    <button type="submit" class="btn btn-block btn-success save-workout">
+      <i class="glyphicon glyphicon-ok"></i>
+      Done
+    </button>
+  </div>
+</div>
+
+<hr>
+
+<div class="col-md-6 col-sm-12">
+  <div class="form-horizontal">
+
+    <div class="form-group">
+      <label class="control-label col-lg-2" for="id_workout_date">Date</label>
+      <div class="col-lg-10">
+        <input class="form-control" id="id_workout_date" type="date"
+          name="workout_date" value="<%- workout_date %>">
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="setform-hook"></div>
+  </div>
+
+</div>
+
+<div class="setlist-hook col-md-6 col-sm-12"></div>

@@ -90,7 +90,7 @@ const WorkoutListLayout = Marionette.View.extend({
   },
 
   onChildviewShowWorkout: function(options) {
-    this.triggerMethod('show:workout', options)
+    this.triggerMethod('show:workout', options);
   },
 
   onShowCreateWorkout: function() {

@@ -6,6 +6,8 @@ import {WorkoutList as WorkoutCollection} from '../collections/workouts';
 
 import {WorkoutList} from './workouts';
 import {CreateWorkout} from './create';
+import {UpdateWorkout} from './update';
+
 
 export default Marionette.View.extend({
   className: 'col-lg-10 col-lg-offset-1 col-sm-12',
@@ -44,14 +46,17 @@ export default Marionette.View.extend({
   */
   showWorkoutDetail: function(workout_date) {
     const list = this.showWorkoutList();
-
-    let model = this.collection.get(workout_date);
-    if (_.isUndefined(model)) {
-      model = new WorkoutModel({
-        workout_date: workout_date
-      });
-    }
+    const model = this._getModel(workout_date);
     list.showWorkout(model);
+  },
+
+  showWorkoutEdit: function(workout_date) {
+    const model = this._getModel(workout_date);
+    const update = new UpdateWorkout({
+      collection: this.collection,
+      model: model
+    });
+    this.showChildView('container', update);
   },
 
   onChildviewShowCreateWorkout: function() {
@@ -66,5 +71,18 @@ export default Marionette.View.extend({
     const collection = this.collection;
     collection.add(model);
     collection.sort();
+  },
+
+  _getModel: function(workout_date) {
+    let model = this.collection.get(workout_date);
+    if (_.isUndefined(model)) {
+      model = new WorkoutModel({
+        workout_date: workout_date
+      });
+    }
+    if (!model.get('id')) {
+      model.getWorkout();
+    }
+    return model;
   }
 });

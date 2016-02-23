@@ -21,6 +21,11 @@ export const Controller = Marionette.Object.extend({
     layout.showWorkoutDetail(workout_date);
   },
 
+  editWorkout: function(workout_date) {
+    const layout = this.showAndGetLayout();
+    layout.showWorkoutEdit(workout_date);
+  },
+
   showingMyView: function() {
     const view = root.getChildView('main');
     const cid = this.getOption('indexCid');
@@ -44,5 +49,6 @@ export const Controller = Marionette.Object.extend({
 export const routes = {
   'workout/': 'listWorkout',
   'workout/create': 'createWorkout',
-  'workout/:workout_date': 'showWorkout'
+  'workout/:workout_date': 'showWorkout',
+  'workout/:workout_date/edit': 'editWorkout'
 };
