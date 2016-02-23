@@ -50,6 +50,14 @@ module.exports = [
     config: {
       auth: 'jwt',
     },
+    method: 'PUT',
+    path: '/workouts/{workout_date}',
+    handler: views.updateWorkout
+  },
+  {
+    config: {
+      auth: 'jwt',
+    },
     method: 'GET',
     path: '/exercises/',
     handler: views.getExercises
