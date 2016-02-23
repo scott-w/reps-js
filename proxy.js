@@ -13,7 +13,8 @@ const proxyServer = function(req) {
 const assetServer = function(req) {
   return req.url.startsWith('/js/') ||
     req.url.startsWith('/css/') ||
-    req.url.startsWith('/fonts/');
+    req.url.startsWith('/fonts/') ||
+    req.url.startsWith('/img/');
 };
 
 const server = http.createServer(function(req, res) {

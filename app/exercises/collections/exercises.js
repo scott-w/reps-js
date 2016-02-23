@@ -3,8 +3,12 @@ import Backbone from 'backbone';
 
 import {authSync} from '../../base/models/auth';
 
+import {SetModel} from '../models/exercise';
+
 
 export const SetList = Backbone.Collection.extend({
+  model: SetModel,
+
   comparator: function(first, second) {
     const workout1 = first.get('workout_date');
     const workout2 = second.get('workout_date');

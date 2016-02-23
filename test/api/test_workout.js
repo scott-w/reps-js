@@ -18,6 +18,7 @@ const headers = {
   Authorization: construct.authHeader
 };
 
+const models = require('../../models');
 
 describe('Workout list', () => {
   beforeEach((done) => {
@@ -231,6 +232,65 @@ describe('Update workout', () => {
       expect(response.result.Sets[1].WorkoutId).to.equal(1);
 
       done();
+    });
+  });
+
+  it('can overwrite set and ignores workout_date', (done) => {
+    const data = {
+      method: 'put',
+      url: '/workouts/2016-01-10',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-09',
+        sets: [
+          {exercise: 1, weight: '50Kg', reps: 6, id: 1},
+          {exercise: 1, weight: '60Kg', reps: 6},
+          {exercise: 1, weight: '70Kg', reps: 6},
+          {exercise: 1, weight: '80Kg', reps: 6}
+        ]
+      }
+    };
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.workout_date).to.equal('2016-01-10');
+      expect(response.result.Sets.length).to.equal(4);
+      expect(response.result.Sets[0].weight).to.equal('50Kg');
+      expect(response.result.Sets[1].weight).to.equal('60Kg');
+      expect(response.result.Sets[1].ExerciseId).to.equal(1);
+      expect(response.result.Sets[1].WorkoutId).to.equal(1);
+
+      models.Set.findAll().then(function(result) {
+        expect(result.length).to.equal(4);
+        done();
+      });
+    });
+  });
+
+  it('can remove sets', (done) => {
+    const data = {
+      method: 'put',
+      url: '/workouts/2016-01-10',
+      headers: headers,
+      payload: {
+        sets: [
+          {exercise: 1, weight: '60Kg', reps: 6},
+          {exercise: 1, weight: '70Kg', reps: 6},
+        ]
+      }
+    };
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.workout_date).to.equal('2016-01-10');
+      expect(response.result.Sets.length).to.equal(2);
+      expect(response.result.Sets[0].weight).to.equal('60Kg');
+      expect(response.result.Sets[1].weight).to.equal('70Kg');
+      expect(response.result.Sets[1].ExerciseId).to.equal(1);
+      expect(response.result.Sets[1].WorkoutId).to.equal(1);
+
+      models.Set.findAll().then(function(results) {
+        expect(results.length).to.equal(2);
+        done();
+      });
     });
   });
 });

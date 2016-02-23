@@ -176,7 +176,7 @@ const workoutsByDate = function(request, reply) {
       return {
         id: item.id,
         workout_date: moment(item.workout_date).format('YYYY-MM-DD'),
-        url: `/workouts/${item.workout_date}`,
+        url: `/workouts/${moment(item.workout_date).format('YYYY-MM-DD')}`,
         location: location
       };
     }));
@@ -266,6 +266,67 @@ const addSets = function(request, reply) {
   });
 };
 
+const updateWorkout = function(request, reply) {
+  const userId = request.auth.credentials.id;
+  const workoutDate = request.params.workout_date;
+
+  util.getWorkout(userId, workoutDate, [models.Set]).then((instance) => {
+    if (instance) {
+      const sets = _.map(instance.dataValues.Sets, (set) => set.dataValues.id);
+      const setsToAdd = _.filter(
+        request.payload.sets,
+        (set) => _.isUndefined(set.id) || !_.includes(sets, set.id));
+      const setsToKeep = _.map(
+        _.filter(
+          request.payload.sets,
+          (set) => !_.isUndefined(set.id)
+        ), (set) => set.id
+      );
+
+      const setsToRemove = _.filter(
+        instance.dataValues.Sets,
+        (set) => !_.includes(setsToKeep, set.dataValues.id)
+      );
+
+      models.Set.bulkCreate(
+        _.map(setsToAdd, (set) => ({
+          WorkoutId: instance.dataValues.id,
+          ExerciseId: set.exercise,
+          reps: set.reps,
+          weight: set.weight
+        }))
+      ).then(() => {
+        return models.Set.destroy({
+          where: {
+            id: {
+              $in: _.map(setsToRemove, (set) => set.dataValues.id)
+            }
+          }
+        });
+      }).then(() => {
+        return models.Set.findAll({
+          where: {
+            WorkoutId: instance.dataValues.id
+          }
+        });
+      }).then((sets) => {
+        console.log('requeried');
+        let response = {
+          id: instance.dataValues.id,
+          Sets: _.map(sets, (set) => set.dataValues),
+          workout_date: moment(
+            instance.dataValues.workout_date
+          ).format('YYYY-MM-DD')
+        };
+        reply(response).code(200);
+      });
+    }
+    else {
+      reply({error: 'Not Found'}).code(404);
+    }
+  });
+};
+
 
 module.exports = {
   recordWorkout: recordWorkout,
@@ -273,5 +334,6 @@ module.exports = {
   retrieveWorkout: retrieveWorkout,
   addSetsToWorkout: addSets,
   getExercises: getExercises,
-  createExercise: createExercise
+  createExercise: createExercise,
+  updateWorkout: updateWorkout
 };

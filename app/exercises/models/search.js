@@ -1,5 +1,6 @@
 import Backbone from 'backbone';
 
+
 /** Handles interaction with a search form. We can use this to search through
     a collection of exercises.
 */
