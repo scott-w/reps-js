@@ -31,6 +31,14 @@ sudo -u postgres createdb -O workouts -T template0 -E UTF8 workouts
 npm run-script migrate
 ```
 
+### Installing on Ubuntu
+
+Install Node 5.x then:
+
+```
+sudo aptitude install build-essential gcc g++
+```
+
 ### Windows
 
 This app depends on `bcrypt` which Windows has no default bindings for.
