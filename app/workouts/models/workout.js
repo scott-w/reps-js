@@ -44,6 +44,15 @@ export const SetModel = Backbone.Model.extend({
     }
   },
 
+  formatDate: function() {
+    return moment(this.get('workout_date')).calendar(null, {
+      sameDay: '[Today]',
+      lastDay: '[Yesterday]',
+      lastWeek: '[Last] dddd',
+      sameElse: 'DD/MM/YYYY'
+    });
+  },
+
   /** Fetch an exercise from the server and synchronise the exercise ID to the
       exercise field to let this Set be synchronised into a Workout.
       Events:

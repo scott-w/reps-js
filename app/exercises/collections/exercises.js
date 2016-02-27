@@ -3,7 +3,7 @@ import Backbone from 'backbone';
 
 import {authSync} from '../../base/models/auth';
 
-import {SetModel} from '../models/exercise';
+import {SetModel, ExerciseModel} from '../models/exercise';
 
 
 export const SetList = Backbone.Collection.extend({
@@ -40,6 +40,7 @@ export const SetList = Backbone.Collection.extend({
 });
 
 export const ExerciseList = Backbone.Collection.extend({
+  model: ExerciseModel,
   sync: authSync,
 
   comparator: 'exercise_name',

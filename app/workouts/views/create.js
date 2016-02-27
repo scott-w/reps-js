@@ -6,6 +6,15 @@ import {SetModel} from '../models/workout';
 import {SetList} from '../collections/workouts';
 import {SetListView} from './exercise';
 
+import {ExerciseContainerView} from '../../exercises/views/list';
+import {ExerciseList} from '../../exercises/collections/exercises';
+import {SearchModel} from '../../exercises/models/search';
+
+
+const ExerciseView = ExerciseContainerView.extend({
+  className: 'row'
+});
+
 const SetView = Marionette.View.extend({
   tagName: 'li',
   className: 'list-group-item',
@@ -28,15 +37,17 @@ const SetLayoutView = Marionette.View.extend({
   template: require('../templates/create/setform.html'),
 
   ui: {
-    initial: '#id_weight'
+    initial: '#id_weight',
+    exerciseName: '#id_exercise_name'
   },
 
   regions: {
-    list: '.setlist-hook'
+    previous: '.previous-exercise-hook'
   },
 
   events: {
-    submit: 'addSet'
+    submit: 'addSet',
+    'change @ui.exerciseName': 'searchExercises'
   },
 
   modelEvents: {
@@ -47,10 +58,27 @@ const SetLayoutView = Marionette.View.extend({
     add: 'fetchIds'
   },
 
+  initialize: function() {
+    const search = new SearchModel(this.model.pick('exercise_name'));
+    const exerciseList =  new ExerciseList(null, {
+      searchModel: search
+    });
+    this.options.exerciseList = exerciseList;
+    this.options.searchModel = search;
+  },
+
+  onBeforeAttach: function() {
+    const exerciseList = this.getOption('exerciseList');
+    this.listenTo(exerciseList, 'sync', this.showPreviousWorkout);
+  },
+
+  onBeforeEmpty: function() {
+    const exerciseList = this.getOption('exerciseList');
+    this.stopListening(exerciseList);
+  },
+
   onRender: function() {
-    if (this.getRegion('list').hasView()) {
-      return;
-    }
+    this.showPreviousWorkout();
   },
 
   addSet: function(e) {
@@ -73,6 +101,34 @@ const SetLayoutView = Marionette.View.extend({
       model.fetchExercise({
         success: () => collection.setExerciseIds()
       });
+    }
+  },
+
+  searchExercises: function() {
+    const data = Syphon.serialize(this);
+    const exerciseName = data.exercise_name;
+    const search = this.getOption('searchModel');
+    const exerciseList = this.getOption('exerciseList');
+
+    if (exerciseName) {
+      search.set({exercise_name: exerciseName});
+      exerciseList.fetch();
+    }
+  },
+
+  showPreviousWorkout: function() {
+    const previous = this.getRegion('previous');
+    const exerciseList = this.getOption('exerciseList');
+
+    if (exerciseList.length) {
+      let exercise = exerciseList.at(0);
+      previous.show(new ExerciseView({
+        model: exercise,
+        collection: new SetList(exercise.getLastExercise())
+      }));
+    }
+    else if (previous.hasView()) {
+      previous.empty();
     }
   }
 });
