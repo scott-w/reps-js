@@ -18,6 +18,7 @@ const SmallSetListView = SetListView.extend({
 
 const SetLayoutView = Marionette.View.extend({
   tagName: 'form',
+  className: 'form-horizontal',
 
   attributes: {
     method: 'post',
