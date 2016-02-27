@@ -20,8 +20,24 @@ const Nav = Marionette.View.extend({
     'click @ui.workout': 'showWorkout'
   },
 
+  modelEvents: {
+    sync: 'render',
+    'change:token': 'render'
+  },
+
+  initialize: function() {
+    this.model.fetch();
+  },
+
   onRender: function() {
-    const user = new UserModel();
+    if (this.model.isLoggedIn()) {
+      this.ui.exercise.removeClass('hidden');
+      this.ui.workout.removeClass('hidden');
+    }
+    else {
+      this.ui.exercise.addClass('hidden');
+      this.ui.workout.addClass('hidden');
+    }
   },
 
   showRoot: function() {
@@ -52,7 +68,9 @@ const Layout = Marionette.View.extend({
   },
 
   onRender: function() {
-    this.showChildView('nav', new Nav());
+    this.showChildView('nav', new Nav({
+      model: new UserModel()
+    }));
   }
 });
 
