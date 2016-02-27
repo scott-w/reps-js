@@ -39,7 +39,7 @@ const SetListView = Marionette.CollectionView.extend({
   }
 });
 
-const ExerciseContainerView = Marionette.View.extend({
+export const ExerciseContainerView = Marionette.View.extend({
   className: 'col-lg-4',
   template: require('../templates/exercises/container.html'),
 
