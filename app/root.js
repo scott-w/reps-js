@@ -1,6 +1,9 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
+import {UserModel} from './base/models/auth';
+
+
 const Nav = Marionette.View.extend({
   className: 'container-fluid',
   template: require('./templates/nav.html'),
@@ -15,6 +18,10 @@ const Nav = Marionette.View.extend({
     'click @ui.root': 'showRoot',
     'click @ui.exercise': 'showExercise',
     'click @ui.workout': 'showWorkout'
+  },
+
+  onRender: function() {
+    const user = new UserModel();
   },
 
   showRoot: function() {
