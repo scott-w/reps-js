@@ -25,10 +25,6 @@ const Nav = Marionette.View.extend({
     'change:token': 'render'
   },
 
-  initialize: function() {
-    this.model.fetch();
-  },
-
   onRender: function() {
     if (this.model.isLoggedIn()) {
       this.ui.exercise.removeClass('hidden');
@@ -67,9 +63,14 @@ const Layout = Marionette.View.extend({
     nav: '#nav'
   },
 
+  initialize: function() {
+    this.model = new UserModel();
+    this.model.fetch();
+  },
+
   onRender: function() {
     this.showChildView('nav', new Nav({
-      model: new UserModel()
+      model: this.model
     }));
   }
 });
