@@ -12,7 +12,7 @@ import {SearchModel} from '../../exercises/models/search';
 
 
 const ExerciseView = ExerciseContainerView.extend({
-  className: 'row'
+  className: ''
 });
 
 const SetView = Marionette.View.extend({
@@ -124,7 +124,8 @@ const SetLayoutView = Marionette.View.extend({
       let exercise = exerciseList.at(0);
       previous.show(new ExerciseView({
         model: exercise,
-        collection: new SetList(exercise.getLastExercise())
+        collection: new SetList(exercise.getLastExercise()),
+        index: 0
       }));
     }
     else if (previous.hasView()) {
