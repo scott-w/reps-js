@@ -3,41 +3,10 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
-import moment from 'moment';
-
 import {SetList} from '../collections/exercises';
 
+import {SetListView} from './set';
 
-export const SetView = Marionette.View.extend({
-  tagName: 'li',
-  className: 'list-group-item',
-  template: require('../templates/exercises/set.html'),
-
-  templateContext: function() {
-    const firstDate = this.getOption('firstDate');
-    return {
-      isFirstDate: function(workout_date) {
-        return moment(firstDate).format('YYYY-MM-DD') ===
-          moment(workout_date).format('YYYY-MM-DD');
-      },
-      formatDate: () => this.model.formatDate()
-    };
-  }
-});
-
-const SetListView = Marionette.CollectionView.extend({
-  tagName: 'ol',
-  className: 'list-group',
-  childView: SetView,
-
-  childViewOptions: function() {
-    const first = this.collection.at(0);
-
-    return {
-      firstDate: first ? first.get('workout_date') : null
-    };
-  }
-});
 
 export const ExerciseContainerView = Marionette.View.extend({
   className: 'col-lg-4',

@@ -1,12 +1,8 @@
 const Code = require('code');
 const Lab = require('lab');
-const sinon = require('sinon');
 
 const lab = exports.lab = Lab.script();
 
-const after = lab.after;
-const afterEach = lab.afterEach;
-const before = lab.before;
 const beforeEach = lab.beforeEach;
 const describe = lab.describe;
 const expect = Code.expect;

@@ -11,6 +11,36 @@ export const UserModel = Backbone.Model.extend({
     last_name: '',
     email: '',
     token: ''
+  },
+
+  /** Return the login state of the user client-side. This doesn't confirm the
+      credentials with the server.
+  */
+  isLoggedIn: function() {
+    return !!this.get('token');
+  },
+
+  /** Check whether the user login is valid on the server.
+  */
+  checkServer: function() {
+
+  },
+
+  clear: function(options) {
+    return this.save({
+      first_name: '',
+      last_name: '',
+      email: '',
+      token: ''
+    }, options);
+  },
+
+  /** Logs the user out. Fires the logout trigger on success.
+  */
+  logout: function() {
+    this.clear({
+      success: () => this.trigger('logout')
+    });
   }
 });
 

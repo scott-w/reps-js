@@ -1,6 +1,9 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
+import {UserModel} from './base/models/auth';
+
+
 const Nav = Marionette.View.extend({
   className: 'container-fluid',
   template: require('./templates/nav.html'),
@@ -15,6 +18,22 @@ const Nav = Marionette.View.extend({
     'click @ui.root': 'showRoot',
     'click @ui.exercise': 'showExercise',
     'click @ui.workout': 'showWorkout'
+  },
+
+  modelEvents: {
+    sync: 'render',
+    'change:token': 'render'
+  },
+
+  onRender: function() {
+    if (this.model.isLoggedIn()) {
+      this.ui.exercise.removeClass('hidden');
+      this.ui.workout.removeClass('hidden');
+    }
+    else {
+      this.ui.exercise.addClass('hidden');
+      this.ui.workout.addClass('hidden');
+    }
   },
 
   showRoot: function() {
@@ -44,8 +63,15 @@ const Layout = Marionette.View.extend({
     nav: '#nav'
   },
 
+  initialize: function() {
+    this.model = new UserModel();
+    this.model.fetch();
+  },
+
   onRender: function() {
-    this.showChildView('nav', new Nav());
+    this.showChildView('nav', new Nav({
+      model: this.model
+    }));
   }
 });
 
