@@ -2,27 +2,24 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
-import {SetModel} from '../models/workout';
-import {SetList} from '../collections/workouts';
-import {SetListView} from './exercise';
-
 import {ExerciseContainerView} from '../../exercises/views/list';
 import {ExerciseList} from '../../exercises/collections/exercises';
 import {SearchModel} from '../../exercises/models/search';
 
+import {SetModel} from '../models/workout';
+import {SetList} from '../collections/workouts';
+
+import {SmallSetListView, PanelSetListView} from './set';
+
 
 const ExerciseView = ExerciseContainerView.extend({
-  className: ''
-});
+  className: '',
 
-const SetView = Marionette.View.extend({
-  tagName: 'li',
-  className: 'list-group-item',
-  template: require('../templates/create/set.html')
-});
-
-const SmallSetListView = SetListView.extend({
-  childView: SetView
+  onRender: function() {
+    this.showChildView('sets', new PanelSetListView({
+      collection: this.collection
+    }));
+  }
 });
 
 const SetLayoutView = Marionette.View.extend({
