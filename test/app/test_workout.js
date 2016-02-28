@@ -101,6 +101,36 @@ describe('Set Model', () => {
 
     requests[0].respond(200, headers, JSON.stringify(responseBody));
   });
+
+  it('validates reps is a number', (done) => {
+    const set = new SetModel();
+    set.set({
+      reps: 'string',
+      exercise_name: 'test',
+      weight: '15kg'
+    });
+
+    expect(set.isValid()).to.equal(false);
+    expect(set.validationError.reps.length).to.equal(1);
+    expect(set.validationError.reps[0]).to.equal('Reps is not a number');
+    done();
+  });
+
+  it('validates reps must be > 0', (done) => {
+    const set = new SetModel();
+
+    set.set({
+      reps: '0',
+      exercise_name: 'test',
+      weight: '15kg'
+    });
+
+    expect(set.isValid()).to.equal(false);
+    expect(set.validationError.reps.length).to.equal(1);
+    expect(set.validationError.reps[0]).to.equal('Reps must be greater than 0');
+
+    done();
+  });
 });
 
 describe('Set List', () => {
@@ -194,6 +224,7 @@ describe('Set List', () => {
         .to.equal(4);
       done();
     });
+
     collection.fetchExerciseIds();
 
     expect(requests.length)

@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import moment from 'moment';
+import validate from 'validate.js';
 import Backbone from 'backbone';
 
 import {authSync} from '../../base/models/auth';
@@ -28,20 +29,21 @@ export const SetModel = Backbone.Model.extend({
   },
 
   validate: function(attrs) {
-    const errors = {};
-
-    if (!attrs.exercise_name) {
-      errors.exercise_name = 'This field must be set';
-    }
-    if (!attrs.reps) {
-      errors.reps = 'Come on, you can do more than 0 reps!';
-    }
-    if (!attrs.weight) {
-      errors.weight = 'Did you just lift air?';
-    }
-    if (!_.isEmpty(errors)) {
-      return errors;
-    }
+    return validate(attrs, {
+      exercise_name: {
+        presence: true
+      },
+      reps: {
+        presence: true,
+        numericality: {
+          onlyInteger: true,
+          greaterThan: 0
+        }
+      },
+      weight: {
+        presence: true
+      }
+    });
   },
 
   formatDate: function() {
@@ -62,6 +64,7 @@ export const SetModel = Backbone.Model.extend({
   fetchExercise: function() {
     this.set('id', 1);  // Force a patch
     this.trigger('before:sync:exercise', this);
+
     this.save(
       {exercise_name: this.get('exercise_name')},
       {
@@ -148,12 +151,11 @@ export const WorkoutModel = Backbone.Model.extend({
   },
 
   validate: function(attrs) {
-    const errors = {};
-    if (!attrs.workout_date) {
-      errors.workout_date = 'This field is required';
-    }
-    if (!_.isEmpty(errors)) {
-      return errors;
-    }
+    return validate(attrs, {
+      workout_date: {
+        presence: true,
+        date: true
+      }
+    });
   }
 });
