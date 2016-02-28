@@ -20,7 +20,11 @@ export const SmallSetListView = SetListView.extend({
 
 
 const PanelSetView = PanelSet.extend({
-  template: require('../templates/set/panel.html')
+  template: require('../templates/set/panel.html'),
+
+  triggers: {
+    click: 'add:set'
+  }
 });
 
 export const PanelSetListView = PanelSetList.extend({
