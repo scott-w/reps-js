@@ -2,6 +2,7 @@ import _ from 'underscore';
 import moment from 'moment';
 import validate from 'validate.js';
 import Backbone from 'backbone';
+import LocalStorage from 'backbone.localstorage';
 
 import {authSync} from '../../base/models/auth';
 
@@ -14,6 +15,7 @@ export const ExerciseModel = Backbone.Model.extend({
 export const SetModel = Backbone.Model.extend({
   url: '/exercises/',
   sync: authSync,
+  localStorage: new LocalStorage('workouts.SetModel'),
 
   defaults: {
     weight: '',
@@ -76,6 +78,9 @@ export const SetModel = Backbone.Model.extend({
             exercise: id
           });
         },
+
+        ajaxSync: true,
+
         complete: () => {
           this.trigger('sync:exercise', this, this.get('exercise'));
         }
@@ -153,8 +158,7 @@ export const WorkoutModel = Backbone.Model.extend({
   validate: function(attrs) {
     return validate(attrs, {
       workout_date: {
-        presence: true,
-        date: true
+        presence: true
       }
     });
   }

@@ -88,7 +88,7 @@ const SetLayoutView = Marionette.View.extend({
     this.model.set(Syphon.serialize(this));
 
     if (this.model.isValid()) {
-      this.collection.add(this.model.pick('exercise_name', 'weight', 'reps'));
+      this.collection.addSet(this.model);
       this.model.clearExerciseAttrs();
     }
   },
@@ -99,6 +99,7 @@ const SetLayoutView = Marionette.View.extend({
 
   fetchIds: function(model, collection) {
     collection.setExerciseIds();
+
     if (!model.get('exercise')) {
       model.fetchExercise({
         success: () => collection.setExerciseIds()
@@ -171,6 +172,7 @@ export const CreateWorkout = Marionette.View.extend({
 
   initialize: function() {
     this.collection = new SetList(null);
+    this.collection.fetchStored();
   },
 
   onRender: function() {
@@ -189,6 +191,8 @@ export const CreateWorkout = Marionette.View.extend({
     this.model.save({
       workout_date: data.workout_date,
       sets: this.collection
+    }, {
+      success: () => this.collection.destroy()
     });
   },
 

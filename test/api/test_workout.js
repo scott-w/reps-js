@@ -179,6 +179,31 @@ describe('Create workout', () => {
     });
   });
 
+  it('ignores attempts to pre-set the Set ID', (done) => {
+    const data = {
+      method: 'post',
+      url: '/workouts/',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-20',
+        location: 1,
+        sets: [
+          {exercise: 1, weight: '60Kg', reps: 6, id: 'ABC'}
+        ]
+      }
+    };
+
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.Sets.length).to.equal(1);
+      expect(response.result.Sets[0].weight).to.equal('60Kg');
+      expect(response.result.Sets[0].ExerciseId).to.equal(1);
+      expect(response.result.Sets[0].id).to.not.equal('ABC');
+
+      done();
+    });
+  });
+
   it('can create a workout without a location', (done) => {
     const data = {
       method: 'post',

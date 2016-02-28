@@ -97,9 +97,13 @@ const recordWorkout = function(request, reply) {
       let createData = {
         'workout_date': workoutDate,
         UserId: userId,
-        Sets: _.map(sets, (set) => _.mapKeys(set, (val, key) => {
-          return key === 'exercise' ? 'ExerciseId' : key;
-        }))
+        Sets: _.map(
+          sets, (set) => ({
+            ExerciseId: set.exercise,
+            reps: set.reps,
+            weight: set.weight
+          })
+        )
       };
       if (locationId) {
         createData.LocationId = locationId;

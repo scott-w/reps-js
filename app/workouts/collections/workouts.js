@@ -1,6 +1,8 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
+
 import {SetModel, ExerciseModel, WorkoutModel} from '../models/workout';
+import {LocalModel} from '../models/storage';
 
 import {authSync} from '../../base/models/auth';
 
@@ -10,6 +12,52 @@ export const ExerciseList = Backbone.Collection.extend({
 
 export const SetList = Backbone.Collection.extend({
   model: SetModel,
+
+  /** Search localStorage for any unsaved sets and restore the workout.
+  */
+  fetchStored: function() {
+    const local = new LocalModel({
+      modelname: 'workouts.Set'
+    });
+
+    local.fetch({
+      success: () => {
+        const models = _.map(local.getIds(), (id) => {
+          const set = new SetModel({id: id});
+          set.fetch();
+          return set;
+        });
+        this.set(models);
+      }
+    });
+  },
+
+  /** Add a set to the list and save it to disk.
+  */
+  addSet: function(model) {
+    const attrs = model.pick('exercise_name', 'weight', 'reps');
+
+    const set = new SetModel();
+    set.save(attrs, {
+      success: () => {
+        const local = new LocalModel({
+          modelname: 'workouts.Set'
+        });
+
+        local.fetch({
+          success: () => {
+            local.addId(set.id);
+            this.add(set);
+          },
+          error: () => {
+            local.addId(set.id);
+            this.add(set);
+          }
+        });
+      }
+    });
+
+  },
 
   /** Loop through the attached sets and set Exercise ID fields if they exist,
       or start grabbing them from the server.

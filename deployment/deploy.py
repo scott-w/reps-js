@@ -22,5 +22,6 @@ def restart_app():
 
 if __name__ == '__main__':
     update_app()
+
     if check_upstart():
         restart_app()
