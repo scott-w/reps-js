@@ -1,4 +1,3 @@
-import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
@@ -19,6 +18,12 @@ const ExerciseView = ExerciseContainerView.extend({
     this.showChildView('sets', new PanelSetListView({
       collection: this.collection
     }));
+  },
+
+  onChildviewAddSet: function(options) {
+    const fields = options.model.pick('weight', 'reps');
+    fields.exercise_name = this.model.get('exercise_name');
+    this.triggerMethod('add:set', fields);
   }
 });
 
@@ -113,6 +118,10 @@ const SetLayoutView = Marionette.View.extend({
     }
   },
 
+  setDetails: function(attrs) {
+    this.model.set(attrs);
+  },
+
   showPreviousWorkout: function() {
     const previous = this.getRegion('previous');
     const exerciseList = this.getOption('exerciseList');
@@ -128,6 +137,10 @@ const SetLayoutView = Marionette.View.extend({
     else if (previous.hasView()) {
       previous.empty();
     }
+  },
+
+  onChildviewAddSet: function(attrs) {
+    this.setDetails(attrs);
   }
 });
 
@@ -182,9 +195,5 @@ export const CreateWorkout = Marionette.View.extend({
   saveComplete: function() {
     this.triggerMethod('add:to:collection', this.model);
     this.triggerMethod('show:list');
-  },
-
-  onShowList: function() {
-    Backbone.history.navigate('workout/');
   }
 });
