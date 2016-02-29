@@ -16,18 +16,18 @@ export const LocalModel = Backbone.Model.extend({
     };
   },
 
-  addId: function(id) {
+  addId: function(id, options) {
     const data = this.get('data');
     this.save({
       data: _.union(data, [id])
-    });
+    }, options);
   },
 
-  popId: function(id) {
+  popId: function(id, options) {
     const data = this.get('data');
     this.save({
       data: _.without(data, id)
-    });
+    }, options);
   },
 
   getIds: function() {

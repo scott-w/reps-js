@@ -15,7 +15,7 @@ export const ExerciseModel = Backbone.Model.extend({
 export const SetModel = Backbone.Model.extend({
   url: '/exercises/',
   sync: authSync,
-  localStorage: new LocalStorage('workouts.SetModel'),
+  localStorage: new LocalStorage('workouts.Set'),
 
   defaults: {
     weight: '',

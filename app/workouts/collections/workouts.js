@@ -6,6 +6,10 @@ import {LocalModel} from '../models/storage';
 
 import {authSync} from '../../base/models/auth';
 
+
+const MODELNAME = 'workouts.Set';
+
+
 export const ExerciseList = Backbone.Collection.extend({
   model: ExerciseModel
 });
@@ -17,17 +21,36 @@ export const SetList = Backbone.Collection.extend({
   */
   fetchStored: function() {
     const local = new LocalModel({
-      modelname: 'workouts.Set'
+      modelname: MODELNAME
     });
 
     local.fetch({
       success: () => {
         const models = _.map(local.getIds(), (id) => {
           const set = new SetModel({id: id});
-          set.fetch();
           return set;
         });
+        let completed = 0;
+        const TO_COMPLETE = models.length;
+
         this.set(models);
+
+        _.each(models, (set) => {
+          set.fetch({
+            success: () => {
+              completed += 1;
+              if (completed === TO_COMPLETE) {
+                this.trigger('loaded', this);
+              }
+            },
+            error: () => {
+              completed += 1;
+              if (completed === TO_COMPLETE) {
+                this.trigger('loaded', this);
+              }
+            }
+          });
+        });
       }
     });
   },
@@ -41,7 +64,7 @@ export const SetList = Backbone.Collection.extend({
     set.save(attrs, {
       success: () => {
         const local = new LocalModel({
-          modelname: 'workouts.Set'
+          modelname: MODELNAME
         });
 
         local.fetch({

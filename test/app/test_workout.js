@@ -139,24 +139,19 @@ describe('Set List', () => {
   var requests = [];
   const user = new UserModel();
 
-  before(function (done) {
+  beforeEach(function (done) {
+    global.localStorage.clear();
+
     user.save({
       token: 'test'
     });
-    done();
-  });
 
-  after(function (done) {
-    global.localStorage.clear();
-    done();
-  });
-
-  beforeEach(function (done) {
     xhr = sinon.useFakeXMLHttpRequest();
     global.window.XMLHttpRequest = xhr;
     xhr.onCreate = function (req) {
       requests.push(req);
     };
+
     done();
   });
 
@@ -243,6 +238,59 @@ describe('Set List', () => {
       .to.equal('PATCH');
 
     requests[0].respond(200, headers, JSON.stringify(responseBody));
+  });
+
+  it('automatically stores its data in local storage', function(done) {
+    collection = new SetList(null);
+
+    collection.once('add', function(model, collection) {
+      expect(collection.length).to.equal(1);
+
+      expect(model.get('exercise_name')).to.equal('Curls');
+      expect(model.get('weight')).to.equal('10kg');
+      expect(model.get('reps')).to.equal(15);
+
+      const localId = `workouts.Set-${model.id}`;
+      const stored = JSON.parse(window.localStorage.getItem(localId));
+
+      expect(stored.exercise_name).to.equal('Curls');
+      expect(stored.weight).to.equal('10kg');
+      expect(stored.reps).to.equal(15);
+      done();
+    });
+
+    collection.addSet(new SetModel({
+      exercise_name: 'Curls',
+      weight: '10kg',
+      reps: 15
+    }));
+  });
+
+  it('retrieves data from the local storage', function(done) {
+    collection = new SetList(null);
+
+    collection.once('loaded', function() {
+      expect(collection.length).to.equal(1);
+      const model = collection.at(0);
+      expect(model.get('exercise_name')).to.equal('Squats');
+      expect(model.get('weight')).to.equal('120kg');
+      expect(model.get('reps')).to.equal(6);
+      done();
+    });
+
+    global.localStorage.setItem('workouts.Set', 'abc');
+    global.localStorage.setItem('workouts.Set-abc', JSON.stringify({
+      exercise_name: 'Squats',
+      weight: '120kg',
+      reps: 6
+    }));
+    global.localStorage.setItem('LocalData', 'workouts.Set');
+    global.localStorage.setItem('LocalData-workouts.Set', JSON.stringify({
+      modelname: 'workouts.Set',
+      data: ['abc']
+    }));
+
+    collection.fetchStored();
   });
 });
 
