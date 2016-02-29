@@ -8,6 +8,9 @@ global.window.localStorage = browser.getLocalStorage();
 global.window.location = browser.getLocation();
 
 global.localStorage = global.window.localStorage;
+global.localStorage.removeItem = function(item) {
+  this.setItem(item, undefined);
+};
 
 module.exports = [{
   ext: '.js',

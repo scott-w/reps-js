@@ -17,6 +17,27 @@ export const ExerciseList = Backbone.Collection.extend({
 export const SetList = Backbone.Collection.extend({
   model: SetModel,
 
+  /** Clear all stored Local Data related to sets.
+      This will also look for potential data leaks and clean them up too so we
+      remain under the 5M characters cap.
+  */
+  clearStored: function() {
+    this.each((model) => model.destroy());
+    const reString = '^' + MODELNAME + '-.*';
+    const reObj = new RegExp(reString);
+
+    const local = new LocalModel({
+      modelname: MODELNAME
+    });
+    local.destroy();
+    const indexes = _.map(window.localStorage, (v, k) => k);
+    const keys = _.map(indexes, (i) => window.localStorage.key(i));
+    const toRemove = _.filter(keys, (key) => reObj.exec(key) !== null);
+
+    _.each(toRemove, (key) => window.localStorage.removeItem(key));
+    this.trigger('clear');
+  },
+
   /** Search localStorage for any unsaved sets and restore the workout.
   */
   fetchStored: function() {

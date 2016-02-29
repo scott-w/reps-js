@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const Code = require('code');
 const Lab = require('lab');
 const sinon = require('sinon');
@@ -291,6 +293,35 @@ describe('Set List', () => {
     }));
 
     collection.fetchStored();
+  });
+
+  it('clears all localStorage including lost references', function(done) {
+    collection = new SetList(null);
+    const set = {exercise_name: 'Curls', weight: '10kg', reps: 15};
+    collection.add(set);
+
+    collection.at(0).save();
+    const id = collection.at(0).id;
+
+    global.localStorage.setItem('LocalData', 'workouts.Set');
+    global.localStorage.setItem('LocalData-workouts.Set', JSON.stringify({
+      modelname: 'workouts.Set',
+      data: [id]
+    }));
+
+    collection.once('clear', function() {
+      expect(collection.length).to.equal(0);
+
+      const localModel = global.localStorage.getItem(`workouts.Set-${id}`);
+      const localData = global.localStorage.getItem('LocalData-workouts.Set');
+      const user = global.localStorage.getItem('UserModel-current');
+
+      expect(_.isUndefined(localModel)).to.equal(true);
+      expect(_.isUndefined(localData)).to.equal(true);
+      expect(_.isUndefined(user)).to.equal(false);
+      done();
+    });
+    collection.clearStored();
   });
 });
 
