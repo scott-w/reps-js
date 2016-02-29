@@ -142,6 +142,12 @@ const SetLayoutView = Marionette.View.extend({
 
   onChildviewAddSet: function(attrs) {
     this.setDetails(attrs);
+  },
+
+  /** Clear the sets from localstorage.
+  */
+  clearSets: function() {
+    this.collection.clearStored();
   }
 });
 
@@ -199,5 +205,10 @@ export const CreateWorkout = Marionette.View.extend({
   saveComplete: function() {
     this.triggerMethod('add:to:collection', this.model);
     this.triggerMethod('show:list');
+  },
+
+  onShowList: function() {
+    const form = this.getChildView('setForm');
+    form.clearSets();
   }
 });
