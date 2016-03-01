@@ -19,17 +19,21 @@ export const SetModel = Backbone.Model.extend({
 
   defaults: {
     weight: '',
-    reps: 0,
+    reps: '',
     exercise_name: ''
   },
 
+  /** Perform a reduced clear operation that lets us refocus on the weight.
+  */
   clearExerciseAttrs: function() {
     this.set({
       weight: '',
-      reps: 0
+      reps: ''
     });
   },
 
+  /** Validators for the set
+  */
   validate: function(attrs) {
     return validate(attrs, {
       exercise_name: {
@@ -48,11 +52,13 @@ export const SetModel = Backbone.Model.extend({
     });
   },
 
+  /** Returns the date formatted relative to today
+  */
   formatDate: function() {
     return moment(this.get('workout_date')).calendar(null, {
       sameDay: '[Today]',
       lastDay: '[Yesterday]',
-      lastWeek: '[Last] dddd',
+      lastWeek: 'dddd',
       sameElse: 'DD/MM/YYYY'
     });
   },
