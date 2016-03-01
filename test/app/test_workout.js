@@ -299,6 +299,7 @@ describe('Set List', () => {
     collection = new SetList(null);
     const set = {exercise_name: 'Curls', weight: '10kg', reps: 15};
     collection.add(set);
+    collection.add(set);
 
     collection.at(0).save();
     const id = collection.at(0).id;

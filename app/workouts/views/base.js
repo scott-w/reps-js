@@ -69,8 +69,7 @@ export default Marionette.View.extend({
 
   onChildviewAddToCollection: function(model) {
     const collection = this.collection;
-    collection.add(model);
-    collection.sort();
+    collection.add(model.pick('id', 'workout_date', 'sets', 'location'));
   },
 
   _getModel: function(workout_date) {

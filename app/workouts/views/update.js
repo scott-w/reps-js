@@ -6,7 +6,8 @@ export const UpdateWorkout = CreateWorkout.extend({
   template: require('../templates/update/layout.html'),
 
   modelEvents: {
-    sync: 'updateSets'
+    fetch: 'updateSets',
+    save: 'saveComplete'
   },
 
   initialize: function() {

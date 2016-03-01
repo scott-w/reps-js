@@ -107,6 +107,25 @@ export const WorkoutModel = Backbone.Model.extend({
     });
   },
 
+  saveWorkout: function(attrs, options) {
+    let success = null;
+    if (_.isUndefined(options)) {
+      options = {};
+    }
+
+    if (options.success) {
+      success = options.success;
+    }
+
+    options.success = () => {
+      if (success) {
+        success(arguments);
+      }
+      this.trigger('save', this);
+    };
+    this.save(attrs, options);
+  },
+
   /** Returns the list of exercises for this workout with each Set attached in
       the form:
       Exercise ->
@@ -144,7 +163,9 @@ export const WorkoutModel = Backbone.Model.extend({
       id: 1,
       workout_date: workout_date
     });
-    this.fetch();
+    this.fetch({
+      success: () => this.trigger('fetch', this)
+    });
   },
 
   displayUrl: function() {

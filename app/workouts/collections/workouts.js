@@ -22,7 +22,9 @@ export const SetList = Backbone.Collection.extend({
       remain under the 5M characters cap.
   */
   clearStored: function() {
-    this.each((model) => model.destroy());
+    while (this.length > 0) {
+      this.at(0).destroy();
+    }
     const reString = '^' + MODELNAME + '-.*';
     const reObj = new RegExp(reString);
 
