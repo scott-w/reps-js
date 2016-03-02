@@ -9,6 +9,8 @@ const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
+import {spy} from 'sinon';
+
 import {UserModel} from '../../app/base/models/auth';
 
 
@@ -33,6 +35,22 @@ describe('UserModel', function() {
   it('marks the user as logged in when token is set', (done) => {
     model.save({token: 'abc'});
     expect(model.isLoggedIn()).to.equal(true);
+    done();
+  });
+
+  it('can log users out', (done) => {
+    spy(model, 'trigger');
+
+    model.save({token: 'abc'});
+
+    model.logout();
+
+    expect(model.trigger.calledWith('logout')).to.equal(true);
+    expect(model.isLoggedIn()).to.equal(false);
+
+    const storedUser = JSON.parse(
+      global.localStorage.getItem('UserModel-current'));
+    expect(storedUser.token).to.equal('');
     done();
   });
 });
