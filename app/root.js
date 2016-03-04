@@ -11,28 +11,30 @@ const Nav = Marionette.View.extend({
   ui: {
     root: '.root',
     exercise: '.exercise',
-    workout: '.workout'
+    workout: '.workout',
+    logout: '.logout',
+    onlyLoggedIn: '.authenticated'
   },
 
   events: {
     'click @ui.root': 'showRoot',
     'click @ui.exercise': 'showExercise',
-    'click @ui.workout': 'showWorkout'
+    'click @ui.workout': 'showWorkout',
+    'click @ui.logout': 'logout'
   },
 
   modelEvents: {
     sync: 'render',
-    'change:token': 'render'
+    'change:token': 'render',
+    logout: 'showRoot'
   },
 
   onRender: function() {
     if (this.model.isLoggedIn()) {
-      this.ui.exercise.removeClass('hidden');
-      this.ui.workout.removeClass('hidden');
+      this.ui.onlyLoggedIn.removeClass('hidden');
     }
     else {
-      this.ui.exercise.addClass('hidden');
-      this.ui.workout.addClass('hidden');
+      this.ui.onlyLoggedIn.addClass('hidden');
     }
   },
 
@@ -48,6 +50,11 @@ const Nav = Marionette.View.extend({
   showWorkout: function(e) {
     e.preventDefault();
     this._navigate('workout/');
+  },
+
+  logout: function(e) {
+    e.preventDefault();
+    this.model.logout();
   },
 
   _navigate: function(url) {

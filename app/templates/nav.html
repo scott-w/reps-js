@@ -1,13 +1,24 @@
 <div class="navbar-header">
   <a class="navbar-brand go-home col-xs-4" href="/">PUMP3D</a>
-  <p class="navbar-text col-xs-4 visible-xs-inline-block">
-    <a href="/exercise/" class="exercise">Exercises</a>
+  <p class="navbar-text col-xs-3 visible-xs-inline-block">
+    <a href="/exercise/" class="authenticated exercise">Exercises</a>
   </p>
-  <p class="navbar-text col-xs-4 visible-xs-inline-block">
-    <a href="/workout/" class="workout">Workouts</a>
+  <p class="navbar-text col-xs-3 visible-xs-inline-block">
+    <a href="/workout/" class="authenticated workout">Workouts</a>
+  </p>
+  <p class="navbar-text col-xs-2 visible-xs-inline-block">
+    <a href="/logout" class="lauthenticated ogout">
+      <i class="glyphicon glyphicon-off"></i>
+    </a>
   </p>
 </div>
 <ul class="nav navbar-nav hidden-xs">
-  <li><a href="/exercise/" class="exercise">Exercises</a></li>
-  <li><a href="/workout/" class="workout">Workouts</a></li>
+  <li><a href="/exercise/" class="authenticated exercise">Exercises</a></li>
+  <li><a href="/workout/" class="authenticated workout">Workouts</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right hidden-xs">
+  <li><a href="/logout" class="authenticated text-muted logout">
+    Logout
+    <i class="glyphicon glyphicon-off"></i>
+  </a></li>
 </ul>

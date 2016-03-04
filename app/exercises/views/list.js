@@ -21,7 +21,7 @@ export const ExerciseContainerView = Marionette.View.extend({
 
   onRender: function() {
     this.showChildView('sets', new SetListView({
-      collection: this.collection
+      collection: new SetList(this.collection.slice(0, 10))
     }));
   },
 
