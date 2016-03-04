@@ -1,4 +1,6 @@
 import _ from 'underscore';
+import root from 'window-or-global';
+
 import Backbone from 'backbone';
 import LocalStorage from 'backbone.localstorage';
 
@@ -38,6 +40,7 @@ export const UserModel = Backbone.Model.extend({
   /** Logs the user out. Fires the logout trigger on success.
   */
   logout: function() {
+    root.localStorage.clear();
     this.clear({
       success: () => this.trigger('logout')
     });

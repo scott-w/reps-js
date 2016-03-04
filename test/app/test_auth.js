@@ -19,11 +19,13 @@ describe('UserModel', function() {
 
   beforeEach(function(done) {
     model = new UserModel();
+    spy(global.localStorage, 'clear');
     done();
   });
 
   afterEach(function(done) {
     model.clear();
+    global.localStorage.clear.restore();
     done();
   });
 
@@ -51,6 +53,7 @@ describe('UserModel', function() {
     const storedUser = JSON.parse(
       global.localStorage.getItem('UserModel-current'));
     expect(storedUser.token).to.equal('');
+    expect(global.localStorage.clear.called).to.equal(true);
     done();
   });
 });

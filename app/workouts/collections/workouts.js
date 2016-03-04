@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import root from 'window-or-global';
 import Backbone from 'backbone';
 
 import {SetModel, ExerciseModel, WorkoutModel} from '../models/workout';
@@ -32,11 +33,11 @@ export const SetList = Backbone.Collection.extend({
       modelname: MODELNAME
     });
     local.destroy();
-    const indexes = _.map(window.localStorage, (v, k) => k);
-    const keys = _.map(indexes, (i) => window.localStorage.key(i));
+    const indexes = _.map(root.localStorage, (v, k) => k);
+    const keys = _.map(indexes, (i) => root.localStorage.key(i));
     const toRemove = _.filter(keys, (key) => reObj.exec(key) !== null);
 
-    _.each(toRemove, (key) => window.localStorage.removeItem(key));
+    _.each(toRemove, (key) => root.localStorage.removeItem(key));
     this.trigger('clear');
   },
 
