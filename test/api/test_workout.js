@@ -20,6 +20,8 @@ const headers = {
 
 const models = require('../../models');
 
+const _ = require('lodash');
+
 describe('Workout list', () => {
   beforeEach((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
@@ -65,7 +67,7 @@ describe('Workout list', () => {
       expect(response.result.location.UserId).to.equal(undefined);
 
       expect(response.result.sets.length).to.equal(1);
-      expect(response.result.sets[0].UserId).to.equal(undefined);
+      expect(response.result.sets[0].userId).to.equal(undefined);
       expect(response.result.sets[0].reps).to.equal(6);
       expect(response.result.sets[0].exercise_name).to.equal('Bench Press');
       expect(response.result.sets[0].exercise).to.equal(1);
@@ -109,7 +111,7 @@ describe('Create workout', () => {
     server.inject(reqData, (response) => {
       expect(response.statusCode).to.equal(201);
       expect(response.result.workout_date).to.equal('2016-01-20');
-      expect(response.result.Location.name).to.equal('Test Location');
+      expect(response.result.location.name).to.equal('Test Location');
 
       done();
     });
@@ -147,7 +149,7 @@ describe('Create workout', () => {
     server.inject(reqData, (response) => {
       expect(response.statusCode).to.equal(201);
       expect(response.result.workout_date).to.equal('2016-01-06');
-      expect(response.result.Location.name).to.equal('Test Location');
+      expect(response.result.location.name).to.equal('Test Location');
 
       done();
     });
@@ -171,9 +173,9 @@ describe('Create workout', () => {
 
     server.inject(data, (response) => {
       expect(response.statusCode).to.equal(201);
-      expect(response.result.Sets.length).to.equal(3);
-      expect(response.result.Sets[0].weight).to.equal('60Kg');
-      expect(response.result.Sets[0].ExerciseId).to.equal(1);
+      expect(response.result.sets.length).to.equal(3);
+      expect(response.result.sets[0].weight).to.equal('60Kg');
+      expect(response.result.sets[0].exercise).to.equal(1);
 
       done();
     });
@@ -195,10 +197,10 @@ describe('Create workout', () => {
 
     server.inject(data, (response) => {
       expect(response.statusCode).to.equal(201);
-      expect(response.result.Sets.length).to.equal(1);
-      expect(response.result.Sets[0].weight).to.equal('60Kg');
-      expect(response.result.Sets[0].ExerciseId).to.equal(1);
-      expect(response.result.Sets[0].id).to.not.equal('ABC');
+      expect(response.result.sets.length).to.equal(1);
+      expect(response.result.sets[0].weight).to.equal('60Kg');
+      expect(response.result.sets[0].exercise).to.equal(1);
+      expect(response.result.sets[0].id).to.not.equal('ABC');
 
       done();
     });
@@ -220,10 +222,10 @@ describe('Create workout', () => {
     };
     server.inject(data, (response) => {
       expect(response.statusCode).to.equal(201);
-      expect(response.result.Sets.length).to.equal(3);
-      expect(response.result.Sets[0].weight).to.equal('60Kg');
-      expect(response.result.Sets[0].ExerciseId).to.equal(1);
-      expect(response.result.Location).to.equal(null);
+      expect(response.result.sets.length).to.equal(3);
+      expect(response.result.sets[0].weight).to.equal('60Kg');
+      expect(response.result.sets[0].exercise).to.equal(1);
+      expect(response.result.location).to.equal(null);
 
       done();
     });
@@ -251,10 +253,10 @@ describe('Update workout', () => {
     };
     server.inject(data, (response) => {
       expect(response.statusCode).to.equal(201);
-      expect(response.result.Sets.length).to.equal(4);
-      expect(response.result.Sets[1].weight).to.equal('60Kg');
-      expect(response.result.Sets[1].ExerciseId).to.equal(1);
-      expect(response.result.Sets[1].WorkoutId).to.equal(1);
+      expect(response.result.sets.length).to.equal(4);
+      expect(response.result.sets[1].weight).to.equal('60Kg');
+      expect(response.result.sets[1].exercise).to.equal(1);
+      expect(response.result.sets[1].workout).to.equal(1);
 
       done();
     });
@@ -278,11 +280,11 @@ describe('Update workout', () => {
     server.inject(data, (response) => {
       expect(response.statusCode).to.equal(200);
       expect(response.result.workout_date).to.equal('2016-01-10');
-      expect(response.result.Sets.length).to.equal(4);
-      expect(response.result.Sets[0].weight).to.equal('50Kg');
-      expect(response.result.Sets[1].weight).to.equal('60Kg');
-      expect(response.result.Sets[1].ExerciseId).to.equal(1);
-      expect(response.result.Sets[1].WorkoutId).to.equal(1);
+      expect(response.result.sets.length).to.equal(4);
+      expect(response.result.sets[0].weight).to.equal('50Kg');
+      expect(response.result.sets[1].weight).to.equal('60Kg');
+      expect(response.result.sets[1].exercise).to.equal(1);
+      expect(response.result.sets[1].workout).to.equal(1);
 
       models.Set.findAll().then(function(result) {
         expect(result.length).to.equal(4);
@@ -309,14 +311,30 @@ describe('Update workout', () => {
     server.inject(data, (response) => {
       expect(response.statusCode).to.equal(201);
       expect(response.result.workout_date).to.equal('2016-01-29');
-      expect(response.result.Sets.length).to.equal(4);
-      expect(response.result.Sets[0].weight).to.equal('50Kg');
-      expect(response.result.Sets[1].weight).to.equal('60Kg');
-      expect(response.result.Sets[1].ExerciseId).to.equal(1);
-      expect(response.result.Sets[1].WorkoutId).to.equal(1);
+      expect(response.result.sets.length).to.equal(4);
+
+      expect(response.result.sets[0].weight).to.equal('50Kg');
+      expect(response.result.sets[1].weight).to.equal('60Kg');
+      expect(response.result.sets[1].exercise).to.equal(1);
+
+      _.each(response.result.sets, (set) => {
+        expect(set.id).to.not.equal(1);
+      });
 
       models.Set.findAll().then(function(result) {
-        expect(result.length).to.equal(4);
+        expect(result.length).to.equal(5);
+
+        return models.Workout.findOne({
+          where: {
+            workout_date: '2016-01-29',
+            UserId: 1
+          }
+        });
+      }).then(function(instance) {
+        expect(
+          instance.dataValues.id
+        ).to.equal(
+          response.result.sets[1].workout);
         done();
       });
     });
@@ -337,11 +355,11 @@ describe('Update workout', () => {
     server.inject(data, (response) => {
       expect(response.statusCode).to.equal(200);
       expect(response.result.workout_date).to.equal('2016-01-10');
-      expect(response.result.Sets.length).to.equal(2);
-      expect(response.result.Sets[0].weight).to.equal('60Kg');
-      expect(response.result.Sets[1].weight).to.equal('70Kg');
-      expect(response.result.Sets[1].ExerciseId).to.equal(1);
-      expect(response.result.Sets[1].WorkoutId).to.equal(1);
+      expect(response.result.sets.length).to.equal(2);
+      expect(response.result.sets[0].weight).to.equal('60Kg');
+      expect(response.result.sets[1].weight).to.equal('70Kg');
+      expect(response.result.sets[1].exercise).to.equal(1);
+      expect(response.result.sets[1].workout).to.equal(1);
 
       models.Set.findAll().then(function(results) {
         expect(results.length).to.equal(2);

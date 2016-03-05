@@ -79,3 +79,38 @@ exports.updateSets = (existingSets, requestSets, workoutId) => {
     });
   });
 };
+
+/** Create a workout with sets.
+*/
+exports.createWorkout = (workoutDate, userId, sets, locationId) => {
+  let createData = {
+    workout_date: workoutDate,
+    UserId: userId,
+    Sets: _.map(
+      sets, (set) => ({
+        ExerciseId: set.exercise,
+        reps: set.reps,
+        weight: set.weight
+      })
+    )
+  };
+  if (locationId) {
+    createData.LocationId = locationId;
+  }
+
+  return models.Workout.create(createData, {
+    include: [models.Set]
+  });
+};
+
+/** Converts a DB Set list to a JSON output format
+*/
+exports.mapSet = (set) => ({
+  id: set.dataValues.id,
+  reps: set.dataValues.reps,
+  weight: set.dataValues.weight,
+  exercise: set.dataValues.ExerciseId,
+  workout: set.dataValues.WorkoutId,
+  createdAt: set.dataValues.createdAt,
+  updatedAt: set.dataValues.updatedAt
+});

@@ -93,27 +93,10 @@ const recordWorkout = function(request, reply) {
       reply({workout_date: 'Cannot duplicate the workout_date'}).code(400);
     }
     else {
-      let sets = request.payload.sets || [];
-      let createData = {
-        'workout_date': workoutDate,
-        UserId: userId,
-        Sets: _.map(
-          sets, (set) => ({
-            ExerciseId: set.exercise,
-            reps: set.reps,
-            weight: set.weight
-          })
-        )
-      };
-      if (locationId) {
-        createData.LocationId = locationId;
-      }
-
-      models.Workout.create(createData, {
-        include: [models.Set]
-      }).then((instance) => {
+      util.createWorkout(
+        workoutDate, userId, request.payload.sets || [], locationId
+      ).then((instance) => {
         const workout = instance.dataValues;
-        const sets = _.map(instance.dataValues.Sets, (set) => set.dataValues);
 
         models.Location.findOne({
           where: {
@@ -133,12 +116,11 @@ const recordWorkout = function(request, reply) {
           else {
             location = null;
           }
-
           reply({
             id: workout.id,
             workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
-            Sets: sets,
-            Location: location
+            sets: _.map(instance.dataValues.Sets, util.mapSet),
+            location: location
           }).code(201);
         });
       }).catch((err) => {
@@ -218,14 +200,12 @@ const retrieveWorkout = function(request, reply) {
       reply({
         workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
         location: location,
-        sets: _.map(workout.Sets, (set) => ({
-          id: set.dataValues.id,
-          reps: set.dataValues.reps,
-          weight: set.dataValues.weight,
-          createdAt: set.dataValues.createdAt,
-          exercise: set.dataValues.Exercise.dataValues.id,
-          exercise_name: set.dataValues.Exercise.dataValues.exercise_name
-        }))
+        sets: _.map(workout.Sets, (set) => {
+          const retSet = util.mapSet(set);
+          retSet.exercise = set.dataValues.Exercise.dataValues.id;
+          retSet.exercise_name = set.dataValues.Exercise.dataValues.exercise_name;
+          return retSet;
+        })
       });
     }
     else {
@@ -257,7 +237,7 @@ const addSets = function(request, reply) {
         }).then((sets) => {
           let response = {
             id: instance.dataValues.id,
-            Sets: _.map(sets, (set) => set.dataValues),
+            sets: _.map(sets, util.mapSet),
             workout_date: instance.dataValues.workout_date
           };
           reply(response).code(201);
@@ -281,7 +261,7 @@ const updateWorkout = function(request, reply) {
       ).then((sets) => {
         let response = {
           id: instance.dataValues.id,
-          Sets: _.map(sets, (set) => set.dataValues),
+          sets: _.map(sets, util.mapSet),
           workout_date: moment(
             instance.dataValues.workout_date
           ).format('YYYY-MM-DD')
@@ -291,7 +271,17 @@ const updateWorkout = function(request, reply) {
       });
     }
     else {
-      reply({error: 'Not Found'}).code(404);
+      util.createWorkout(
+        workoutDate, userId, request.payload.sets, null
+      ).then((instance) => {
+        const workout = instance.dataValues;
+        reply({
+          id: workout.id,
+          workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
+          sets: _.map(instance.dataValues.Sets, util.mapSet),
+          location: null
+        }).code(201);
+      });
     }
   });
 };
