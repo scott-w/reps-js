@@ -1,7 +1,7 @@
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 
-import {SetList} from '../collections/workouts';
+import {SetList} from '../../sets/collections/sets';
 
 
 export const SetView = Marionette.View.extend({

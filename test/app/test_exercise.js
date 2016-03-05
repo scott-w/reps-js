@@ -8,7 +8,7 @@ const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
-import {SetList} from '../../app/exercises/collections/exercises';
+import {SetList} from '../../app/sets/collections/sets';
 
 
 describe('SetList collection', function() {

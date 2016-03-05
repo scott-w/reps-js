@@ -17,13 +17,9 @@ const it = lab.it;
 import {
   UserModel
 } from '../../app/base/models/auth';
-import {
-  SetModel,
-  WorkoutModel
-} from '../../app/workouts/models/workout';
-import {
-  SetList
-} from '../../app/workouts/collections/workouts';
+import {SetModel} from '../../app/sets/models/set';
+import {WorkoutModel} from '../../app/workouts/models/workout';
+import {SetList} from '../../app/sets/collections/sets';
 
 
 describe('Set Model', () => {

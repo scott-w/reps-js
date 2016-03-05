@@ -3,7 +3,7 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
-import {SetList} from '../collections/exercises';
+import {SetList} from '../../sets/collections/sets';
 
 import {SetListView} from './set';
 
