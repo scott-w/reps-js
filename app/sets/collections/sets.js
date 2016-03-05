@@ -86,11 +86,16 @@ export const SetList = Collection.extend({
     });
   },
 
+  _getAttrs: function(model) {
+    if (this._isModel(model)) {
+      return model.pick('exercise_name', 'weight', 'reps');
+    }
+    return model;
+  },
   /** Add a set to the list and save it to disk.
   */
   addSet: function(model) {
-    const attrs = model.pick('exercise_name', 'weight', 'reps');
-
+    const attrs = this._getAttrs(model);
     const set = new SetModel();
 
     set.save(attrs, {

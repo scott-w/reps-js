@@ -1,6 +1,8 @@
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
+import _ from 'underscore';
+
 import {ExerciseContainerView} from '../../exercises/views/list';
 import {ExerciseList} from '../../exercises/collections/exercises';
 import {SearchModel} from '../../exercises/models/search';
@@ -212,6 +214,8 @@ export const CreateWorkout = Marionette.View.extend({
   },
 
   renderSetList: function() {
-    this.collection.set(this.model.get('sets'));
+    _.each(this.model.get('sets'), (set) => {
+      this.collection.addSet(set);
+    });
   }
 });
