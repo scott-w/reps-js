@@ -7,12 +7,15 @@ import validate from 'validate.js';
 import {authSync} from '../../base/models/auth';
 
 
+export const MODELNAME = 'sets.Set';
+
 /** This synchronises with the exercise API to make it easier to map our sets
 */
 export const SetModel = Model.extend({
   url: '/exercises/',
   sync: authSync,
-  localStorage: new LocalStorage('workouts.Set'),
+
+  localStorage: new LocalStorage(MODELNAME),
 
   defaults: {
     weight: '',

@@ -5,14 +5,12 @@ import root from 'window-or-global';
 
 import {LocalModel} from '../../base/models/storage';
 
-import {SetModel} from '../models/set';
-
-
-const MODELNAME = 'sets.Set';
+import {SetModel, MODELNAME} from '../models/set';
 
 
 export const SetList = Collection.extend({
   model: SetModel,
+
   comparator: function(first, second) {
     const workout1 = first.get('workout_date');
     const workout2 = second.get('workout_date');
@@ -94,6 +92,7 @@ export const SetList = Collection.extend({
     const attrs = model.pick('exercise_name', 'weight', 'reps');
 
     const set = new SetModel();
+
     set.save(attrs, {
       success: () => {
         const local = new LocalModel({

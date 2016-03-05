@@ -14,11 +14,11 @@ const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
-import {
-  UserModel
-} from '../../app/base/models/auth';
+import {UserModel} from '../../app/base/models/auth';
+
 import {SetModel} from '../../app/sets/models/set';
 import {WorkoutModel} from '../../app/workouts/models/workout';
+
 import {SetList} from '../../app/sets/collections/sets';
 
 
@@ -248,7 +248,7 @@ describe('Set List', () => {
       expect(model.get('weight')).to.equal('10kg');
       expect(model.get('reps')).to.equal(15);
 
-      const localId = `workouts.Set-${model.id}`;
+      const localId = `sets.Set-${model.id}`;
       const stored = JSON.parse(window.localStorage.getItem(localId));
 
       expect(stored.exercise_name).to.equal('Curls');
@@ -276,15 +276,15 @@ describe('Set List', () => {
       done();
     });
 
-    global.localStorage.setItem('workouts.Set', 'abc');
-    global.localStorage.setItem('workouts.Set-abc', JSON.stringify({
+    global.localStorage.setItem('sets.Set', 'abc');
+    global.localStorage.setItem('sets.Set-abc', JSON.stringify({
       exercise_name: 'Squats',
       weight: '120kg',
       reps: 6
     }));
-    global.localStorage.setItem('LocalData', 'workouts.Set');
-    global.localStorage.setItem('LocalData-workouts.Set', JSON.stringify({
-      modelname: 'workouts.Set',
+    global.localStorage.setItem('LocalData', 'sets.Set');
+    global.localStorage.setItem('LocalData-sets.Set', JSON.stringify({
+      modelname: 'sets.Set',
       data: ['abc']
     }));
 
@@ -300,17 +300,17 @@ describe('Set List', () => {
     collection.at(0).save();
     const id = collection.at(0).id;
 
-    global.localStorage.setItem('LocalData', 'workouts.Set');
-    global.localStorage.setItem('LocalData-workouts.Set', JSON.stringify({
-      modelname: 'workouts.Set',
+    global.localStorage.setItem('LocalData', 'sets.Set');
+    global.localStorage.setItem('LocalData-sets.Set', JSON.stringify({
+      modelname: 'sets.Set',
       data: [id]
     }));
 
     collection.once('clear', function() {
       expect(collection.length).to.equal(0);
 
-      const localModel = global.localStorage.getItem(`workouts.Set-${id}`);
-      const localData = global.localStorage.getItem('LocalData-workouts.Set');
+      const localModel = global.localStorage.getItem(`sets.Set-${id}`);
+      const localData = global.localStorage.getItem('LocalData-sets.Set');
       const user = global.localStorage.getItem('UserModel-current');
 
       expect(_.isUndefined(localModel)).to.equal(true);
