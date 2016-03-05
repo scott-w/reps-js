@@ -5,7 +5,7 @@ import {ExerciseContainerView} from '../../exercises/views/list';
 import {ExerciseList} from '../../exercises/collections/exercises';
 import {SearchModel} from '../../exercises/models/search';
 
-import {SetModel} from '../models/workout';
+import {SetModel} from '../../sets/models/set';
 import {SetList} from '../../sets/collections/sets';
 
 import {SmallSetListView, PanelSetListView} from './set';
