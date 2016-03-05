@@ -276,45 +276,9 @@ const updateWorkout = function(request, reply) {
 
   util.getWorkout(userId, workoutDate, [models.Set]).then((instance) => {
     if (instance) {
-      const sets = _.map(instance.dataValues.Sets, (set) => set.dataValues.id);
-      const setsToAdd = _.filter(
-        request.payload.sets,
-        (set) => _.isUndefined(set.id) || !_.includes(sets, set.id));
-      const setsToKeep = _.map(
-        _.filter(
-          request.payload.sets,
-          (set) => !_.isUndefined(set.id)
-        ), (set) => set.id
-      );
-
-      const setsToRemove = _.filter(
-        instance.dataValues.Sets,
-        (set) => !_.includes(setsToKeep, set.dataValues.id)
-      );
-
-      models.Set.bulkCreate(
-        _.map(setsToAdd, (set) => ({
-          WorkoutId: instance.dataValues.id,
-          ExerciseId: set.exercise,
-          reps: set.reps,
-          weight: set.weight
-        }))
-      ).then(() => {
-        return models.Set.destroy({
-          where: {
-            id: {
-              $in: _.map(setsToRemove, (set) => set.dataValues.id)
-            }
-          }
-        });
-      }).then(() => {
-        return models.Set.findAll({
-          where: {
-            WorkoutId: instance.dataValues.id
-          }
-        });
-      }).then((sets) => {
-        console.log('requeried');
+      util.updateSets(
+        instance.dataValues.Sets, request.payload.sets, instance.dataValues.id
+      ).then((sets) => {
         let response = {
           id: instance.dataValues.id,
           Sets: _.map(sets, (set) => set.dataValues),
@@ -322,6 +286,7 @@ const updateWorkout = function(request, reply) {
             instance.dataValues.workout_date
           ).format('YYYY-MM-DD')
         };
+
         reply(response).code(200);
       });
     }

@@ -31,3 +31,51 @@ exports.getExercise = (userId, exercise_name) => models.Exercise.findOne({
     }
   }
 });
+
+
+/** Update sets for a workoutDate. This requires the exerciseDate to exist
+    first.
+    This will completely overwrite all existingSets with the value of
+    requestSets. Where possible, this will leave unchanged sets.
+*/
+exports.updateSets = (existingSets, requestSets, workoutId) => {
+  const sets = _.map(existingSets, (set) => set.dataValues.id);
+
+  const setsToAdd = _.filter(
+    requestSets,
+    (set) => _.isUndefined(set.id) || !_.includes(sets, set.id));
+  const setsToKeep = _.map(
+    _.filter(
+      requestSets,
+      (set) => !_.isUndefined(set.id)
+    ), (set) => set.id
+  );
+
+  const setsToRemove = _.filter(
+    existingSets,
+    (set) => !_.includes(setsToKeep, set.dataValues.id)
+  );
+
+  return models.Set.bulkCreate(
+    _.map(setsToAdd, (set) => ({
+      WorkoutId: workoutId,
+      ExerciseId: set.exercise,
+      reps: set.reps,
+      weight: set.weight
+    }))
+  ).then(() => {
+    return models.Set.destroy({
+      where: {
+        id: {
+          $in: _.map(setsToRemove, (set) => set.dataValues.id)
+        }
+      }
+    });
+  }).then(() => {
+    return models.Set.findAll({
+      where: {
+        WorkoutId: workoutId
+      }
+    });
+  });
+};

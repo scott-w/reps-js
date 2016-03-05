@@ -291,6 +291,37 @@ describe('Update workout', () => {
     });
   });
 
+  it('can create a new workout to overwrite sets', (done) => {
+    const data = {
+      method: 'put',
+      url: '/workouts/2016-01-29',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-29',
+        sets: [
+          {exercise: 1, weight: '50Kg', reps: 6, id: 1},
+          {exercise: 1, weight: '60Kg', reps: 6},
+          {exercise: 1, weight: '70Kg', reps: 6},
+          {exercise: 1, weight: '80Kg', reps: 6}
+        ]
+      }
+    };
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.workout_date).to.equal('2016-01-29');
+      expect(response.result.Sets.length).to.equal(4);
+      expect(response.result.Sets[0].weight).to.equal('50Kg');
+      expect(response.result.Sets[1].weight).to.equal('60Kg');
+      expect(response.result.Sets[1].ExerciseId).to.equal(1);
+      expect(response.result.Sets[1].WorkoutId).to.equal(1);
+
+      models.Set.findAll().then(function(result) {
+        expect(result.length).to.equal(4);
+        done();
+      });
+    });
+  });
+
   it('can remove sets', (done) => {
     const data = {
       method: 'put',
