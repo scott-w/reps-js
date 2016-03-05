@@ -3,10 +3,13 @@ const Lab = require('lab');
 
 const lab = exports.lab = Lab.script();
 
+const afterEach = lab.afterEach;
 const beforeEach = lab.beforeEach;
 const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
+
+import {spy, stub} from 'sinon';
 
 import {WorkoutModel} from '../../app/workouts/models/workout';
 
@@ -16,7 +19,6 @@ describe('Workout Model', function () {
 
   beforeEach(function (done) {
     model = new WorkoutModel({
-      id: 19,
       workout_date: '2016-02-20',
       location: null,
       sets: [
@@ -48,10 +50,22 @@ describe('Workout Model', function () {
         exercise_name: 'Bench Press'
       }]
     });
+
+    spy(model, 'trigger');
+    stub(model, 'sync');
+
     done();
   });
 
-  it('gives a list of exercises with mapped sets', function (done) {
+  afterEach(function(done) {
+    model.trigger.restore();
+    model.sync.restore();
+
+    model = null;
+    done();
+  });
+
+  it('gives a list of exercises with mapped sets', function(done) {
     const exercises = model.getExercises();
     expect(exercises.length).to.equal(2);
 
@@ -66,6 +80,19 @@ describe('Workout Model', function () {
     expect(flies.get('exercise_name')).to.equal('Flies');
     expect(flies.get('sets').length).to.equal(1);
     expect(flies.get('sets')[0].id).to.equal(6);
+
+    done();
+  });
+
+  it('saves using a PUT to the workout_date', function(done) {
+    model.saveWorkout();
+
+    const syncCall = model.sync.getCall(0);
+
+    expect(syncCall.args[0]).to.equal('update');
+
+    syncCall.args[2].success();
+    expect(model.trigger.calledWith('save')).to.equal(true);
 
     done();
   });

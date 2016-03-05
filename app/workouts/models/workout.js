@@ -93,10 +93,6 @@ export const WorkoutModel = Backbone.Model.extend({
     return `/workout/${this.get('workout_date')}`;
   },
 
-  isNew: function() {
-    return _.isUndefined(this.get('id'));
-  },
-
   validate: function(attrs) {
     return validate(attrs, {
       workout_date: {
