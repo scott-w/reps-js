@@ -93,27 +93,10 @@ const recordWorkout = function(request, reply) {
       reply({workout_date: 'Cannot duplicate the workout_date'}).code(400);
     }
     else {
-      let sets = request.payload.sets || [];
-      let createData = {
-        'workout_date': workoutDate,
-        UserId: userId,
-        Sets: _.map(
-          sets, (set) => ({
-            ExerciseId: set.exercise,
-            reps: set.reps,
-            weight: set.weight
-          })
-        )
-      };
-      if (locationId) {
-        createData.LocationId = locationId;
-      }
-
-      models.Workout.create(createData, {
-        include: [models.Set]
-      }).then((instance) => {
+      util.createWorkout(
+        workoutDate, userId, request.payload.sets || [], locationId
+      ).then((instance) => {
         const workout = instance.dataValues;
-        const sets = _.map(instance.dataValues.Sets, (set) => set.dataValues);
 
         models.Location.findOne({
           where: {
@@ -133,12 +116,11 @@ const recordWorkout = function(request, reply) {
           else {
             location = null;
           }
-
           reply({
             id: workout.id,
             workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
-            Sets: sets,
-            Location: location
+            sets: _.map(instance.dataValues.Sets, util.mapSet),
+            location: location
           }).code(201);
         });
       }).catch((err) => {
@@ -218,14 +200,12 @@ const retrieveWorkout = function(request, reply) {
       reply({
         workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
         location: location,
-        sets: _.map(workout.Sets, (set) => ({
-          id: set.dataValues.id,
-          reps: set.dataValues.reps,
-          weight: set.dataValues.weight,
-          createdAt: set.dataValues.createdAt,
-          exercise: set.dataValues.Exercise.dataValues.id,
-          exercise_name: set.dataValues.Exercise.dataValues.exercise_name
-        }))
+        sets: _.map(workout.Sets, (set) => {
+          const retSet = util.mapSet(set);
+          retSet.exercise = set.dataValues.Exercise.dataValues.id;
+          retSet.exercise_name = set.dataValues.Exercise.dataValues.exercise_name;
+          return retSet;
+        })
       });
     }
     else {
@@ -257,7 +237,7 @@ const addSets = function(request, reply) {
         }).then((sets) => {
           let response = {
             id: instance.dataValues.id,
-            Sets: _.map(sets, (set) => set.dataValues),
+            sets: _.map(sets, util.mapSet),
             workout_date: instance.dataValues.workout_date
           };
           reply(response).code(201);
@@ -276,57 +256,32 @@ const updateWorkout = function(request, reply) {
 
   util.getWorkout(userId, workoutDate, [models.Set]).then((instance) => {
     if (instance) {
-      const sets = _.map(instance.dataValues.Sets, (set) => set.dataValues.id);
-      const setsToAdd = _.filter(
-        request.payload.sets,
-        (set) => _.isUndefined(set.id) || !_.includes(sets, set.id));
-      const setsToKeep = _.map(
-        _.filter(
-          request.payload.sets,
-          (set) => !_.isUndefined(set.id)
-        ), (set) => set.id
-      );
-
-      const setsToRemove = _.filter(
-        instance.dataValues.Sets,
-        (set) => !_.includes(setsToKeep, set.dataValues.id)
-      );
-
-      models.Set.bulkCreate(
-        _.map(setsToAdd, (set) => ({
-          WorkoutId: instance.dataValues.id,
-          ExerciseId: set.exercise,
-          reps: set.reps,
-          weight: set.weight
-        }))
-      ).then(() => {
-        return models.Set.destroy({
-          where: {
-            id: {
-              $in: _.map(setsToRemove, (set) => set.dataValues.id)
-            }
-          }
-        });
-      }).then(() => {
-        return models.Set.findAll({
-          where: {
-            WorkoutId: instance.dataValues.id
-          }
-        });
-      }).then((sets) => {
-        console.log('requeried');
+      util.updateSets(
+        instance.dataValues.Sets, request.payload.sets, instance.dataValues.id
+      ).then((sets) => {
         let response = {
           id: instance.dataValues.id,
-          Sets: _.map(sets, (set) => set.dataValues),
+          sets: _.map(sets, util.mapSet),
           workout_date: moment(
             instance.dataValues.workout_date
           ).format('YYYY-MM-DD')
         };
+
         reply(response).code(200);
       });
     }
     else {
-      reply({error: 'Not Found'}).code(404);
+      util.createWorkout(
+        workoutDate, userId, request.payload.sets, null
+      ).then((instance) => {
+        const workout = instance.dataValues;
+        reply({
+          id: workout.id,
+          workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
+          sets: _.map(instance.dataValues.Sets, util.mapSet),
+          location: null
+        }).code(201);
+      });
     }
   });
 };

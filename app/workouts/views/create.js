@@ -1,12 +1,14 @@
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
+import _ from 'underscore';
+
 import {ExerciseContainerView} from '../../exercises/views/list';
 import {ExerciseList} from '../../exercises/collections/exercises';
 import {SearchModel} from '../../exercises/models/search';
 
-import {SetModel} from '../models/workout';
-import {SetList} from '../collections/workouts';
+import {SetModel} from '../../sets/models/set';
+import {SetList} from '../../sets/collections/sets';
 
 import {SmallSetListView, PanelSetListView} from './set';
 
@@ -163,6 +165,7 @@ export const CreateWorkout = Marionette.View.extend({
   },
 
   modelEvents: {
+    sync: 'renderSetList',
     save: 'saveComplete'
   },
 
@@ -208,5 +211,11 @@ export const CreateWorkout = Marionette.View.extend({
   onShowList: function() {
     const form = this.getChildView('setForm');
     form.clearSets();
+  },
+
+  renderSetList: function() {
+    _.each(this.model.get('sets'), (set) => {
+      this.collection.addSet(set);
+    });
   }
 });

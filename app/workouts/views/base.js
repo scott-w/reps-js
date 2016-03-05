@@ -31,9 +31,11 @@ export default Marionette.View.extend({
   },
 
   showCreateWorkout: function() {
+    const model = new WorkoutModel();
+    model.fetch();
     const create = new CreateWorkout({
       collection: this.collection,
-      model: new WorkoutModel()
+      model: model
     });
     this.showChildView('container', create);
     return create;

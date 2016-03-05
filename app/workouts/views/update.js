@@ -1,4 +1,4 @@
-import {SetList} from '../collections/workouts';
+import {SetList} from '../../sets/collections/sets';
 
 import {CreateWorkout} from './create';
 
