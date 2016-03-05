@@ -163,6 +163,7 @@ export const CreateWorkout = Marionette.View.extend({
   },
 
   modelEvents: {
+    sync: 'renderSetList',
     save: 'saveComplete'
   },
 
@@ -208,5 +209,9 @@ export const CreateWorkout = Marionette.View.extend({
   onShowList: function() {
     const form = this.getChildView('setForm');
     form.clearSets();
+  },
+
+  renderSetList: function() {
+    this.collection.set(this.model.get('sets'));
   }
 });
