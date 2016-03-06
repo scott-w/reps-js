@@ -5,7 +5,9 @@ import {ExerciseList} from '../collections/workouts';
 import {ExerciseListView} from './exercise';
 
 
-const WorkoutView = Marionette.View.extend({
+/** Preview the Workout with lunks to edit.
+*/
+const WorkoutDetailView = Marionette.View.extend({
   className: 'col-md-12',
   template: require('../templates/workout/detail.html'),
 
@@ -17,10 +19,20 @@ const WorkoutView = Marionette.View.extend({
     sync: 'render'
   },
 
+  ui: {
+    back: '.go-back',
+    edit: '.edit-workout'
+  },
+
+  triggers: {
+    'click @ui.back': 'show:list',
+    'click @ui.edit': 'show:edit'
+  },
+
   templateContext: function() {
     return {
       formattedDate: this.model.formatDate(),
-      editUrl: `${this.model.displayUrl()}/edit`
+      editUrl: this._editUrl()
     };
   },
 
@@ -28,6 +40,18 @@ const WorkoutView = Marionette.View.extend({
     this.showChildView('exercises', new ExerciseListView({
       collection: new ExerciseList(this.model.getExercises())
     }), {replaceElement: true});
+  },
+
+  onShowList: function() {
+    Backbone.history.navigate('workout/');
+  },
+
+  onShowEdit: function() {
+    Backbone.history.navigate(this._editUrl());
+  },
+
+  _editUrl: function() {
+    return `${this.model.displayUrl()}/edit`;
   }
 });
 
@@ -109,6 +133,10 @@ export const WorkoutList = Marionette.View.extend({
   },
 
   onRender: function() {
+    this.showList();
+  },
+
+  showList: function() {
     this.showChildView('list', new WorkoutListLayout({
       collection: this.collection
     }));
@@ -117,7 +145,7 @@ export const WorkoutList = Marionette.View.extend({
   showWorkout: function(model) {
     model.getWorkout();
     this.showChildView(
-      'list', new WorkoutView({model: model}),
+      'list', new WorkoutDetailView({model: model}),
       {replaceElement: true}
     );
     Backbone.history.navigate(model.displayUrl());
@@ -127,7 +155,15 @@ export const WorkoutList = Marionette.View.extend({
     this.showWorkout(options.model);
   },
 
+  onChildviewShowList: function() {
+    this.showList();
+  },
+
   onChildviewShowCreateWorkout: function() {
     this.triggerMethod('show:create:workout');
+  },
+
+  onChildviewShowEdit: function(options) {
+    this.triggerMethod('show:edit', options.model);
   }
 });

@@ -69,6 +69,14 @@ export default Marionette.View.extend({
     this.showWorkoutList();
   },
 
+  onChildviewShowDetail: function(options) {
+    this.showWorkoutDetail(options.model.get('workout_date'));
+  },
+
+  onChildviewShowEdit: function(model) {
+    this.showWorkoutEdit(model.get('workout_date'));
+  },
+
   onChildviewAddToCollection: function(model) {
     const collection = this.collection;
     collection.add(model.pick('id', 'workout_date', 'sets', 'location'));
