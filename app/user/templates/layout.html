@@ -1,0 +1,64 @@
+<form class="form-horizontal" action="" method="PUT">
+  <div class="row">
+    <div class="col-lg-4 col-lg-offset-2">
+      <div class="form-group">
+        <label class="control-label col-lg-3" for="id_email">My email</label>
+        <div class="col-lg-9">
+          <input class="form-control" id="id_email" type="email" value="<%- email %>"
+          name="email" disabled>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="form-group">
+        <label class="control-label col-lg-3" for="id_password">Password</label>
+        <div class="col-lg-5">
+          <input class="form-control" id="id_password" type="password"
+            value="disabled password" disabled>
+        </div>
+        <a class="btn btn-warning col-lg-4">
+          Change Password
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-lg-4 col-lg-offset-2">
+      <div class="form-group">
+        <label class="control-label col-lg-3" for="id_first_name">
+          First Name
+        </label>
+        <div class="col-lg-9">
+          <input class="form-control" id="id_first_name" type="text"
+          value="<%- first_name %>" name="first_name">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 col-lg-offset-2">
+      <div class="form-group">
+        <label class="control-label col-lg-3" for="id_last_name">
+          Last Name
+        </label>
+        <div class="col-lg-9">
+          <input class="form-control" id="id_last_name" type="text"
+          value="<%- last_name %>" name="last_name">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 col-lg-offset-2">
+      <div class="pull-right">
+        <button type="button" class="btn btn-danger undo">
+          Undo Changes
+        </button>
+        <button class="btn btn-success save-user">Update Details</button>
+      </div>
+    </div>
+  </div>
+</form>

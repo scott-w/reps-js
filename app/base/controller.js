@@ -4,6 +4,11 @@ import _ from 'underscore';
 import root from '../root';
 
 
+/** Provides a base controller that oversees interaction with the root view.
+    To use this, you must extend the controller with:
+      layoutView: The base View that owns the sub-app
+      layoutOptions (optional): Any options to pass into instantating layoutView
+*/
 export const BaseController = Mn.Object.extend({
   mainView: 'main',
 

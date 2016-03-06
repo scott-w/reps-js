@@ -1,11 +1,23 @@
 import {BaseController} from '../base/controller';
 
-import {BaseView} from './views';
+import {UserLayout} from './views';
+import {UserModel} from '../base/models/auth';
 
 
 export const Controller = BaseController.extend({
-  showProfile: function() {
+  layoutView: UserLayout,
 
+  initialize: function() {
+    const model = new UserModel();
+    model.fetch();
+
+    this.options.layoutOptions = {
+      model: model
+    };
+  },
+
+  showProfile: function() {
+    this.showAndGetLayout();
   }
 });
 
