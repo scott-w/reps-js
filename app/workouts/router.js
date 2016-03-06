@@ -1,11 +1,10 @@
-import _ from 'underscore';
-import Marionette from 'backbone.marionette';
-
-import root from '../root';
+import {BaseController} from '../base/controller';
 
 import WorkoutList from './views/base';
 
-export const Controller = Marionette.Object.extend({
+export const Controller = BaseController.extend({
+  layoutView: WorkoutList,
+
   listWorkout: function() {
     const layout = this.showAndGetLayout();
     layout.showWorkoutList();
@@ -24,26 +23,7 @@ export const Controller = Marionette.Object.extend({
   editWorkout: function(workout_date) {
     const layout = this.showAndGetLayout();
     layout.showWorkoutEdit(workout_date);
-  },
-
-  showingMyView: function() {
-    const view = root.getChildView('main');
-    const cid = this.getOption('indexCid');
-    if (_.isUndefined(cid)) {
-      return false;
-    }
-    return view.cid === cid;
-  },
-
-  showAndGetLayout: function() {
-    if (this.showingMyView()) {
-      return root.getChildView('main');
-    }
-    const layout = new WorkoutList();
-    root.showChildView('main', layout);
-    return layout;
   }
-
 });
 
 export const routes = {
