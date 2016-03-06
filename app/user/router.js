@@ -1,10 +1,14 @@
-import Marionette from 'backbone.marionette';
-
 import {BaseController} from '../base/controller';
 
-export const Controller = BaseController.extend({
+import {BaseView} from './views';
 
+
+export const Controller = BaseController.extend({
+  showProfile: function() {
+
+  }
 });
 
 export const routes = {
+  'profile': 'showProfile'
 };

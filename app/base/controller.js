@@ -7,6 +7,8 @@ import root from '../root';
 export const BaseController = Mn.Object.extend({
   mainView: 'main',
 
+  /** Returns whether the current base view is the view being displayed
+  */
   showingMyView: function() {
     const view = root.getChildView('main');
     const cid = this.getOption('indexCid');
@@ -17,6 +19,10 @@ export const BaseController = Mn.Object.extend({
     return view.cid === cid;
   },
 
+  /** Forcibly shows this controller's base layout and returns a reference to
+      it.
+      If the layout is being shown, this won't fire a re-render.
+  */
   showAndGetLayout: function() {
     if (this.showingMyView()) {
       return root.getChildView('main');

@@ -1,3 +1,4 @@
+import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
@@ -211,6 +212,7 @@ export const CreateWorkout = Marionette.View.extend({
   onShowList: function() {
     const form = this.getChildView('setForm');
     form.clearSets();
+    Backbone.history.navigate('workout/');
   },
 
   renderSetList: function() {
