@@ -256,6 +256,7 @@ const updateWorkout = function(request, reply) {
 
   util.getWorkout(userId, workoutDate, [models.Set]).then((instance) => {
     if (instance) {
+      console.log('Updating Workout');
       util.updateSets(
         instance.dataValues.Sets, request.payload.sets, instance.dataValues.id
       ).then((sets) => {
@@ -271,6 +272,7 @@ const updateWorkout = function(request, reply) {
       });
     }
     else {
+      console.log('Creating Workout');
       util.createWorkout(
         workoutDate, userId, request.payload.sets, null
       ).then((instance) => {

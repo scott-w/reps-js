@@ -60,7 +60,8 @@ const SetLayoutView = Marionette.View.extend({
   },
 
   collectionEvents: {
-    add: 'fetchIds'
+    add: 'fetchIds',
+    loaded: 'fetchAllIds'
   },
 
   initialize: function() {
@@ -108,6 +109,10 @@ const SetLayoutView = Marionette.View.extend({
         success: () => collection.setExerciseIds()
       });
     }
+  },
+
+  fetchAllIds: function() {
+    this.collection.setExerciseIds();
   },
 
   searchExercises: function() {
@@ -202,6 +207,7 @@ export const CreateWorkout = Marionette.View.extend({
       workout_date: data.workout_date,
       sets: this.collection
     });
+    console.log(this.collection.map((i) => i.get('exercise')));
   },
 
   saveComplete: function() {
