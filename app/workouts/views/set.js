@@ -11,7 +11,11 @@ import {
 const SetView = Marionette.View.extend({
   tagName: 'li',
   className: 'list-group-item',
-  template: require('../templates/create/set.html')
+  template: require('../templates/create/set.html'),
+
+  modelEvents: {
+    change: 'render'
+  }
 });
 
 export const SmallSetListView = SetListView.extend({
