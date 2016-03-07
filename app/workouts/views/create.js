@@ -104,7 +104,7 @@ const SetLayoutView = Marionette.View.extend({
   fetchIds: function(model, collection) {
     collection.setExerciseIds();
 
-    if (!model.get('exercise')) {
+    if (!model.get('exercise') && model.get('exercise_name')) {
       model.fetchExercise({
         success: () => collection.setExerciseIds()
       });
@@ -112,7 +112,10 @@ const SetLayoutView = Marionette.View.extend({
   },
 
   fetchAllIds: function() {
-    this.collection.setExerciseIds();
+    _.chain(
+      this.collection.filter(
+        (exercise) => !exercise.get('exercise') && exercise.get('exercise_name'))
+    ).each((exercise) => exercise.fetchExercise());
   },
 
   searchExercises: function() {
@@ -187,7 +190,6 @@ export const CreateWorkout = Marionette.View.extend({
 
   initialize: function() {
     this.collection = new SetList(null);
-    this.collection.fetchStored();
   },
 
   onRender: function() {
@@ -198,6 +200,8 @@ export const CreateWorkout = Marionette.View.extend({
     this.showChildView('setList', new SmallSetListView({
       collection: this.collection
     }));
+
+    this.collection.fetchStored();
   },
 
   saveWorkout: function(e) {

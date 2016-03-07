@@ -74,6 +74,7 @@ export const SetModel = Model.extend({
     this.set('id', 1);  // Force a patch
     this.trigger('before:sync:exercise', this);
 
+    console.log(this.attributes);
     this.save(
       {exercise_name: this.get('exercise_name')},
       {
