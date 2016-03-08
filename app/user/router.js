@@ -9,7 +9,7 @@ export const Controller = BaseController.extend({
 
   initialize: function() {
     const model = new UserModel();
-    model.fetch();
+    model.getProfile();
 
     this.options.layoutOptions = {
       model: model
