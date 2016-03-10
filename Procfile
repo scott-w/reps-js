@@ -1,1 +1,1 @@
-web: npm run c && npm run start
+web: npm run start
