@@ -10,7 +10,7 @@ server.connection({
   routes: {
     cors: true
   },
-  port: 3000
+  port: process.env.PORT || 3000
 });
 
 server.register(require('hapi-auth-jwt2'), (err) => {

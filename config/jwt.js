@@ -11,8 +11,11 @@ var privateKey;
 if (_.isUndefined(env_private_key) && testing) {
   privateKey = 'myprivatekey';
 }
+else if (_.isUndefined(env_private_key) && process.env.NODE_ENV === 'production') {
+  throw 'JWT private key must be set for production';
+}
 else {
   privateKey = env_private_key;
 }
 
-exports.privateKey = 'myprivatekey';
+exports.privateKey = privateKey;
