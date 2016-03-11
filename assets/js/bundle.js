@@ -25190,11 +25190,13 @@
 	  template: __webpack_require__(67),
 
 	  ui: {
-	    form: 'form'
+	    form: 'form',
+	    undo: '.undo'
 	  },
 
 	  events: {
-	    'submit @ui.form': 'updateUser'
+	    'submit @ui.form': 'updateUser',
+	    'click @ui.undo': 'render'
 	  },
 
 	  modelEvents: {

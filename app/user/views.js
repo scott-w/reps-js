@@ -8,11 +8,13 @@ export const UserLayout = View.extend({
   template: require('./templates/layout.html'),
 
   ui: {
-    form: 'form'
+    form: 'form',
+    undo: '.undo'
   },
 
   events: {
-    'submit @ui.form': 'updateUser'
+    'submit @ui.form': 'updateUser',
+    'click @ui.undo': 'render'
   },
 
   modelEvents: {
