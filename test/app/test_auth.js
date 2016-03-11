@@ -71,7 +71,7 @@ describe('UserModel', function() {
     expect(model.get('first_name'), 'Test');
     expect(model.get('last_name'), 'User');
 
-    const syncArgs = model.sync.getCall(0).args;
+    const syncArgs = model.sync.getCall(1).args;
 
     expect(syncArgs[0]).to.equal('update');
     expect(syncArgs[1]).to.equal(model);
