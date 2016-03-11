@@ -17044,6 +17044,7 @@
 	  updateUser: function updateUser(fields) {
 	    var updateFields = _underscore2.default.defaults(fields, this.pick('first_name', 'last_name'));
 
+	    this.save(updateFields);
 	    this.save(updateFields, {
 	      ajaxSync: true,
 	      headers: getAuthHeader(this)
@@ -25176,11 +25177,38 @@
 	});
 	exports.UserLayout = undefined;
 
-	var _backbone = __webpack_require__(4);
+	var _backbone = __webpack_require__(18);
 
-	var UserLayout = exports.UserLayout = _backbone.View.extend({
+	var _backbone2 = _interopRequireDefault(_backbone);
+
+	var _backbone3 = __webpack_require__(4);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var UserLayout = exports.UserLayout = _backbone3.View.extend({
 	  className: 'container-fluid',
-	  template: __webpack_require__(67)
+	  template: __webpack_require__(67),
+
+	  ui: {
+	    form: 'form'
+	  },
+
+	  events: {
+	    'submit @ui.form': 'updateUser'
+	  },
+
+	  modelEvents: {
+	    sync: 'render'
+	  },
+
+	  updateUser: function updateUser(e) {
+	    e.preventDefault();
+	    var nameFields = _backbone2.default.serialize(this);
+	    this.model.updateUser({
+	      first_name: nameFields.first_name,
+	      last_name: nameFields.last_name
+	    });
+	  }
 	});
 
 /***/ },
@@ -25196,7 +25224,7 @@
 	((__t=( first_name ))==null?'':_.escape(__t))+
 	'" name="first_name">\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4 col-lg-offset-2">\n      <div class="form-group">\n        <label class="control-label col-lg-3" for="id_last_name">\n          Last Name\n        </label>\n        <div class="col-lg-9">\n          <input class="form-control" id="id_last_name" type="text"\n          value="'+
 	((__t=( last_name ))==null?'':_.escape(__t))+
-	'" name="last_name">\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4 col-lg-offset-2">\n      <div class="pull-right">\n        <button type="button" class="btn btn-danger undo">\n          Undo Changes\n        </button>\n        <button class="btn btn-success save-user">Update Details</button>\n      </div>\n    </div>\n  </div>\n</form>\n';
+	'" name="last_name">\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4 col-lg-offset-2">\n      <div class="pull-right">\n        <button type="button" class="btn btn-danger undo">\n          Undo Changes\n        </button>\n        <button type="submit" class="btn btn-success save-user">\n          Update Details\n        </button>\n      </div>\n    </div>\n  </div>\n</form>\n';
 	}
 	return __p;
 	};

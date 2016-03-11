@@ -55,6 +55,7 @@ export const UserModel = Backbone.Model.extend({
     const updateFields = _.defaults(
       fields, this.pick('first_name', 'last_name'));
 
+    this.save(updateFields);
     this.save(updateFields, {
       ajaxSync: true,
       headers: getAuthHeader(this)
