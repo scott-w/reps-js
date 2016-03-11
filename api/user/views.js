@@ -10,7 +10,6 @@ const updateUser = function(request, reply) {
   const last_name = request.payload.last_name;
 
   const updateVals = {};
-  console.log(request.payload, '\n\n\n\n\n\n\n\n\n\n');
   if (first_name) {
     updateVals.first_name = first_name;
   }
