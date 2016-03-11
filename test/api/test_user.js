@@ -16,6 +16,10 @@ var construct = require('./construct');
 require('../../models');
 var server = require('../../app.js');
 
+const headers = {
+  Authorization: construct.authHeader
+};
+
 
 describe('Create user', () => {
   beforeEach((done) => {
@@ -87,6 +91,30 @@ describe('Login user', () => {
       const tokenParts = response.result.token.split('.');
       expect(response.statusCode).to.equal(200);
       expect(tokenParts[0]).to.equal('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9');
+      done();
+    });
+  });
+});
+
+
+describe('Update user', () => {
+  beforeEach((done) => {
+    construct.fixtures('./fixtures/users.yaml', done);
+  });
+
+  it('can PUT a new user', (done) => {
+    server.inject({
+      url: '/me',
+      headers: headers,
+      method: 'PUT',
+      payload: {
+        first_name: 'Test',
+        last_name: 'Name'
+      }
+    }, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.first_name).to.equal('Test');
+      expect(response.result.last_name).to.equal('Name');
       done();
     });
   });
