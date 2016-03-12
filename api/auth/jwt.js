@@ -7,7 +7,7 @@ const models = require('../../models');
 module.exports = function(decoded, request, callback) {
   models.User.findOne({
     attributes: [
-      'email', 'id', 'createdAt', 'updatedAt'
+      'email', 'id', 'first_name', 'last_name', 'createdAt', 'updatedAt'
     ],
     where: {
       email: decoded.email

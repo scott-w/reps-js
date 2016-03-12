@@ -19,13 +19,20 @@ describe('UserModel', function() {
 
   beforeEach(function(done) {
     model = new UserModel();
+
     spy(global.localStorage, 'clear');
+    spy(model, 'trigger');
+    spy(model, 'sync');
+
     done();
   });
 
   afterEach(function(done) {
     model.clear();
     global.localStorage.clear.restore();
+    model.trigger.restore();
+    model.sync.restore();
+
     done();
   });
 
@@ -41,8 +48,6 @@ describe('UserModel', function() {
   });
 
   it('can log users out', (done) => {
-    spy(model, 'trigger');
-
     model.save({token: 'abc'});
 
     model.logout();
@@ -54,6 +59,24 @@ describe('UserModel', function() {
       global.localStorage.getItem('UserModel-current'));
     expect(storedUser.token).to.equal('');
     expect(global.localStorage.clear.called).to.equal(true);
+    done();
+  });
+
+  it('can update the user', (done) => {
+    model.updateUser({
+      first_name: 'Test',
+      last_name: 'User'
+    });
+
+    expect(model.get('first_name'), 'Test');
+    expect(model.get('last_name'), 'User');
+
+    const syncArgs = model.sync.getCall(1).args;
+
+    expect(syncArgs[0]).to.equal('update');
+    expect(syncArgs[1]).to.equal(model);
+    expect(syncArgs[2].ajaxSync).to.equal(true);
+
     done();
   });
 });
