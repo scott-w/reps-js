@@ -2,7 +2,7 @@ machine:
   environment:
     NODE_ENV: ci
   node:
-    version: 5.1.0
+    version: 5.7.0
 test:
   post:
-    - npm run-script build
+    - npm run c

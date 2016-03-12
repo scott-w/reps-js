@@ -54,6 +54,7 @@
     "babel-preset-es2015": "^6.5.0",
     "bluebird": "^3.2.2",
     "code": "^2.1.0",
+    "eslint": "^2.4.0",
     "http-proxy": "^1.13.1",
     "http-server": "^0.8.5",
     "lab": "^8.2.0",
