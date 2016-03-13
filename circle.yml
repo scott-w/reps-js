@@ -4,5 +4,8 @@ machine:
   node:
     version: 5.7.0
 test:
+  override:
+    - npm test
+    - npm run lint
   post:
     - npm run c
