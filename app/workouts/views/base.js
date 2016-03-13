@@ -24,7 +24,7 @@ export default Marionette.View.extend({
 
   showWorkoutList: function() {
     const list = new WorkoutList({
-      collection: this.collection,
+      collection: this.collection
     });
     this.showChildView('container', list);
     return list;

@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import Backbone from 'backbone';
 
 import {UserModel} from '../../base/models/auth';

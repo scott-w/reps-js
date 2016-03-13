@@ -1,3 +1,4 @@
+extends: eslint:recommended
 parserOptions:
   ecmaVersion: 6
   sourceType: module
@@ -6,3 +7,11 @@ parserOptions:
 env:
   browser: yes
   es6: yes
+globals:
+  require: no
+rules:
+  no-console:
+    - 2
+    - allow:
+      - warn
+      - error
