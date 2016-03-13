@@ -8,7 +8,7 @@ const views = require('./views');
 module.exports = [
   {
     config: {
-      auth: 'jwt',
+      auth: 'jwt'
     },
     method: 'GET',
     path: '/workouts/',
@@ -16,7 +16,7 @@ module.exports = [
   },
   {
     config: {
-      auth: 'jwt',
+      auth: 'jwt'
     },
     method: 'POST',
     path: '/workouts/',
@@ -24,7 +24,7 @@ module.exports = [
   },
   {
     config: {
-      auth: 'jwt',
+      auth: 'jwt'
     },
     method: 'GET',
     path: '/workouts/{workout_date}',
@@ -32,7 +32,7 @@ module.exports = [
   },
   {
     config: {
-      auth: 'jwt',
+      auth: 'jwt'
     },
     method: 'POST',
     path: '/workouts/{workout_date}',
@@ -40,7 +40,7 @@ module.exports = [
   },
   {
     config: {
-      auth: 'jwt',
+      auth: 'jwt'
     },
     method: 'PATCH',
     path: '/exercises/',
@@ -48,7 +48,7 @@ module.exports = [
   },
   {
     config: {
-      auth: 'jwt',
+      auth: 'jwt'
     },
     method: 'PUT',
     path: '/workouts/{workout_date}',
@@ -56,7 +56,7 @@ module.exports = [
   },
   {
     config: {
-      auth: 'jwt',
+      auth: 'jwt'
     },
     method: 'GET',
     path: '/exercises/',

@@ -211,7 +211,6 @@ export const CreateWorkout = Marionette.View.extend({
       workout_date: data.workout_date,
       sets: this.collection
     });
-    console.log(this.collection.map((i) => i.get('exercise')));
   },
 
   saveComplete: function() {

@@ -1,8 +1,0 @@
-parserOptions:
-  ecmaVersion: 6
-  sourceType: module
-  ecmaFeatures:
-    impliedStrict: yes
-env:
-  browser: yes
-  es6: yes

@@ -1,0 +1,20 @@
+{
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "impliedStrict": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "require": false
+  },
+  "rules": {
+    "no-console": [2, {"allow": ["warn", "error"]}]
+  }
+}

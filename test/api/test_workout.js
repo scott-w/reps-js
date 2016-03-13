@@ -348,7 +348,7 @@ describe('Update workout', () => {
       payload: {
         sets: [
           {exercise: 1, weight: '60Kg', reps: 6},
-          {exercise: 1, weight: '70Kg', reps: 6},
+          {exercise: 1, weight: '70Kg', reps: 6}
         ]
       }
     };

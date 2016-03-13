@@ -8,7 +8,7 @@ export const ExerciseModel = Backbone.Model.extend({
   defaults: () => ({
     exercise_name: '',
     workout_date: moment().format('YYYY-MM-DD'),
-    sets: [],
+    sets: []
   }),
 
   getAllSets: function() {

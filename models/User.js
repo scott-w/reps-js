@@ -1,4 +1,5 @@
-/* jshint node: true */
+/*eslint "no-unused-vars": 0*/
+
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('User', {
