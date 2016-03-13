@@ -2,4 +2,3 @@ javascript:
   enabled: false
 eslint:
   enabled: true
-  config_file: app/.eslintrc.json
