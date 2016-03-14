@@ -118,4 +118,36 @@ describe('Update user', () => {
       done();
     });
   });
+
+  it('can change a user\'s password', (done) => {
+    server.inject({
+      url: '/me/password',
+      headers: headers,
+      method: 'PATCH',
+      payload: {
+        password1: 'newpassword',
+        password2: 'newpassword'
+      }
+    }, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.token.length).to.be.above(1);
+      done();
+    });
+  });
+
+  it('refuses a password if they do not match', (done) => {
+    server.inject({
+      url: '/me/password',
+      headers: headers,
+      method: 'PATCH',
+      payload: {
+        password1: 'newpassword',
+        password2: 'differentpassword'
+      }
+    }, (response) => {
+      expect(response.statusCode).to.equal(400);
+      expect(response.result.password).to.equal('Passwords do not match');
+      done();
+    });
+  });
 });

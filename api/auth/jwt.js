@@ -2,9 +2,25 @@
 /* jshint node: true */
 /* jshint esversion: 6 */
 const models = require('../../models');
+const jwt = require('jsonwebtoken');
+
+const jwtConfig = require('../../config/jwt');
 
 
-module.exports = function(decoded, request, callback) {
+exports.getToken = function(user) {
+  const tokenData = {
+    email: user.email,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    scope: ['all'],
+    id: user.id
+  };
+
+  return jwt.sign(tokenData, jwtConfig.privateKey, {expiresIn: '24h'});
+};
+
+
+exports.verify = function(decoded, request, callback) {
   models.User.findOne({
     attributes: [
       'email', 'id', 'first_name', 'last_name', 'createdAt', 'updatedAt'
