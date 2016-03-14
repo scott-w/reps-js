@@ -71,9 +71,15 @@ export const UserModel = Backbone.Model.extend({
   /** Change the user's password
   */
   changePassword: function(password1, password2) {
-    return this.save({password1: password1, password2: password2}, {
+    return this.save({
+      password1: password1,
+      password2: password2
+    }, {
+      url: '/me/password',
       patch: true,
-      success: () => this.set({password1: undefined, password2: undefined})
+      ajaxSync: true,
+      headers: getAuthHeader(this),
+      success: () => this.save({password1: undefined, password2: undefined})
     });
   },
 
