@@ -3,10 +3,9 @@
 'use strict';
 
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
-const jwtConfig = require('../../config/jwt');
 const models = require('../../models');
+
+const jwt = require('./jwt');
 
 
 const getUserByEmail = function (email) {
@@ -17,17 +16,6 @@ const getUserByEmail = function (email) {
   });
 };
 
-const getToken = function(user) {
-  const tokenData = {
-    email: user.email,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    scope: ['all'],
-    id: user.id
-  };
-
-  return jwt.sign(tokenData, jwtConfig.privateKey);
-};
 
 /** Get the JWT token from the request user */
 const token = function (request, reply) {
@@ -45,7 +33,7 @@ const token = function (request, reply) {
           first_name: result.first_name,
           last_name: result.last_name,
           scope: 'all',
-          token: getToken(result)
+          token: jwt.getToken(result)
         });
       });
     }
@@ -89,7 +77,7 @@ const createUser = function (request, reply) {
                 id: instance.id,
                 first_name: instance.first_name,
                 last_name: instance.last_name,
-                token: getToken(instance)
+                token: jwt.getToken(instance)
               }).code(201);
             });
         });

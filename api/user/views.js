@@ -1,4 +1,8 @@
+const bcrypt = require('bcrypt');
+
 const models = require('../../models');
+
+const jwt = require('../auth/jwt');
 
 const viewUser = function(request, reply) {
   reply(request.auth.credentials);
@@ -36,7 +40,43 @@ const updateUser = function(request, reply) {
   });
 };
 
+/** Change the user's password and return an updated Token for the user */
+const changePassword = function(request, reply) {
+  const password1 = request.payload.password1;
+  const password2 = request.payload.password2;
+  const email = request.auth.credentials.email;
+
+  if (password1 !== password2) {
+    return reply({password: 'Passwords do not match'}).code(400);
+  }
+  bcrypt.hash(password1, bcrypt.genSaltSync(10), (err, hash) => {
+    if (err) {
+      return reply({
+        error: 'An error occurred with your password'
+      }).code(400);
+    }
+
+    models.User.update({
+      password: hash
+    }, {
+      where: {
+        email: email
+      }
+    }).then((userId) => {
+      return models.User.findOne({
+        where: {
+          id: userId
+        }
+      });
+    }).then((user) => {
+      const token = jwt.getToken(user.dataValues);
+      reply({token: token});
+    });
+  });
+}
+
 module.exports = {
   user: viewUser,
-  update: updateUser
+  update: updateUser,
+  password: changePassword
 };

@@ -25,10 +25,16 @@ export const UserModel = Backbone.Model.extend({
     return !!this.get('token');
   },
 
-  /** Check whether the user login is valid on the server.
+  /** Fires a check against the server. Triggers 'login' if logged-in and
+      'logout' if the user is logged-out
   */
   checkServer: function() {
-
+    this.fetch({
+      ajaxSync: true,
+      success: () => this.trigger('login'),
+      error: () => this.trigger('logout'),
+      headers: getAuthHeader(this)
+    });
   },
 
   clear: function(options) {
@@ -60,6 +66,38 @@ export const UserModel = Backbone.Model.extend({
       ajaxSync: true,
       headers: getAuthHeader(this)
     });
+  },
+
+  /** Change the user's password
+  */
+  changePassword: function(password1, password2) {
+    return this.save({
+      password1: password1,
+      password2: password2
+    }, {
+      url: '/me/password',
+      patch: true,
+      ajaxSync: true,
+      headers: getAuthHeader(this),
+      success: () => this.save({password1: undefined, password2: undefined})
+    });
+  },
+
+  validate: function(attrs) {
+    const errors = {};
+
+    if (!_.isUndefined(attrs.password1) || !_.isUndefined(attrs.password2)) {
+      if (attrs.password1 !== attrs.password2) {
+        errors.password = 'Passwords do not match';
+      }
+      else if (!attrs.password1.length || !attrs.password2.length) {
+        errors.password = 'Cannot use an empty password';
+      }
+    }
+
+    if (_.keys(errors).length) {
+      return errors;
+    }
   }
 });
 

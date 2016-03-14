@@ -9,7 +9,7 @@ const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
-import {spy} from 'sinon';
+import {spy, stub} from 'sinon';
 
 import {UserModel} from '../../app/base/models/auth';
 
@@ -79,4 +79,37 @@ describe('UserModel', function() {
 
     done();
   });
+});
+
+describe('User password', () => {
+  let user;
+
+  beforeEach((done) => {
+    user = new UserModel();
+    stub(user, 'sync');
+    done();
+  });
+
+  afterEach((done) => {
+    user.sync.restore();
+    done();
+  });
+
+  it('can update the user\'s password', (done) => {
+    user.changePassword('newpassword', 'newpassword');
+
+    expect(user.isValid()).to.equal(true);
+    expect(user.sync.calledWith('patch')).to.equal(true);
+
+    done();
+  });
+
+  it('will not update if the passwords do not match', (done) => {
+    user.changePassword('newpassword', 'differentpassword');
+
+    expect(user.sync.calledWith('patch')).to.equal(false);
+
+    done();
+
+  })
 });

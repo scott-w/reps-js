@@ -9,15 +9,16 @@ const models = require('../../models');
 
 exports.fixtures = function(fixtures, done) {
   models.sequelize.sync({force: true}).then(() => {
-    Fixtures.loadFile(fixtures, models).then(() => {
-      if (done) {
-        done();
-      }
-    }).catch((err) => {
-      console.error('loadFileErr', err);
-    });
+    return Fixtures.loadFile(fixtures, models);
+  }).then(() => {
+    if (done) {
+      done();
+    }
   }).catch((err) => {
-    console.error('syncErr', err);
+    console.error('error', err);
+    if (done) {
+      done()
+    }
   });
 };
 

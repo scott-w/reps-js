@@ -21,7 +21,7 @@ server.register(require('hapi-auth-jwt2'), (err) => {
 
   server.auth.strategy('jwt', 'jwt', {
     key: jwtConfig.privateKey,
-    validateFunc: jwt,
+    validateFunc: jwt.verify,
     verifyOptions: {
       algorithms: [ 'HS256' ]
     }

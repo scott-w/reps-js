@@ -18,5 +18,13 @@ module.exports = [
     method: 'PUT',
     path: '/me',
     handler: views.update
+  },
+  {
+    config: {
+      auth: 'jwt'
+    },
+    method: 'PATCH',
+    path: '/me/password',
+    handler: views.password
   }
 ];
