@@ -26,7 +26,7 @@ const getToken = function(user) {
     id: user.id
   };
 
-  return jwt.sign(tokenData, jwtConfig.privateKey);
+  return jwt.sign(tokenData, jwtConfig.privateKey, {expiresIn: '24h'});
 };
 
 /** Get the JWT token from the request user */
