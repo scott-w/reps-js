@@ -16,18 +16,10 @@ const PasswordView = View.extend({
     'click @ui.changePassword': 'changePassword'
   },
 
-  modelEvents: {
-    error: 'logError'
-  },
-
   changePassword: function() {
     const {password1, password2} = Syphon.serialize(this);
 
     this.model.changePassword(password1, password2);
-  },
-
-  logError: function() {
-    console.log(arguments);
   }
 });
 
