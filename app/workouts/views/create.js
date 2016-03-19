@@ -193,11 +193,13 @@ export const CreateWorkout = Marionette.View.extend({
   },
 
   onRender: function() {
+    const setModel = new SetModel();
     this.showChildView('setForm', new SetLayoutView({
-      model: new SetModel(),
+      model: setModel,
       collection: this.collection
     }));
     this.showChildView('setList', new SmallSetListView({
+      model: setModel,
       collection: this.collection
     }));
 

@@ -15,11 +15,23 @@ const SetView = Marionette.View.extend({
 
   modelEvents: {
     change: 'render'
+  },
+
+  triggers: {
+    click: 'add:set'
   }
 });
 
 export const SmallSetListView = SetListView.extend({
-  childView: SetView
+  childView: SetView,
+
+  childViewEvents: {
+    'add:set': 'addSet'
+  },
+
+  addSet: function(child) {
+    this.model.set(child.model.pick('exercise_name', 'weight', 'reps'))
+  }
 });
 
 
