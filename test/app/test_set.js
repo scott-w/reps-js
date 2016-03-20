@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 const Code = require('code');
 const Lab = require('lab');
 const sinon = require('sinon');
