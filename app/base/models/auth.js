@@ -3,6 +3,7 @@ import root from 'window-or-global';
 
 import Backbone from 'backbone';
 import LocalStorage from 'backbone.localstorage';
+import Radio from 'backbone.radio';
 
 
 export const UserModel = Backbone.Model.extend({
@@ -112,15 +113,29 @@ const getAuthHeader = function(userModel) {
   };
 };
 
-export const authSync = function(method, model_or_collection, options) {
+
+export const authSync = function(method, model_or_collection, options={}) {
   const user = new UserModel();
+  const error = options.error;
+  const authChannel = Radio.channel('auth');
+
   user.fetch({
     success: () => {
       if (_.isUndefined(options.headers)) {
         options.headers = {};
       }
       _.extend(options.headers, getAuthHeader(user));
+
+      options.error = (jqXhr) => {
+        if (jqXhr.status === 401) {
+          authChannel.trigger('token:invalid', this);
+        }
+        if (!_.isUndefined(error)) {
+          error.apply(this, arguments);
+        }
+      }
       Backbone.sync(method, model_or_collection, options);
+      this.trigger('token:get');
     }
   });
 };

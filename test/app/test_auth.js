@@ -9,9 +9,14 @@ const describe = lab.describe;
 const expect = Code.expect;
 const it = lab.it;
 
-import {spy, stub} from 'sinon';
+const Backbone = require('backbone');
+const Radio = require('backbone.radio');
 
-import {UserModel} from '../../app/base/models/auth';
+const jquery = require('jquery');
+
+import {spy, stub, fakeServer} from 'sinon';
+
+import {UserModel, authSync} from '../../app/base/models/auth';
 
 
 describe('UserModel', function() {
@@ -79,6 +84,79 @@ describe('UserModel', function() {
 
     done();
   });
+});
+
+describe('Auth Sync proxy', () => {
+  const authChannel = Radio.channel('auth');
+  const AuthModel = Backbone.Model.extend({
+    url: '/something',
+    sync: authSync
+  });
+  let model;
+  let server;
+
+  beforeEach((done) => {
+    stub(authChannel, 'trigger');
+    spy(Backbone, 'sync');
+    stub(jquery, 'ajax');
+
+    model = new AuthModel();
+    const user = new UserModel();
+    user.save({
+      token: 'abc',
+      first_name: 'test',
+      last_name: 'user',
+      email: 'test@example.com'
+    });
+
+    server = fakeServer.create();
+
+    done();
+  });
+
+  afterEach((done) => {
+    authChannel.trigger.restore();
+    Backbone.sync.restore();
+    jquery.ajax.restore();
+
+    model = null;
+    const user = new UserModel();
+
+    user.destroy();
+    server.restore();
+
+    done();
+  });
+
+  it('triggers unauthorised when login fails', (done) => {
+    model.once('token:get', function() {
+      expect(jquery.ajax.calledOnce).to.equal(true)
+      const args = {status: 401};
+      jquery.ajax.firstCall.args[0].error(args);
+
+      expect(
+        authChannel.trigger.calledWith('token:invalid', model)
+      ).to.equal(true);
+      done();
+    });
+
+    model.fetch({ajaxSync: true});
+  });
+
+  it('only triggers on 401', (done) => {
+    model.once('token:get', function() {
+      expect(jquery.ajax.calledOnce).to.equal(true)
+      const args = {status: 400};
+      jquery.ajax.firstCall.args[0].error(args);
+
+      expect(
+        authChannel.trigger.calledWith('token:invalid', model)
+      ).to.equal(false);
+      done();
+    });
+
+    model.fetch({ajaxSync: true});
+  })
 });
 
 describe('User password', () => {
