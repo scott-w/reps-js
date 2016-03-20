@@ -40,6 +40,7 @@
     "c": "npm run compile",
     "watch": "webpack -w",
     "test": "lab -T ./babelcompiler.js -I window,localStorage,location,__core-js_shared__ -e $NODE_ENV ",
+    "createdb": "sudo -u postgres createuser -PRd workouts &&sudo -u postgres createdb -O workouts -T template0 -E UTF8 workouts",
     "lint": "eslint app api models test"
   },
   "main": "app.js",

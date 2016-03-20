@@ -19,21 +19,19 @@ To install dependencies, install Node and NPM for your system and then:
 ```bash
 git checkout git@github.com:scott-w/reps-js.git
 cd reps-js
-npm install
-npm install --dev
+npm install --no-progress
 ```
 
 You'll also need to install Postgres and create our database and tables:
 
 ```bash
-sudo -u postgres createuser -PRd workouts
-sudo -u postgres createdb -O workouts -T template0 -E UTF8 workouts
-npm run-script migrate
+npm run createdb  # Requires your sudo password
+npm run migrate
 ```
 
 ### Installing on Ubuntu
 
-Install Node 5.x then:
+[Install Node 5.x][install-ubuntu] then:
 
 ```
 sudo aptitude install build-essential gcc g++
@@ -79,11 +77,14 @@ Then, from `reps-js`, install Marionette: `npm i ../backbone.marionette --no-pro
 
 ## Running the tests
 
-If you've ran `npm install --dev` above, just run:
+Nice and simple:
 
 ```bash
 npm test
 ```
+
+This will run both client and server tests using the `lab` test framework.
+
 
 ## Running Everything
 
@@ -91,14 +92,11 @@ After configuring and installing everything, you can run a live system by
 starting the following scripts:
 
 ```bash
-npm run-script start
-npm run-script serveassets
-npm run-script watch
-npm run-script proxy
+npm run start
+npm run watch
 ```
 
-The `watch` script will recompile the client JS, `serveassets` serves the JS,
-CSS, and index file. The `proxy` script binds everything behind
-`http://localhost:8000`
+Now, simple navigate to `http://localhost:3000` to start running the app.
 
 [bcrypt]: https://www.npmjs.com/package/bcrypt
+[install-ubuntu]: https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
