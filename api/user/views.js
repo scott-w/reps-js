@@ -73,7 +73,7 @@ const changePassword = function(request, reply) {
       reply({token: token});
     });
   });
-}
+};
 
 module.exports = {
   user: viewUser,

@@ -30,7 +30,7 @@ export const SmallSetListView = SetListView.extend({
   },
 
   addSet: function(child) {
-    this.model.set(child.model.pick('exercise_name', 'weight', 'reps'))
+    this.model.set(child.model.pick('exercise_name', 'weight', 'reps'));
   }
 });
 

@@ -17,7 +17,7 @@ exports.fixtures = function(fixtures, done) {
   }).catch((err) => {
     console.error('error', err);
     if (done) {
-      done()
+      done();
     }
   });
 };

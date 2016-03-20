@@ -6,6 +6,13 @@ import root from '../root';
 
 
 export const Controller = Marionette.Object.extend({
+  channelName: 'auth',
+
+  initialize: function() {
+    const channel = this.getChannel();
+    this.listenTo(channel, 'token:invalid', this.login);
+  },
+
   default: function() {
     const layout = this.showAndGetLayout();
     layout.showIndex();
