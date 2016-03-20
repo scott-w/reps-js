@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 const Code = require('code');
 const Lab = require('lab');
 const sinon = require('sinon');
@@ -310,9 +308,10 @@ describe('Set List', () => {
       const localData = global.localStorage.getItem('LocalData-sets.Set');
       const user = global.localStorage.getItem('UserModel-current');
 
-      expect(_.isUndefined(localModel)).to.equal(true);
-      expect(_.isUndefined(localData)).to.equal(true);
-      expect(_.isUndefined(user)).to.equal(false);
+      expect(localModel).to.equal(null);
+      expect(localData).to.equal(null);
+      expect(user).to.not.equal(null);
+
       done();
     });
     collection.clearStored();

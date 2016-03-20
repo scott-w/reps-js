@@ -59,7 +59,7 @@
     "http-proxy": "^1.13.1",
     "http-server": "^0.8.5",
     "lab": "^8.2.0",
-    "mock-browser": "^0.91.34",
+    "mock-browser": "^0.92.11",
     "sequelize-fixtures": "^0.4.8",
     "shot": "^3.0.0",
     "sinon": "^1.17.3"
