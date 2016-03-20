@@ -130,7 +130,7 @@ describe('Auth Sync proxy', () => {
 
   it('triggers unauthorised when login fails', (done) => {
     model.once('token:get', function() {
-      expect(jquery.ajax.calledOnce).to.equal(true)
+      expect(jquery.ajax.calledOnce).to.equal(true);
       const args = {status: 401};
       jquery.ajax.firstCall.args[0].error(args);
 
@@ -145,7 +145,7 @@ describe('Auth Sync proxy', () => {
 
   it('only triggers on 401', (done) => {
     model.once('token:get', function() {
-      expect(jquery.ajax.calledOnce).to.equal(true)
+      expect(jquery.ajax.calledOnce).to.equal(true);
       const args = {status: 400};
       jquery.ajax.firstCall.args[0].error(args);
 
@@ -156,7 +156,24 @@ describe('Auth Sync proxy', () => {
     });
 
     model.fetch({ajaxSync: true});
-  })
+  });
+});
+
+describe('Invalid token', () => {
+  beforeEach((done) => {
+    global.localStorage.setItem('key', 'value');
+    done();
+  });
+
+  it('does not remove localStorage data', (done) => {
+    const authChannel = Radio.channel('auth');
+    authChannel.trigger('token:invalid');
+
+    const keyValue = global.localStorage.getItem('key');
+    expect(keyValue).to.not.equal(null);
+
+    done();
+  });
 });
 
 describe('User password', () => {
@@ -189,5 +206,5 @@ describe('User password', () => {
 
     done();
 
-  })
+  });
 });
