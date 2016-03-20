@@ -13,6 +13,7 @@ const Nav = Marionette.View.extend({
     exercise: '.exercise',
     workout: '.workout',
     logout: '.logout',
+    profile: '.profile',
     onlyLoggedIn: '.authenticated'
   },
 
@@ -20,6 +21,7 @@ const Nav = Marionette.View.extend({
     'click @ui.root': 'showRoot',
     'click @ui.exercise': 'showExercise',
     'click @ui.workout': 'showWorkout',
+    'click @ui.profile': 'showProfile',
     'click @ui.logout': 'logout'
   },
 
@@ -55,6 +57,11 @@ const Nav = Marionette.View.extend({
   logout: function(e) {
     e.preventDefault();
     this.model.logout();
+  },
+
+  showProfile: function(e) {
+    e.preventDefault();
+    this._navigate('profile');
   },
 
   _navigate: function(url) {
