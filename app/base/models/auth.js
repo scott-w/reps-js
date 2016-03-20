@@ -133,7 +133,7 @@ export const authSync = function(method, model_or_collection, options={}) {
         if (!_.isUndefined(error)) {
           error.apply(this, arguments);
         }
-      }
+      };
       Backbone.sync(method, model_or_collection, options);
       this.trigger('token:get');
     }
