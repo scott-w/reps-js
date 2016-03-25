@@ -9,8 +9,8 @@ test:
     - npm run lint
 
 deployment:
-    aws:
+  production:
     branch: master
-        commands:
-        - npm run c
-        - /bin/bash deployment/send_to_s3.sh
+    commands:
+      - npm run c
+      - /bin/bash deployment/send_to_s3.sh
