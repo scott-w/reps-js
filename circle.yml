@@ -13,13 +13,6 @@ deployment:
     branch: master
     commands:
       - npm i -g gulp --no-progress
-      - git clone https://github.com/marionettejs/backbone.marionette.git ../mn
-      - cd ../mn
-      - git fetch origin next/next
-      - git checkout next
-      - npm i --no-progress
-      - gulp build
-      - cd ../reps-js
-      - npm i ../mn --no-progress
+      - /bin/bash deployment/install_mn.sh
       - npm run c
       - /bin/bash deployment/send_to_s3.sh
