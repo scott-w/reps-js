@@ -7,5 +7,12 @@ test:
   override:
     - npm test
     - npm run lint
-  post:
-    - npm run c
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - npm i -g gulp --no-progress
+      - /bin/bash deployment/install_mn.sh
+      - npm run c
+      - /bin/bash deployment/send_to_s3.sh

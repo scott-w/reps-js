@@ -7,3 +7,7 @@ automating these steps later.
 
 To deploy the system, run `python deploy.py` - you shouldn't need to install
 any dependencies.
+
+## Send to S3
+
+The `send_to_s3.sh` script sends all the compiled static assets to AWS S3.
