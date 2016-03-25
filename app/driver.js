@@ -26,7 +26,10 @@ const processRoutes = function() {
 };
 
 const App = new Marionette.Application({
-  region: '#root',
+  region: {
+    selector: '#root',
+    replaceElement: true
+  },
 
   onStart: function() {
     this.showView(root);
