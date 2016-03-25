@@ -4,4 +4,4 @@
 
 BUCKET=pumpedassets
 DIR=assets
-aws s3 sync $DIR s3://$BUCKET/static/
+aws s3 sync $DIR s3://$BUCKET/static/ --delete --acl public-read
