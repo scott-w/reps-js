@@ -2,6 +2,6 @@
 
 ## Based on http://benlopatin.com/deploying-static-sites-circle-ci/
 
-BUCKET=my-s3-bucket
+BUCKET=pumpedassets
 DIR=assets
-aws  s3  sync $DIR s3://$BUCKET/
+aws  s3  sync $DIR s3://$BUCKET/static/
