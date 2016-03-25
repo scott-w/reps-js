@@ -26,13 +26,12 @@ const processRoutes = function() {
 };
 
 const App = new Marionette.Application({
-  region: {
-    selector: '#root',
-    replaceElement: true
-  },
+  region: '#root',
 
   onStart: function() {
-    this.showView(root);
+    const region = this.getRegion();
+    region.$el.html('');
+    region.show(root);
     processRoutes();
 
     Backbone.history.start({pushState: true});
