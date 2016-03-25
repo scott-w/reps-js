@@ -70,11 +70,17 @@ const Nav = Marionette.View.extend({
 });
 
 const Layout = Marionette.View.extend({
+  channelName: 'auth',
+
   template: require('./templates/base.html'),
 
   regions: {
     main: '#main',
     nav: '#nav'
+  },
+
+  radioEvents: {
+    'token:invalid': 'clearLogin'
   },
 
   initialize: function() {
@@ -86,6 +92,12 @@ const Layout = Marionette.View.extend({
     this.showChildView('nav', new Nav({
       model: this.model
     }));
+  },
+
+  clearLogin: function() {
+    this.model.clear();
+    const channel = this.getChannel();
+    channel.request('show:login');
   }
 });
 
