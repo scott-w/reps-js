@@ -16,7 +16,7 @@ exports.getToken = function(user) {
     id: user.id
   };
 
-  return jwt.sign(tokenData, jwtConfig.privateKey, {expiresIn: '24h'});
+  return jwt.sign(tokenData, jwtConfig.privateKey, {expiresIn: '30d'});
 };
 
 
