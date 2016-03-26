@@ -4,4 +4,4 @@
 
 BUCKET=pumpedassets
 DIR=assets
-aws s3 sync $DIR s3://$BUCKET/ --delete --acl public-read
+aws s3 sync $DIR s3://$BUCKET/ --delete --acl public-read --cache-control max-age=300
