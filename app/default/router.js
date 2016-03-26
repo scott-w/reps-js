@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
+import Radio from 'backbone.radio';
 
 import {UserModel} from '../base/models/auth';
 
@@ -53,8 +54,14 @@ export const Controller = Marionette.Object.extend({
 
   clearLogin: function() {
     const user = new UserModel();
+    const channel = Radio.channel('notification');
+
     user.fetch();
     user.clear();
+
+    channel.request(
+      'show:warning',
+      'Your login session has expired. Please login again.');
     this.login();
   }
 });

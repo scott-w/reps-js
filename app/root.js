@@ -3,6 +3,9 @@ import Marionette from 'backbone.marionette';
 
 import {UserModel} from './base/models/auth';
 
+import {NotificationList} from './base/collections/notification';
+import {NotificationView} from './base/views/notification';
+
 
 const Nav = Marionette.View.extend({
   className: 'container-fluid',
@@ -74,7 +77,8 @@ const Layout = Marionette.View.extend({
 
   regions: {
     main: '#main',
-    nav: '#nav'
+    nav: '#nav',
+    notification: '#notification'
   },
 
   initialize: function() {
@@ -85,6 +89,9 @@ const Layout = Marionette.View.extend({
   onRender: function() {
     this.showChildView('nav', new Nav({
       model: this.model
+    }));
+    this.showChildView('notification', new NotificationView({
+      collection: new NotificationList()
     }));
   }
 });
