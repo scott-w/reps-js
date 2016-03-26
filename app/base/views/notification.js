@@ -12,6 +12,18 @@ const Notification = Marionette.View.extend({
 
   attributes: {
     role: 'alert'
+  },
+
+  ui: {
+    closeButton: '.close'
+  },
+
+  events: {
+    'click @ui.closeButton': 'remove'
+  },
+
+  remove: function() {
+    this.model.destroy();
   }
 });
 
