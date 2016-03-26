@@ -1,6 +1,8 @@
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 
+import {UserModel} from '../base/models/auth';
+
 import {Layout} from './views/home';
 import root from '../root';
 
@@ -10,6 +12,10 @@ export const Controller = Marionette.Object.extend({
 
   radioRequests: {
     'show:login': 'login'
+  },
+
+  radioEvents: {
+    'token:invalid': 'clearLogin'
   },
 
   default: function() {
@@ -43,6 +49,13 @@ export const Controller = Marionette.Object.extend({
     const layout = new Layout();
     root.showChildView('main', layout);
     return layout;
+  },
+
+  clearLogin: function() {
+    const user = new UserModel();
+    user.fetch();
+    user.clear();
+    this.login();
   }
 });
 
