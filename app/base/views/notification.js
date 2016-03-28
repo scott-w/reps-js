@@ -35,7 +35,11 @@ export const NotificationView = Marionette.CollectionView.extend({
   radioRequests: {
     'show:success': 'showSuccess',
     'show:error': 'showError',
-    'show:warning': 'showWarning'
+    'show:warning': 'showWarning',
+    'clear:success': 'clearSuccess',
+    'clear:error': 'clearError',
+    'clear:warning': 'clearWarning',
+    'clear:all': 'clearAll'
   },
 
   initialize: function() {
@@ -53,5 +57,21 @@ export const NotificationView = Marionette.CollectionView.extend({
 
   showWarning: function(msg) {
     this.collection.addWarningMsg(msg);
+  },
+
+  clearSuccess: function() {
+    this.collection.clearSuccessMessages();
+  },
+
+  clearError: function() {
+    this.collection.clearErrorMessages();
+  },
+
+  clearWarning: function() {
+    this.collection.clearWarningMessages();
+  },
+
+  clearAll: function() {
+    this.collection.clearAllMessages();
   }
 });
