@@ -1,5 +1,6 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
+import Radio from 'backbone.radio';
 
 import root from './root';
 
@@ -18,11 +19,12 @@ import {
 } from './user/router';
 
 const processRoutes = function() {
-  var router = new Marionette.AppRouter();
+  const router = new Marionette.AppRouter();
   router.processAppRoutes(new Default(), defaultRoutes);
   router.processAppRoutes(new Workout(), workoutRoutes);
   router.processAppRoutes(new Exercise(), exerciseRoutes);
   router.processAppRoutes(new User(), userRoutes);
+  return router;
 };
 
 const App = new Marionette.Application({
@@ -32,7 +34,12 @@ const App = new Marionette.Application({
     const region = this.getRegion();
     region.$el.html('');
     region.show(root);
-    processRoutes();
+    const router = processRoutes();
+
+    router.on('route', () => {
+      const channel = Radio.channel('notification');
+      channel.request('clear:all');
+    });
 
     Backbone.history.start({pushState: true});
   }
