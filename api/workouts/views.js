@@ -142,13 +142,37 @@ const workoutsByDate = function(request, reply) {
       UserId: userId
     },
     include: [
-      {model: models.Location}
+      {model: models.Location},
+      {
+        model: models.Set,
+        required: false,
+        attributes: ['reps', 'ExerciseId', 'weight'],
+        include: [
+          {model: models.Exercise, attributes: ['exercise_name']}
+        ],
+        where: {
+          reps: {
+            '$gt': 0
+          }
+        }
+      }
     ],
     order: [
       ['workout_date', 'DESC']
     ]
   }).then(function(results) {
     reply(_.map(results, function(item) {
+      const set = {};
+
+      const sets = _.sortBy(
+        item.Sets,
+        (set) => parseInt(set.dataValues.weight, 10));
+
+      if (sets.length > 0) {
+        set.weight = sets[0].dataValues.weight;
+        set.reps = sets[0].dataValues.reps;
+        set.exercise_name = sets[0].dataValues.Exercise.dataValues.exercise_name;
+      }
       let location;
       if (item.Location) {
         location = {
@@ -159,10 +183,12 @@ const workoutsByDate = function(request, reply) {
       else {
         location = null;
       }
+
       return {
         id: item.id,
         workout_date: moment(item.workout_date).format('YYYY-MM-DD'),
         url: `/workouts/${moment(item.workout_date).format('YYYY-MM-DD')}`,
+        summary: set,
         location: location
       };
     }));

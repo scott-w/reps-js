@@ -42,6 +42,10 @@ describe('Workout list', () => {
       expect(response.result.length).to.equal(2);
       expect(response.result[0].workout_date).to.equal('2016-01-10');
       expect(response.result[0].location.name).to.equal('Test Location');
+      expect(response.result[0].summary.weight).to.equal('50Kg');
+      expect(response.result[0].summary.reps).to.equal(6);
+      expect(response.result[0].summary.exercise_name).to.equal('Bench Press');
+
       expect(response.result[1].workout_date).to.equal('2016-01-02');
       expect(response.result[1].location).to.equal(null);
 
