@@ -41,7 +41,8 @@
     "watch": "webpack -w",
     "test:server": "lab -I window,localStorage,location,__core-js_shared__ -e $NODE_ENV test/api/*",
     "test:client": "karma start --single-run",
-    "test": "npm run test:server && karma start --single-run --reporters xml && mv test-results.testxml $CIRCLE_TEST_REPORTS/test-results.testxml",
+    "test:client:ci": "karma start --single-run --reporters xml",
+    "test": "npm run test:server",
     "createdb": "sudo -u postgres createuser -PRd workouts &&sudo -u postgres createdb -O workouts -T template0 -E UTF8 workouts",
     "lint": "eslint app api models test"
   },
