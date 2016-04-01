@@ -1,20 +1,9 @@
-const Code = require('code');
-const Lab = require('lab');
+import expect from 'expect.js';
 
-const lab = exports.lab = Lab.script();
+import Backbone from 'backbone';
+import Radio from 'backbone.radio';
 
-const afterEach = lab.afterEach;
-const beforeEach = lab.beforeEach;
-const describe = lab.describe;
-const expect = Code.expect;
-const it = lab.it;
-
-const Backbone = require('backbone');
-const Radio = require('backbone.radio');
-
-const jquery = require('jquery');
-
-import {spy, stub, fakeServer} from 'sinon';
+import jquery from 'jquery';
 
 import {UserModel, authSync} from '../../app/base/models/auth';
 
@@ -25,16 +14,14 @@ describe('UserModel', function() {
   beforeEach(function(done) {
     model = new UserModel();
 
-    spy(global.localStorage, 'clear');
-    spy(model, 'trigger');
-    spy(model, 'sync');
+    sinon.spy(model, 'trigger');
+    sinon.spy(model, 'sync');
 
     done();
   });
 
   afterEach(function(done) {
     model.clear();
-    global.localStorage.clear.restore();
     model.trigger.restore();
     model.sync.restore();
 
@@ -63,7 +50,6 @@ describe('UserModel', function() {
     const storedUser = JSON.parse(
       global.localStorage.getItem('UserModel-current'));
     expect(storedUser.token).to.equal('');
-    expect(global.localStorage.clear.called).to.equal(true);
     done();
   });
 
@@ -96,9 +82,9 @@ describe('Auth Sync proxy', () => {
   let server;
 
   beforeEach((done) => {
-    stub(authChannel, 'trigger');
-    spy(Backbone, 'sync');
-    stub(jquery, 'ajax');
+    sinon.stub(authChannel, 'trigger');
+    sinon.spy(Backbone, 'sync');
+    sinon.stub(jquery, 'ajax');
 
     model = new AuthModel();
     const user = new UserModel();
@@ -109,7 +95,7 @@ describe('Auth Sync proxy', () => {
       email: 'test@example.com'
     });
 
-    server = fakeServer.create();
+    server = sinon.fakeServer.create();
 
     done();
   });
@@ -181,7 +167,7 @@ describe('User password', () => {
 
   beforeEach((done) => {
     user = new UserModel();
-    stub(user, 'sync');
+    sinon.stub(user, 'sync');
     done();
   });
 

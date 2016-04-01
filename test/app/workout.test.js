@@ -1,15 +1,4 @@
-const Code = require('code');
-const Lab = require('lab');
-
-const lab = exports.lab = Lab.script();
-
-const afterEach = lab.afterEach;
-const beforeEach = lab.beforeEach;
-const describe = lab.describe;
-const expect = Code.expect;
-const it = lab.it;
-
-import {spy, stub} from 'sinon';
+import expect from 'expect.js';
 
 import {WorkoutModel} from '../../app/workouts/models/workout';
 
@@ -51,8 +40,8 @@ describe('Workout Model', function () {
       }]
     });
 
-    spy(model, 'trigger');
-    stub(model, 'sync');
+    sinon.spy(model, 'trigger');
+    sinon.stub(model, 'sync');
 
     done();
   });

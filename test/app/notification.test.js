@@ -1,13 +1,4 @@
-const Code = require('code');
-const Lab = require('lab');
-
-const lab = exports.lab = Lab.script();
-
-const afterEach = lab.afterEach;
-const beforeEach = lab.beforeEach;
-const describe = lab.describe;
-const expect = Code.expect;
-const it = lab.it;
+import expect from 'expect.js';
 
 import {NotificationList} from '../../app/base/collections/notification';
 
