@@ -2,6 +2,7 @@
 // Generated on Fri Apr 01 2016 19:24:04 GMT+0100 (BST)
 var webpackConf = require('./webpack.config');
 
+
 module.exports = function(config) {
   config.set({
 
@@ -44,7 +45,6 @@ module.exports = function(config) {
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,
-
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
