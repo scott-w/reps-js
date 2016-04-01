@@ -1,6 +1,6 @@
 extends: eslint:recommended
 parserOptions:
-  ecmaVersion: 6,
+  ecmaVersion: 6
   sourceType: module
   ecmaFeatures:
     impliedStrict: true
@@ -14,8 +14,10 @@ globals:
   before: no
   after: no
   afterEach: no
+  it: no
+  sinon: no
 rules:
   no-console: 0
   semi:
-    - 2,
+    - 2
     - always
