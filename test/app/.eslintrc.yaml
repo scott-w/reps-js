@@ -1,0 +1,23 @@
+extends: eslint:recommended
+parserOptions:
+  ecmaVersion: 6
+  sourceType: module
+  ecmaFeatures:
+    impliedStrict: true
+env:
+  browser: true
+  es6: true
+  node: true
+globals:
+  describe: no
+  beforeEach: no
+  before: no
+  after: no
+  afterEach: no
+  it: no
+  sinon: no
+rules:
+  no-console: 0
+  semi:
+    - 2
+    - always

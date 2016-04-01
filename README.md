@@ -47,7 +47,7 @@ Windows users should [follow the bcrypt instructions][bcrypt].
 Running a server is as easy as starting the NPM script:
 
 ```bash
-npm run-script start
+npm run start
 ```
 
 ### Custom Configuration
@@ -58,33 +58,38 @@ The accepted values for NODE_ENV are `test`, `development`, `staging`, and
 We can also change the JWT secret key using the `JWT_PRIVATE_KEY` environment
 variable.
 
+## Building the Client App
 
-## Building the client-side application
+To build the client-app, simply run:
 
-The client application uses the latest dev build of Marionette 3. To build
-Marionette:
+```bash
+npm run build
+```
 
-1. Install gulp globally: `npm i -g gulp --no-progress`
-2. Download the latest Marionette code from Github:
-  `git clone https://github.com/marionettejs/backbone.marionette.git`
-3. Switch to the `next` branch:
-  `git fetch origin next/next && git checkout next`
-4. Install the dependencies: `npm i --no-progress`
-5. Build: `gulp build`
+You can also do:
 
-Then, from `reps-js`, install Marionette: `npm i ../backbone.marionette --no-progress`
+- `npm run compile` - Compile the application
+- `npm run watch` - Constantly rebuild on changes
 
 
 ## Running the tests
 
-Nice and simple:
+To run server tests:
 
 ```bash
 npm test
 ```
 
-This will run both client and server tests using the `lab` test framework.
+This will run using the [Lab](https://github.com/hapijs/lab) test runner.
 
+To run the client tests:
+
+```bash
+npm run test:client
+```
+
+This will run the client-side tests in your browsers using the
+[Karma](https://karma-runner.github.io) test runner.
 
 ## Running Everything
 

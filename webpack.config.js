@@ -17,6 +17,13 @@ module.exports = {
         query: {
           presets: ['es2015']
         }
+      },
+      {
+        test: /\.test\.js$/,
+        loader: 'babel',
+        query: {
+          presets: ['es2015']
+        }
       }
     ]
   },
@@ -28,7 +35,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       _: 'underscore'
     }),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/)
   ],
   resolve: {
     modulesDirectories: [__dirname + '/node_modules'],
