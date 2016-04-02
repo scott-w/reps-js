@@ -69,12 +69,12 @@ const WorkoutItem = Marionette.View.extend({
       4: 'default'
     };
     const location = this.model.get('location');
-    console.log(this.model.attributes);
 
     return {
       iterType: panelIndexes[this.getOption('index') % 5],
       formattedDate: () => this.model.formatDate(),
-      location: location ? location.name : '-'
+      location: location ? location.name : '-',
+      summary: this.model.getSummary()
     };
   },
 
