@@ -47,6 +47,16 @@ export const WorkoutModel = Backbone.Model.extend({
     this.save(attrs, options);
   },
 
+  getSummary: function() {
+    const summary = this.get('summary') || {};
+
+    return _.defaults(summary, {
+      exercise_name: '',
+      reps: '',
+      weight: ''
+    });
+  },
+
   /** Returns the list of exercises for this workout with each Set attached in
       the form:
       Exercise ->

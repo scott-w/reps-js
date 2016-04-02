@@ -5,7 +5,7 @@ import {ExerciseList} from '../collections/workouts';
 import {ExerciseListView} from './exercise';
 
 
-/** Preview the Workout with lunks to edit.
+/** Preview the Workout with links to edit.
 */
 const WorkoutDetailView = Marionette.View.extend({
   className: 'col-md-12',
@@ -73,7 +73,8 @@ const WorkoutItem = Marionette.View.extend({
     return {
       iterType: panelIndexes[this.getOption('index') % 5],
       formattedDate: () => this.model.formatDate(),
-      location: location ? location.name : '-'
+      location: location ? location.name : '-',
+      summary: this.model.getSummary()
     };
   },
 

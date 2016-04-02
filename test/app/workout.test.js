@@ -6,7 +6,7 @@ import {WorkoutModel} from '../../app/workouts/models/workout';
 describe('Workout Model', function () {
   var model;
 
-  beforeEach(function (done) {
+  beforeEach(function () {
     model = new WorkoutModel({
       workout_date: '2016-02-20',
       location: null,
@@ -42,19 +42,16 @@ describe('Workout Model', function () {
 
     sinon.spy(model, 'trigger');
     sinon.stub(model, 'sync');
-
-    done();
   });
 
-  afterEach(function(done) {
+  afterEach(function() {
     model.trigger.restore();
     model.sync.restore();
 
     model = null;
-    done();
   });
 
-  it('gives a list of exercises with mapped sets', function(done) {
+  it('gives a list of exercises with mapped sets', function() {
     const exercises = model.getExercises();
     expect(exercises.length).to.equal(2);
 
@@ -69,11 +66,9 @@ describe('Workout Model', function () {
     expect(flies.get('exercise_name')).to.equal('Flies');
     expect(flies.get('sets').length).to.equal(1);
     expect(flies.get('sets')[0].id).to.equal(6);
-
-    done();
   });
 
-  it('saves using a PUT to the workout_date', function(done) {
+  it('saves using a PUT to the workout_date', function() {
     model.saveWorkout();
 
     const syncCall = model.sync.getCall(0);
@@ -82,7 +77,5 @@ describe('Workout Model', function () {
 
     syncCall.args[2].success();
     expect(model.trigger.calledWith('save')).to.equal(true);
-
-    done();
   });
 });
