@@ -28,21 +28,20 @@ export const BaseController = Mn.Object.extend({
       it.
       If the layout is being shown, this won't fire a re-render.
   */
-  showAndGetLayout: function() {
+  showAndGetLayout: function(layoutOptions) {
     if (this.showingMyView()) {
       return root.getChildView('main');
     }
-    const layout = this._getLayout();
+    const layout = this._getLayout(layoutOptions);
     root.showChildView('main', layout);
     return layout;
   },
 
-  _getLayout: function() {
+  _getLayout: function(layoutOptions) {
     const Layout = this.getOption('layoutView');
     if (_.isUndefined(Layout)) {
       console.error('You must define a layoutView');
     }
-    const layoutOptions = this.getOption('layoutOptions');
     return new Layout(layoutOptions);
   }
 });
