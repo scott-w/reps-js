@@ -2,7 +2,6 @@ import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 
 import {WorkoutModel} from '../models/workout';
-import {WorkoutList as WorkoutCollection} from '../collections/workouts';
 
 import {WorkoutList} from './workouts';
 import {CreateWorkout} from './create';
@@ -17,8 +16,7 @@ export default Marionette.View.extend({
     container: '.workout-container-hook'
   },
 
-  initialize: function() {
-    this.collection = new WorkoutCollection(null);
+  onRender: function() {
     this.collection.fetch();
   },
 

@@ -13,7 +13,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel', // 'babel-loader' is also a legal name to reference
+        loader: 'babel',
         query: {
           presets: ['es2015']
         }

@@ -1,7 +1,6 @@
 import Marionette from 'backbone.marionette';
 
 import {SearchModel} from '../models/search';
-import {ExerciseList} from '../collections/exercises';
 import {ExerciseLayoutView as ExerciseListView} from './list';
 
 
@@ -13,7 +12,9 @@ export const ExerciseLayout = Marionette.View.extend({
 
   initialize: function() {
     this.model = new SearchModel();
-    this.collection = new ExerciseList(null, {searchModel: this.model});
+  },
+
+  onRender: function() {
     this.collection.fetch();
   },
 
