@@ -6,7 +6,7 @@ machine:
 test:
   post:
     - npm run test:client:ci
-    - mv test-results.testxml $CIRCLE_TEST_REPORTS/test-results.testxml
+    - mv TEST*.xml $CIRCLE_TEST_REPORTS/
     - npm run lint
 
 deployment:
