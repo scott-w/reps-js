@@ -8,12 +8,9 @@ export const SetView = Marionette.View.extend({
   template: require('../templates/exercises/set.html'),
 
   templateContext: function() {
-    const firstDate = this.getOption('firstDate');
     return {
-      isFirstDate: function(workout_date) {
-        return moment(firstDate).format('YYYY-MM-DD') ===
-          moment(workout_date).format('YYYY-MM-DD');
-      },
+      isFirstDate: (workout_date) =>
+        this.getOption('firstDate') === moment(workout_date).format('YYYY-MM-DD'),
       formatDate: () => this.model.formatDate()
     };
   }
@@ -26,9 +23,13 @@ export const SetListView = Marionette.CollectionView.extend({
 
   childViewOptions: function() {
     const first = this.collection.at(0);
+    let firstDate = null;
+    if (first) {
+      firstDate = moment(first.get('workout_date')).format('YYYY-MM-DD');
+    }
 
     return {
-      firstDate: first ? first.get('workout_date') : null
+      firstDate: firstDate
     };
   }
 });
