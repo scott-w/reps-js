@@ -15,6 +15,14 @@ export const ExerciseModel = Backbone.Model.extend({
     return this.get('sets');
   },
 
+  getSetSummary: function(Collection = Backbone.Collection) {
+    if (_.isUndefined(this._collection)) {
+      this._collection = new Collection(null);
+    }
+    this._collection.set(this.get('sets').slice(0, 10));
+    return this._collection;
+  },
+
   getLastExercise: function() {
     const sets = this.get('sets');
     const latestDate = _.reduce(
