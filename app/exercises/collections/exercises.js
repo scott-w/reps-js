@@ -1,12 +1,13 @@
 import _ from 'underscore';
-import Backbone from 'backbone';
+import PageableCollection from 'backbone.paginator';
 
 import {authSync} from '../../base/models/auth';
 
 import {ExerciseModel} from '../models/exercise';
 
 
-export const ExerciseList = Backbone.Collection.extend({
+export const ExerciseList = PageableCollection.extend({
+  mode: 'client',
   model: ExerciseModel,
   sync: authSync,
 

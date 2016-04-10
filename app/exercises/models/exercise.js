@@ -16,11 +16,11 @@ export const ExerciseModel = Backbone.Model.extend({
   },
 
   getSetSummary: function(Collection = Backbone.Collection) {
-    if (_.isUndefined(this._collection)) {
-      this._collection = new Collection(null);
+    if (_.isUndefined(this._sliced)) {
+      this._sliced = new Collection(null);
     }
-    this._collection.set(this.get('sets').slice(0, 10));
-    return this._collection;
+    this._sliced.set(this.get('sets').slice(0, 10));
+    return this._sliced;
   },
 
   getLastExercise: function() {
