@@ -9,6 +9,7 @@
     "backbone.babysitter": "^0.1.11",
     "backbone.localstorage": "^1.1.16",
     "backbone.marionette": "git+https://github.com/marionettejs/backbone.marionette.git#v3.0.0-pre.2",
+    "backbone.paginator": "^2.0.5",
     "backbone.radio": "^1.0.4",
     "backbone.syphon": "^0.6.3",
     "bcrypt": "^0.8.5",

@@ -3,6 +3,8 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
+import {Page} from '../../base/behaviors/page';
+
 import {SetList} from '../../sets/collections/sets';
 
 import {SetListView} from './set';
@@ -53,6 +55,10 @@ const ExerciseListView = Marionette.CollectionView.extend({
 });
 
 export const ExerciseLayoutView = Marionette.View.extend({
+  behaviors: {
+    page: Page
+  },
+
   className: 'col-md-12 col-lg-10 col-lg-offset-1',
   template: require('../templates/exercises/layout.html'),
 

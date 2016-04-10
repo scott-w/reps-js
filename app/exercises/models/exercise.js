@@ -16,24 +16,23 @@ export const ExerciseModel = Backbone.Model.extend({
   },
 
   getSetSummary: function(Collection = Backbone.Collection) {
-    if (_.isUndefined(this._collection)) {
-      this._collection = new Collection(null);
+    if (_.isUndefined(this._sliced)) {
+      this._sliced = new Collection(null);
     }
-    this._collection.set(this.get('sets').slice(0, 10));
-    return this._collection;
+    this._sliced.set(this.get('sets').slice(0, 10));
+    return this._sliced;
   },
 
   getLastExercise: function() {
-    const sets = this.get('sets');
-    const latestDate = _.reduce(
-      sets,
+    const sets = _.chain(this.getAllSets());
+    const latestDate = sets.reduce(
       function(memo, set) {
         const workout_date = set.workout_date;
 
         return workout_date > memo ? workout_date : memo;
       },
       '1900-01-01'
-    );
-    return _.where(sets, {workout_date: latestDate});
+    ).value();
+    return sets.where({workout_date: latestDate}).value();
   }
 });
