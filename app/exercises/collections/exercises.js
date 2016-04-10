@@ -11,6 +11,10 @@ export const ExerciseList = PageableCollection.extend({
   model: ExerciseModel,
   sync: authSync,
 
+  state: {
+    pageSize: 12
+  },
+
   comparator: 'exercise_name',
 
   initialize: function(data, options) {
