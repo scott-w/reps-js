@@ -24,16 +24,15 @@ export const ExerciseModel = Backbone.Model.extend({
   },
 
   getLastExercise: function() {
-    const sets = this.get('sets');
-    const latestDate = _.reduce(
-      sets,
+    const sets = _.chain(this.getAllSets());
+    const latestDate = sets.reduce(
       function(memo, set) {
         const workout_date = set.workout_date;
 
         return workout_date > memo ? workout_date : memo;
       },
       '1900-01-01'
-    );
-    return _.where(sets, {workout_date: latestDate});
+    ).value();
+    return sets.where({workout_date: latestDate}).value();
   }
 });
