@@ -1,6 +1,8 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
+import {Page} from '../../base/behaviors/page';
+
 import {ExerciseList} from '../collections/workouts';
 import {ExerciseListView} from './exercise';
 
@@ -95,6 +97,10 @@ const WorkoutListView = Marionette.CollectionView.extend({
 
 const WorkoutListLayout = Marionette.View.extend({
   template: require('../templates/workout/list.html'),
+
+  behaviors: {
+    page: Page
+  },
 
   regions: {
     list: '.workouts-list'
