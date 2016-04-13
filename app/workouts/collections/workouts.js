@@ -1,4 +1,5 @@
 import Backbone from 'backbone';
+import PageableCollection from 'backbone.paginator';
 
 import {ExerciseModel, WorkoutModel} from '../models/workout';
 
@@ -10,10 +11,15 @@ export const ExerciseList = Backbone.Collection.extend({
 });
 
 
-export const WorkoutList = Backbone.Collection.extend({
+export const WorkoutList = PageableCollection.extend({
+  mode: 'client',
   model: WorkoutModel,
   url: '/workouts/',
   sync: authSync,
+
+  state: {
+    pageSize: 6
+  },
 
   comparator: function(first, second) {
     const date1 = first.get('workout_date');
