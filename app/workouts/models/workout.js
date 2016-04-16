@@ -19,6 +19,8 @@ export const WorkoutModel = Backbone.Model.extend({
     workout_date: moment().format('YYYY-MM-DD')
   }),
 
+  /** Return a formatted date relative to the current date
+  */
   formatDate: function() {
     return moment(this.get('workout_date')).calendar(null, {
       sameDay: '[Today]',
@@ -28,6 +30,8 @@ export const WorkoutModel = Backbone.Model.extend({
     });
   },
 
+  /** Save the workout against the server
+  */
   saveWorkout: function(attrs, options) {
     let success = null;
     if (_.isUndefined(options)) {
@@ -47,6 +51,12 @@ export const WorkoutModel = Backbone.Model.extend({
     this.save(attrs, options);
   },
 
+  /** Generate a summary of the latest workout
+      Returns a Map:
+      exercise_name -> String
+      reps -> Int
+      weight -> String
+  */
   getSummary: function() {
     const summary = this.get('summary') || {};
 
@@ -101,6 +111,22 @@ export const WorkoutModel = Backbone.Model.extend({
 
   displayUrl: function() {
     return `/workout/${this.get('workout_date')}`;
+  },
+
+  /** Summarise the workout from the attached sets.
+  */
+  summariseWorkout: function() {
+    const sets = this.get('sets') || [];
+    if (sets.length) {
+      let set = sets[0];
+      this.set({
+        summary: {
+          exercise_name: set.exercise_name,
+          reps: set.reps,
+          weight: set.weight
+        }
+      });
+    }
   },
 
   validate: function(attrs) {
