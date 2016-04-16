@@ -78,4 +78,10 @@ describe('Workout Model', function () {
     syncCall.args[2].success();
     expect(model.trigger.calledWith('save')).to.equal(true);
   });
+
+  it('summarises the workout from the given sets', function() {
+    model.summariseWorkout();
+    expect(model.get('summary')).to.not.be(undefined);
+    expect(model.get('summary').exercise_name).to.equal('Bench Press');
+  });
 });
