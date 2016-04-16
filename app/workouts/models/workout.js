@@ -16,7 +16,8 @@ export const WorkoutModel = Backbone.Model.extend({
   sync: authSync,
 
   defaults: () => ({
-    workout_date: moment().format('YYYY-MM-DD')
+    workout_date: moment().format('YYYY-MM-DD'),
+    summary: {}
   }),
 
   /** Return a formatted date relative to the current date

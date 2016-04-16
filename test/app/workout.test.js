@@ -82,5 +82,6 @@ describe('Workout Model', function () {
   it('summarises the workout from the given sets', function() {
     model.summariseWorkout();
     expect(model.get('summary')).to.not.be(undefined);
+    expect(model.get('summary').exercise_name).to.equal('Bench Press');
   });
 });
