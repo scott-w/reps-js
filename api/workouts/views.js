@@ -92,6 +92,11 @@ const recordWorkout = function(request, reply) {
   const workoutDate = request.payload.workout_date;
   const locationId = request.payload.location;
 
+  const payloadErrors = forms.createWorkoutErrors(request.payload);
+
+  if (payloadErrors) {
+    return reply(payloadErrors).code(400);
+  }
   util.getWorkout(userId, workoutDate).then(function(check) {
     if (check) {
       reply({workout_date: 'Cannot duplicate the workout_date'}).code(400);

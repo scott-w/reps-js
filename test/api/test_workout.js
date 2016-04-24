@@ -210,6 +210,30 @@ describe('Create workout', () => {
     });
   });
 
+  it('checks the set for errors', (done) => {
+    const data = {
+      method: 'post',
+      url: '/workouts/',
+      headers: headers,
+      payload: {
+        workout_date: '2016-01-20',
+        location: 1,
+        sets: [
+          {exercise: 1, weight: '60Kg'}
+        ]
+      }
+    };
+
+    server.inject(data, (response) => {
+      expect(response.statusCode).to.equal(400);
+      expect(response.result.sets.length).to.equal(1);
+      expect(response.result.sets[0].reps.length).to.equal(1);
+      expect(response.result.sets[0].reps[0]).to.equal("Reps can't be blank");
+
+      done();
+    });
+  });
+
   it('can create a workout without a location', (done) => {
     const data = {
       method: 'post',
