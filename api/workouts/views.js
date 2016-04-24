@@ -1,5 +1,3 @@
-/* jshint node: true */
-/* jshint esversion: 6 */
 'use strict';
 
 const _ = require('lodash');
@@ -7,6 +5,7 @@ const moment = require('moment');
 
 const models = require('../../models');
 const util = require('./util');
+const forms = require('./forms');
 
 const _replyExercise = function(data, reply) {
   return reply({
@@ -17,14 +16,14 @@ const _replyExercise = function(data, reply) {
 
 const getExercises = function(request, reply) {
   const userId = request.auth.credentials.id;
-  const exerciseName = request.query.exercise_name;
 
   const whereClause = {
     UserId: userId
   };
-  if (exerciseName) {
+
+  if (!forms.exerciseQueryErrors(request.query)) {
     whereClause.exercise_name  = {
-      $ilike: `%${exerciseName}%`
+      $ilike: `%${request.query.exercise_name}%`
     };
   }
   models.Exercise.findAll({
@@ -64,6 +63,11 @@ const getExercises = function(request, reply) {
 const createExercise = function(request, reply) {
   const userId = request.auth.credentials.id;
   const exerciseName = request.payload.exercise_name;
+  const requestError = forms.exerciseQueryErrors(request.payload);
+
+  if (requestError) {
+    return reply(requestError).code(400);
+  }
 
   util.getExercise(userId, exerciseName).then(function(check) {
     if (check) {
