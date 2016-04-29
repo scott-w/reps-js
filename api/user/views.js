@@ -4,12 +4,21 @@ const models = require('../../models');
 
 const jwt = require('../auth/jwt');
 
+const forms = require('./forms');
+
+
 const viewUser = function(request, reply) {
   reply(request.auth.credentials);
 };
 
 const updateUser = function(request, reply) {
   const email = request.auth.credentials.email;
+  const userErrors = forms.userErrors(request.payload);
+
+  if (userErrors) {
+    return reply(userErrors).code(400);
+  }
+
   const first_name = request.payload.first_name;
   const last_name = request.payload.last_name;
 
@@ -36,7 +45,7 @@ const updateUser = function(request, reply) {
     });
   }).catch((err) => {
     console.log(err);
-    reply({error: 'An error occurred'}).code(500);
+    return reply({error: 'An error occurred'}).code(500);
   });
 };
 
@@ -51,9 +60,8 @@ const changePassword = function(request, reply) {
   }
   bcrypt.hash(password1, bcrypt.genSaltSync(10), (err, hash) => {
     if (err) {
-      return reply({
-        error: 'An error occurred with your password'
-      }).code(400);
+      console.error(err);
+      return reply({error: 'An error occurred'}).code(500);
     }
 
     models.User.update({
@@ -62,15 +70,18 @@ const changePassword = function(request, reply) {
       where: {
         email: email
       }
-    }).then((userId) => {
+    }).then(userId => {
       return models.User.findOne({
         where: {
           id: userId
         }
       });
-    }).then((user) => {
+    }).then(user => {
       const token = jwt.getToken(user.dataValues);
       reply({token: token});
+    }).catch(err => {
+      console.error(err);
+      return reply({error: 'An error occurred'}).code(500);
     });
   });
 };
