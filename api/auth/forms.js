@@ -1,5 +1,7 @@
 const validate = require('validate.js');
 
+/** Validate user creation.
+*/
 exports.createUserError = params => validate(params, {
   email: {
     presence: true,

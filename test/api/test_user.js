@@ -120,6 +120,7 @@ describe('Create user', () => {
       expect(
         response.result.email[0]).to.equal(
         "Email can't be blank");
+
       done();
     });
   });
@@ -141,6 +142,7 @@ describe('Login user', () => {
       const tokenParts = response.result.token.split('.');
       expect(response.statusCode).to.equal(200);
       expect(tokenParts[0]).to.equal('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9');
+
       done();
     });
   });
@@ -194,6 +196,7 @@ describe('Update user', () => {
     }, (response) => {
       expect(response.statusCode).to.equal(200);
       expect(response.result.token.length).to.be.above(1);
+
       done();
     });
   });

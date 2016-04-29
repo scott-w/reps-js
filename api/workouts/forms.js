@@ -4,11 +4,8 @@ const _ = require('lodash');
 const validate = require('validate.js');
 const moment = require('moment');
 
-// Before using it we must add the parse and format functions
-// Here is a sample implementation using moment.js
 validate.extend(validate.validators.datetime, {
-  // The value is guaranteed not to be null or undefined but otherwise it
-  // could be anything.
+  // value will be anything except null/undefined
   parse: value => +moment.utc(value),
 
   // Input is a unix timestamp
@@ -18,6 +15,9 @@ validate.extend(validate.validators.datetime, {
   }
 });
 
+/** Validate a list of sets for adding a workout.
+    This provides validation for each set.
+*/
 validate.validators.setList = (value) => {
   const setValidator = (params) => validate(params, {
     exercise: {
@@ -55,6 +55,8 @@ validate.validators.setList = (value) => {
   }
 };
 
+/** Validate a search query for exercises by name
+*/
 exports.exerciseQueryErrors = (params) => validate(params, {
   exercise_name: {
     length: {
@@ -64,6 +66,8 @@ exports.exerciseQueryErrors = (params) => validate(params, {
   }
 });
 
+/** Validate the create workout parameters. This includes sets.
+*/
 exports.createWorkoutErrors = (params) => validate(params, {
   workout_date: {
     presence: true,
@@ -76,6 +80,8 @@ exports.createWorkoutErrors = (params) => validate(params, {
 });
 
 
+/** Validate the workout_date parameter when retrieving a workout.
+*/
 exports.dateErrors = (params) => validate(params, {
   workout_date: {
     presence: true,
