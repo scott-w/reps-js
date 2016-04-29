@@ -18,7 +18,7 @@ validate.extend(validate.validators.datetime, {
   }
 });
 
-validate.validators.setList = (value, options, key, attributes) => {
+validate.validators.setList = (value) => {
   const setValidator = (params) => validate(params, {
     exercise: {
       numericality: {
