@@ -74,3 +74,11 @@ exports.createWorkoutErrors = (params) => validate(params, {
     setList: true
   }
 });
+
+
+exports.dateErrors = (params) => validate(params, {
+  workout_date: {
+    presence: true,
+    date: true
+  }
+});

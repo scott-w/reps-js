@@ -207,6 +207,11 @@ const workoutsByDate = function(request, reply) {
 const retrieveWorkout = function(request, reply) {
   const userId = request.auth.credentials.id;
   const workoutDate = request.params.workout_date;
+  const dateError = forms.dateErrors(request.params);
+
+  if (dateError) {
+    return reply(dateError).code(400);
+  }
 
   models.Workout.findOne({
     attributes: [
@@ -232,7 +237,7 @@ const retrieveWorkout = function(request, reply) {
         };
       }
 
-      reply({
+      return reply({
         workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
         location: location,
         sets: _.map(workout.Sets, (set) => {
@@ -244,9 +249,11 @@ const retrieveWorkout = function(request, reply) {
       });
     }
     else {
-      reply({error: 'Not Found'}).code(404);
+      return reply({error: 'Not Found'}).code(404);
     }
-
+  }).catch(err => {
+    console.error(err);
+    return reply({error: 'Internal server error'}).code(500);
   });
 };
 
