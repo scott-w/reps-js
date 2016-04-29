@@ -74,6 +74,56 @@ describe('Create user', () => {
       done();
     });
   });
+
+  it('must take a password at least 8 long', done => {
+    const reqData = {
+      method: 'post',
+      url: '/user/',
+      payload: {
+        email: "test@example.com",
+        password: "short",
+        first_name: "First",
+        last_name: "Last"
+      }
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(400);
+      expect(
+        response.headers['content-type'].split(';')[0]
+      ).to.equal('application/json');
+      expect(response.result.password.length).to.equal(1);
+      expect(
+        response.result.password[0]).to.equal(
+        "Password is too short (minimum is 8 characters)");
+      done();
+    });
+  });
+
+  it('must have an email address', done => {
+    const reqData = {
+      method: 'post',
+      url: '/user/',
+      payload: {
+        password: "short",
+        first_name: "First",
+        last_name: "Last"
+      }
+    };
+
+    server.inject(reqData, (response) => {
+      expect(response.statusCode).to.equal(400);
+      expect(
+        response.headers['content-type'].split(';')[0]
+      ).to.equal('application/json');
+      expect(response.result.email.length).to.equal(1);
+      expect(
+        response.result.email[0]).to.equal(
+        "Email can't be blank");
+      done();
+    });
+  });
+
 });
 
 
@@ -94,11 +144,26 @@ describe('Login user', () => {
       done();
     });
   });
+
+  it('refuses to login invalid credentials', (done) => {
+    const req = {
+      url: '/token?email=test@example.com&password=nosuchpassword'
+    };
+
+    server.inject(req, response => {
+      console.log('\n\n\n\n\n\n');
+      console.log(response.result);
+      expect(response.statusCode).to.equal(400);
+      expect(response.result.password).to.equal('Incorrect');
+      done();
+    });
+  });
+
 });
 
 
 describe('Update user', () => {
-  beforeEach((done) => {
+  beforeEach(done => {
     construct.fixtures('./fixtures/users.yaml', done);
   });
 
