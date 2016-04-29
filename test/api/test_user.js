@@ -151,8 +151,6 @@ describe('Login user', () => {
     };
 
     server.inject(req, response => {
-      console.log('\n\n\n\n\n\n');
-      console.log(response.result);
       expect(response.statusCode).to.equal(400);
       expect(response.result.password).to.equal('Incorrect');
       done();
