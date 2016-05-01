@@ -124,7 +124,6 @@ describe('Create user', () => {
       done();
     });
   });
-
 });
 
 
