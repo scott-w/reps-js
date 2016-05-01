@@ -1,5 +1,3 @@
-/* jshint node: true */
-/* jshint esversion: 6 */
 'use strict';
 
 const _ = require('lodash');
@@ -7,6 +5,7 @@ const moment = require('moment');
 
 const models = require('../../models');
 const util = require('./util');
+const forms = require('./forms');
 
 const _replyExercise = function(data, reply) {
   return reply({
@@ -17,14 +16,14 @@ const _replyExercise = function(data, reply) {
 
 const getExercises = function(request, reply) {
   const userId = request.auth.credentials.id;
-  const exerciseName = request.query.exercise_name;
 
   const whereClause = {
     UserId: userId
   };
-  if (exerciseName) {
+
+  if (!forms.exerciseQueryErrors(request.query)) {
     whereClause.exercise_name  = {
-      $ilike: `%${exerciseName}%`
+      $ilike: `%${request.query.exercise_name}%`
     };
   }
   models.Exercise.findAll({
@@ -64,6 +63,11 @@ const getExercises = function(request, reply) {
 const createExercise = function(request, reply) {
   const userId = request.auth.credentials.id;
   const exerciseName = request.payload.exercise_name;
+  const requestError = forms.exerciseQueryErrors(request.payload);
+
+  if (requestError) {
+    return reply(requestError).code(400);
+  }
 
   util.getExercise(userId, exerciseName).then(function(check) {
     if (check) {
@@ -88,6 +92,11 @@ const recordWorkout = function(request, reply) {
   const workoutDate = request.payload.workout_date;
   const locationId = request.payload.location;
 
+  const payloadErrors = forms.createWorkoutErrors(request.payload);
+
+  if (payloadErrors) {
+    return reply(payloadErrors).code(400);
+  }
   util.getWorkout(userId, workoutDate).then(function(check) {
     if (check) {
       reply({workout_date: 'Cannot duplicate the workout_date'}).code(400);
@@ -198,6 +207,11 @@ const workoutsByDate = function(request, reply) {
 const retrieveWorkout = function(request, reply) {
   const userId = request.auth.credentials.id;
   const workoutDate = request.params.workout_date;
+  const dateError = forms.dateErrors(request.params);
+
+  if (dateError) {
+    return reply(dateError).code(400);
+  }
 
   models.Workout.findOne({
     attributes: [
@@ -223,7 +237,7 @@ const retrieveWorkout = function(request, reply) {
         };
       }
 
-      reply({
+      return reply({
         workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
         location: location,
         sets: _.map(workout.Sets, (set) => {
@@ -235,9 +249,11 @@ const retrieveWorkout = function(request, reply) {
       });
     }
     else {
-      reply({error: 'Not Found'}).code(404);
+      return reply({error: 'Not Found'}).code(404);
     }
-
+  }).catch(err => {
+    console.error(err);
+    return reply({error: 'Internal server error'}).code(500);
   });
 };
 
