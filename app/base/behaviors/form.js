@@ -1,9 +1,11 @@
+import _ from 'underscore';
 import {Behavior} from 'backbone.marionette';
 
 export const Validation = Behavior.extend({
   channelName: 'notification',
 
   modelEvents: {
+    error: 'showFieldErrors',
     invalid: 'showErrorMessage'
   },
 
@@ -11,5 +13,22 @@ export const Validation = Behavior.extend({
     const channel = this.getChannel();
     channel.request(
       'show:warning', 'You have not completed the form correctly');
+  }
+});
+
+export const FormError = Behavior.extend({
+  modelEvents: {
+    error: 'showFieldErrors'
+  },
+
+  showFieldErrors: function(model, response) {
+    _.each(response.body, (value, attribute) => {
+      const ui = this.view.getUI(attribute);
+      // TODO Render an error tooltip
+      if (_.isArray(value)) {
+        value = value[0];
+      }
+      ui.tooltip(value);
+    });
   }
 });
