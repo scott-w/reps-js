@@ -2,8 +2,9 @@
 const jwt = require('./api/auth/jwt');
 
 const Hapi = require('hapi');
-var models = require('./models');
-var jwtConfig = require('./config/jwt');
+const models = require('./models');
+const jwtConfig = require('./config/jwt');
+const rollbarConfig = require('./config/rollbar')
 
 const server = new Hapi.Server();
 
@@ -63,6 +64,26 @@ server.register(require('inert'), (err) => {
     }
   });
 });
+
+
+if (rollbarConfig.useRollbar) {
+  server.register({
+    register: require('icecreambar'),
+    options: {
+      'accessToken': rollbarConfig.rollbarKey
+    }
+  }, function (err) {
+
+    if (err) {
+      throw err;
+    }
+    var rollbar = server.plugins.icecreambar.default;
+
+    rollbar.handleUncaughtExceptions(rollbarConfig.rollbarKey, {
+      exitOnUncaughtException: true
+    });
+  });
+}
 
 
 models.sequelize.sync().then(function() {

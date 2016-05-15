@@ -1,7 +1,3 @@
-'use strict';
-/* jshint node: true */
-/* jshint esversion: 6 */
-
 var _ = require('lodash');
 
 const env_private_key = process.env.JWT_PRIVATE_KEY;
