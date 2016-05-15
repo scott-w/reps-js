@@ -1,5 +1,7 @@
 import expect from 'expect.js';
 
+import _ from 'lodash';
+
 import {Model} from 'backbone';
 import {View} from 'backbone.marionette';
 
@@ -11,11 +13,12 @@ describe('Error handler', function() {
 
   const MyView = View.extend({
     behaviors: {
-      error: FormError
-    },
-
-    ui: {
-      my_attribute: '.attribute'
+      error: {
+        behaviorClass: FormError,
+        errors: {
+          my_attribute: '.attribute'
+        }
+      }
     }
   });
   let view;
@@ -30,16 +33,26 @@ describe('Error handler', function() {
 
     tooltip = sinon.stub();
 
-    sinon.stub(view, 'getUI', () => ({
+    _.each(view._behaviors, behavior => {
+      sinon.stub(behavior, 'getUI', () => ({
         tooltip: tooltip
-    }));
+      }));
+    });
   });
 
   afterEach(function() {
-    view.getUI.restore();
+    _.each(view._behaviors, behavior => {
+      behavior.getUI.restore();
+    });
     model = null;
     view = null;
     tooltip = null;
+  });
+
+  it('sets up the ui', function() {
+    _.each(view._behaviors, behavior => {
+      expect(behavior.ui.my_attribute).to.equal('.attribute');
+    });
   });
 
   it('fires error handlers on the view', function() {
@@ -49,7 +62,6 @@ describe('Error handler', function() {
       }
     });
 
-    expect(view.getUI.calledWith('my_attribute')).to.equal(true);
     expect(tooltip.calledWith('Was not valid')).to.equal(true);
   });
 
@@ -60,7 +72,6 @@ describe('Error handler', function() {
       }
     });
 
-    expect(view.getUI.calledWith('my_attribute')).to.equal(true);
     expect(tooltip.calledWith('Was not valid')).to.equal(true);
   });
 });

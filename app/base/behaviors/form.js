@@ -21,9 +21,17 @@ export const FormError = Behavior.extend({
     error: 'showFieldErrors'
   },
 
+  options: {
+    errors: {}
+  },
+
+  ui: function() {
+    return this.getOption('errors');
+  },
+
   showFieldErrors: function(model, response) {
     _.each(response.body, (value, attribute) => {
-      const ui = this.view.getUI(attribute);
+      const ui = this.getUI(attribute);
       // TODO Render an error tooltip
       if (_.isArray(value)) {
         value = value[0];
