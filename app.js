@@ -4,7 +4,7 @@ const jwt = require('./api/auth/jwt');
 const Hapi = require('hapi');
 const models = require('./models');
 const jwtConfig = require('./config/jwt');
-const rollbarConfig = require('./config/rollbar')
+const rollbarConfig = require('./config/rollbar');
 
 const server = new Hapi.Server();
 
