@@ -4,6 +4,8 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
+import {FormError} from '../../base/behaviors/form';
+
 import {LoginModel, RegisterModel} from '../models/auth';
 import {UserModel} from '../../base/models/auth';
 
@@ -23,6 +25,16 @@ const Index = Marionette.View.extend({
 const Login = Marionette.View.extend({
   className: 'row',
   template: require('../templates/login.html'),
+
+  behaviors: {
+    form: {
+      behaviorClass: FormError,
+      errors: {
+        email: '#login-email',
+        password: '#login-password'
+      }
+    }
+  },
 
   ui: {
     form: 'form',

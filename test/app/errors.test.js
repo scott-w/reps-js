@@ -22,7 +22,7 @@ describe('Error handler', function() {
     }
   });
   let view;
-  let tooltip;
+  let popover;
 
   beforeEach(function() {
     model = new Model({
@@ -31,11 +31,11 @@ describe('Error handler', function() {
 
     view = new MyView({model: model});
 
-    tooltip = sinon.stub();
+    popover = sinon.stub();
 
     _.each(view._behaviors, behavior => {
       sinon.stub(behavior, 'getUI', () => ({
-        tooltip: tooltip
+        popover: popover
       }));
     });
   });
@@ -46,7 +46,7 @@ describe('Error handler', function() {
     });
     model = null;
     view = null;
-    tooltip = null;
+    popover = null;
   });
 
   it('sets up the ui', function() {
@@ -57,21 +57,21 @@ describe('Error handler', function() {
 
   it('fires error handlers on the view', function() {
     model.trigger('error', model, {
-      body: {
+      responseJSON: {
         my_attribute: ['Was not valid']
       }
     });
 
-    expect(tooltip.calledWith('Was not valid')).to.equal(true);
+    expect(popover.calledWith('Was not valid')).to.equal(true);
   });
 
   it('handles non-array error objects', function() {
     model.trigger('error', model, {
-      body: {
+      responseJSON: {
         my_attribute: 'Was not valid'
       }
     });
 
-    expect(tooltip.calledWith('Was not valid')).to.equal(true);
+    expect(popover.calledWith('Was not valid')).to.equal(true);
   });
 });

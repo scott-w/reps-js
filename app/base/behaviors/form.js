@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import {Behavior} from 'backbone.marionette';
+import popoverTemplate from '../templates/popover.html';
 
 export const Validation = Behavior.extend({
   channelName: 'notification',
@@ -29,14 +30,24 @@ export const FormError = Behavior.extend({
     return this.getOption('errors');
   },
 
+  events: {
+    'click': 'hidepopover',
+    'keydown': 'hidepopover'
+  },
+
   showFieldErrors: function(model, response) {
-    _.each(response.body, (value, attribute) => {
+    _.each(response.responseJSON, (value, attribute) => {
       const ui = this.getUI(attribute);
-      // TODO Render an error tooltip
+
       if (_.isArray(value)) {
         value = value[0];
       }
-      ui.tooltip(value);
+      const output = popoverTemplate({content: value});
+      ui.parent().append(output);
     });
+  },
+
+  hidepopover: function() {
+    this.$('.form-error').remove();
   }
 });
