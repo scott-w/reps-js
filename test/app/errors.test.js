@@ -22,7 +22,7 @@ describe('Error handler', function() {
     }
   });
   let view;
-  let popover;
+  let append;
 
   beforeEach(function() {
     model = new Model({
@@ -31,12 +31,15 @@ describe('Error handler', function() {
 
     view = new MyView({model: model});
 
-    popover = sinon.stub();
+    append = sinon.stub();
 
     _.each(view._behaviors, behavior => {
-      sinon.stub(behavior, 'getUI', () => ({
-        popover: popover
-      }));
+      let ui = {
+        parent: () => ({
+          append: append
+        })
+      };
+      sinon.stub(behavior, 'getUI', () => ui);
     });
   });
 
@@ -46,7 +49,7 @@ describe('Error handler', function() {
     });
     model = null;
     view = null;
-    popover = null;
+    append = null;
   });
 
   it('sets up the ui', function() {
@@ -62,7 +65,7 @@ describe('Error handler', function() {
       }
     });
 
-    expect(popover.calledWith('Was not valid')).to.equal(true);
+    expect(append.calledOnce).to.equal(true);
   });
 
   it('handles non-array error objects', function() {
@@ -72,6 +75,59 @@ describe('Error handler', function() {
       }
     });
 
-    expect(popover.calledWith('Was not valid')).to.equal(true);
+    expect(append.calledOnce).to.equal(true);
+  });
+
+  it('renders the template with the right data', function() {
+    const behavior = _.reduce(view._behaviors, (memo, behavior) => {
+      if (memo) {
+        return memo;
+      }
+      return behavior.getPopoverTemplate ? behavior : false;
+    }, false);
+    sinon.stub(behavior, 'getPopoverTemplate', () => '');
+
+    model.trigger('error', model, {
+      responseJSON: {
+        my_attribute: 'Was not valid'
+      }
+    });
+
+    expect(behavior.getPopoverTemplate.calledWith('Was not valid')).to.be(true);
+  });
+
+  it('renders the template receiving an array of data', function() {
+    const behavior = _.reduce(view._behaviors, (memo, behavior) => {
+      if (memo) {
+        return memo;
+      }
+      return behavior.getPopoverTemplate ? behavior : false;
+    }, false);
+    sinon.stub(behavior, 'getPopoverTemplate', () => '');
+
+    model.trigger('error', model, {
+      responseJSON: {
+        my_attribute: ['Was not valid']
+      }
+    });
+
+    expect(behavior.getPopoverTemplate.calledWith('Was not valid')).to.be(true);
+  });
+
+  it('clears errors when the user does something', function() {
+    const behavior = _.reduce(view._behaviors, (memo, behavior) => {
+      if (memo) {
+        return memo;
+      }
+      return behavior.getPopoverTemplate ? behavior : false;
+    }, false);
+
+    const remove = sinon.stub();
+    sinon.stub(behavior, '$', () => ({remove: remove}));
+
+    view.$el.trigger('click');
+
+    expect(behavior.$.calledWith('.form-error')).to.be(true);
+    expect(remove.calledOnce).to.be(true);
   });
 });
