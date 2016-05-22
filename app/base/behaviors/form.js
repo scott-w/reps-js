@@ -39,7 +39,7 @@ const _BaseValidationBehavior = Behavior.extend({
   /** Destroys all popovers */
   hidepopover: function() {
     const formError = this.getOption('popoverClass');
-    this.$(formError).remove();
+    this.$(`.${formError}`).remove();
   },
 
   /** Gets a rendered template of the popover to display */
