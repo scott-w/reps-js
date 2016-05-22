@@ -4,7 +4,7 @@ import Syphon from 'backbone.syphon';
 
 import _ from 'underscore';
 
-import {Validation} from '../../base/behaviors/form';
+import {Validation, ValidationError} from '../../base/behaviors/form';
 
 import {ExerciseContainerView} from '../../exercises/views/list';
 import {ExerciseList} from '../../exercises/collections/exercises';
@@ -37,7 +37,15 @@ const SetLayoutView = Marionette.View.extend({
   className: 'form-horizontal',
 
   behaviors: {
-    form: Validation
+    form: Validation,
+    error: {
+      behaviorClass: ValidationError,
+      errors: {
+        weight: '#id_weight',
+        exercise_name: '#id_exercise_name',
+        reps: '#id_reps'
+      }
+    }
   },
 
   attributes: {
