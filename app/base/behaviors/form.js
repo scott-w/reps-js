@@ -9,7 +9,7 @@ export const Validation = Behavior.extend({
   channelName: 'notification',
 
   modelEvents: {
-    error: 'showFieldErrors',
+    error: 'showErrorMessage',
     invalid: 'showErrorMessage'
   },
 
@@ -24,7 +24,7 @@ export const Validation = Behavior.extend({
 const _BaseValidationBehavior = Behavior.extend({
   options: {
     errors: {},
-    popoverClass: '.form-error'
+    popoverClass: 'form-error'
   },
 
   ui: function() {

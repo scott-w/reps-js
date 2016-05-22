@@ -4,7 +4,7 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
-import {FormError} from '../../base/behaviors/form';
+import {FormError, ValidationError} from '../../base/behaviors/form';
 
 import {LoginModel, RegisterModel} from '../models/auth';
 import {UserModel} from '../../base/models/auth';
@@ -67,6 +67,27 @@ const Login = Marionette.View.extend({
 const Register = Marionette.View.extend({
   className: 'row',
   template: require('../templates/register.html'),
+
+  behaviors: {
+    error: {
+      behaviorClass: FormError,
+      errors: {
+        first_name: '#register-first_name',
+        last_name: '#register-last_name',
+        email: '#register-email',
+        password: '#register-password'
+      }
+    },
+    validation: {
+      behaviorClass: ValidationError,
+      errors: {
+        first_name: '#register-first_name',
+        last_name: '#register-last_name',
+        email: '#register-email',
+        password: '#register-password'
+      }
+    }
+  },
 
   ui: {
     form: 'form',
