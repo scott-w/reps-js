@@ -2,6 +2,9 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
 import {Page} from '../../base/behaviors/page';
+import {Loading} from '../../base/behaviors/loader';
+
+import {EmptyView, LoaderView} from '../../base/views/loader';
 
 import {ExerciseList} from '../collections/workouts';
 import {ExerciseListView} from './exercise';
@@ -99,7 +102,13 @@ const WorkoutListLayout = Marionette.View.extend({
   template: require('../templates/workout/list.html'),
 
   behaviors: {
-    page: Page
+    page: Page,
+    loader: {
+      behaviorClass: Loading,
+      collectionView: WorkoutListView,
+      emptyView: EmptyView,
+      loadView: LoaderView
+    }
   },
 
   regions: {
@@ -112,12 +121,6 @@ const WorkoutListLayout = Marionette.View.extend({
 
   triggers: {
     'click @ui.create': 'show:create:workout'
-  },
-
-  onRender: function() {
-    this.showChildView('list', new WorkoutListView({
-      collection: this.collection
-    }));
   },
 
   onChildviewShowWorkout: function(options) {

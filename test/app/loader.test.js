@@ -3,7 +3,7 @@ import {View, CollectionView} from 'backbone.marionette';
 
 import expect from 'expect.js';
 
-import {LoadingBehavior} from '../../app/base/behaviors/loader';
+import {Loading} from '../../app/base/behaviors/loader';
 
 
 const getBehavior = view => view._behaviors[0];
@@ -14,7 +14,7 @@ describe('Loading Behavior', function() {
 
   const InvalidView = View.extend({
     behaviors: {
-      loader: LoadingBehavior
+      loader: Loading
     }
   });
 
@@ -24,7 +24,7 @@ describe('Loading Behavior', function() {
   const TestView = View.extend({
     behaviors: {
       loader: {
-        behaviorClass: LoadingBehavior,
+        behaviorClass: Loading,
         loadView: LoadView,
         emptyView: EmptyView,
         collectionView: CollectionView
@@ -35,7 +35,7 @@ describe('Loading Behavior', function() {
   const EmptyTestView = View.extend({
     behaviors: {
       loader: {
-        behaviorClass: LoadingBehavior,
+        behaviorClass: Loading,
         loadView: LoadView,
         emptyView: EmptyView,
         collectionView: CollectionView,

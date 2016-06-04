@@ -6,12 +6,12 @@ import {Behavior} from 'backbone.marionette';
     Once the collection has synchronised, render it for us.
     If the collection is empty, render the emptyView.
 */
-export const LoadingBehavior = Behavior.extend({
+export const Loading = Behavior.extend({
   defaults: {
-    collectionRegion: '.collection-hook',
-    loadView: undefined,
-    collectionView: undefined,
-    emptyView: undefined,
+    collectionRegion: 'list',
+    loadView: null,
+    collectionView: null,
+    emptyView: null,
     initialState: 'loading'
   },
 
