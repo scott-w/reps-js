@@ -4,6 +4,9 @@ import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
 
 import {Page} from '../../base/behaviors/page';
+import {Loading} from '../../base/behaviors/loader';
+
+import {EmptyView, LoaderView} from '../../base/views/loader';
 
 import {SetList} from '../../sets/collections/sets';
 
@@ -56,7 +59,13 @@ const ExerciseListView = Marionette.CollectionView.extend({
 
 export const ExerciseLayoutView = Marionette.View.extend({
   behaviors: {
-    page: Page
+    page: Page,
+    loader: {
+      behaviorClass: Loading,
+      collectionView: ExerciseListView,
+      loadView: LoaderView,
+      emptyView: EmptyView
+    }
   },
 
   className: 'col-md-12 col-lg-10 col-lg-offset-1',
@@ -77,12 +86,6 @@ export const ExerciseLayoutView = Marionette.View.extend({
   events: {
     'input @ui.search': 'filterExercises',
     'click @ui.create': 'showCreate'
-  },
-
-  onRender: function() {
-    this.showChildView('list', new ExerciseListView({
-      collection: this.collection
-    }));
   },
 
   filterExercises: _.debounce(function() {
