@@ -1,0 +1,55 @@
+version: v1.5.0
+ignore:
+  'npm:hawk:20160119':
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > hawk:
+        reason: Not accessible in deployed build
+        expires: '2016-07-25T06:58:00.762Z'
+  'npm:is-my-json-valid:20160118':
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > har-validator > is-my-json-valid:
+        reason: Not accessible in deployed build
+        expires: '2016-07-25T06:58:00.763Z'
+  'npm:minimatch:20160620':
+    - sequelize-cli > gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
+        reason: No remediation available
+        expires: '2016-07-25T06:58:00.764Z'
+    - sequelize-cli > gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
+        reason: No remediation available
+        expires: '2016-07-25T06:58:00.764Z'
+patch:
+  'npm:minimatch:20160620':
+    - sequelize-cli > gulp > vinyl-fs > glob-stream > glob > minimatch:
+        patched: '2016-06-25T06:54:03.838Z'
+    - sequelize-cli > gulp > vinyl-fs > glob-stream > minimatch:
+        patched: '2016-06-25T06:54:03.838Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar > fstream > rimraf > glob > minimatch:
+        patched: '2016-06-25T06:54:03.838Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > tar > fstream > rimraf > glob > minimatch:
+        patched: '2016-06-25T06:54:03.838Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream > rimraf > glob > minimatch:
+        patched: '2016-06-25T06:54:03.838Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > fstream > rimraf > glob > minimatch:
+        patched: '2016-06-25T06:54:03.838Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > rimraf > glob > minimatch:
+        patched: '2016-06-25T06:54:03.838Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > rimraf > glob > minimatch:
+        patched: '2016-06-25T06:54:03.838Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > minimatch:
+        patched: '2016-06-25T06:54:03.838Z'
+  'npm:moment:20160126':
+    - hapi > catbox > joi > moment:
+        patched: '2016-06-25T06:54:03.838Z'
+    - hapi > heavy > joi > moment:
+        patched: '2016-06-25T06:54:03.838Z'
+    - hapi > joi > moment:
+        patched: '2016-06-25T06:54:03.838Z'
+    - hapi > statehood > joi > moment:
+        patched: '2016-06-25T06:54:03.838Z'
+  'npm:request:20160119':
+    - hapi-auth-google > googleapis > google-auth-library > request:
+        patched: '2016-06-25T06:54:03.838Z'
+    - google-auth-library > request:
+        patched: '2016-06-25T06:54:03.838Z'
+    - googleapis > google-auth-library > request:
+        patched: '2016-06-25T06:54:03.838Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > request:
+        patched: '2016-06-25T06:54:03.838Z'
