@@ -35,13 +35,10 @@ export const WorkoutModel = Backbone.Model.extend({
 
   /** Save the workout against the server
   */
-  saveWorkout: function(attrs, options) {
+  saveWorkout: function(attrs  = {}, options = {}) {
     this._setEndDateTime(attrs);
 
     let success = null;
-    if (_.isUndefined(options)) {
-      options = {};
-    }
 
     if (options.success) {
       success = options.success;
