@@ -31,5 +31,10 @@ module.exports = [
     method: 'GET',
     path: '/me/google',
     handler: views.google
+  },
+  {
+    method: 'GET',
+    path: '/me/google/callback',
+    handler: views.googleCallback
   }
 ];

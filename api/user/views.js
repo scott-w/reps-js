@@ -91,9 +91,23 @@ const googleAuth = function(request, reply) {
   return reply.redirect(google.oauthUrl);
 };
 
+/** Sets the assigned token from Google */
+const googleCallback = function(request, reply) {
+  console.log(request.query.code);
+  const email = request.auth.credentials.email;
+  models.User.update({
+    fit_token: request.query.code
+  }, {
+    where: {
+      email: email
+    }
+  }).then(() => reply.redirect('/profile'));
+};
+
 module.exports = {
   user: viewUser,
   update: updateUser,
   password: changePassword,
-  google: googleAuth
+  google: googleAuth,
+  googleCallback: googleCallback
 };
