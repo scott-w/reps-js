@@ -14,5 +14,11 @@ exports.userErrors = params => validate(params, {
     length: {
       minimum: 1
     }
+  },
+  fit_token: {
+    length: {
+      minimum: 0
+    },
+    presence: false
   }
 });

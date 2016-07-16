@@ -22,6 +22,7 @@ const updateUser = function(request, reply) {
 
   const first_name = request.payload.first_name;
   const last_name = request.payload.last_name;
+  const token = request.payload.fit_token;
 
   const updateVals = {};
   if (first_name) {
@@ -29,6 +30,9 @@ const updateUser = function(request, reply) {
   }
   if (last_name) {
     updateVals.last_name = last_name;
+  }
+  if (token) {
+    updateVals.fit_token = token;
   }
 
   models.User.update(updateVals, {
@@ -41,7 +45,8 @@ const updateUser = function(request, reply) {
     }).then((user) => {
       reply({
         first_name: user.dataValues.first_name,
-        last_name: user.dataValues.last_name
+        last_name: user.dataValues.last_name,
+        fit_token: user.dataValues.fit_token
       });
     });
   }).catch((err) => {
@@ -91,23 +96,9 @@ const googleAuth = function(request, reply) {
   return reply.redirect(google.oauthUrl);
 };
 
-/** Sets the assigned token from Google */
-const googleCallback = function(request, reply) {
-  console.log(request.query.code);
-  const email = request.auth.credentials.email;
-  models.User.update({
-    fit_token: request.query.code
-  }, {
-    where: {
-      email: email
-    }
-  }).then(() => reply.redirect('/profile'));
-};
-
 module.exports = {
   user: viewUser,
   update: updateUser,
   password: changePassword,
-  google: googleAuth,
-  googleCallback: googleCallback
+  google: googleAuth
 };
