@@ -11,7 +11,7 @@ const scopes = [
   'https://www.googleapis.com/auth/fitness.activity.write'
 ];
 
-const url = oauth2Client.generateAuthUrl({
-  access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
-  scope: scopes // If you only need one scope you can pass it as string
+exports.oauthUrl = oauth2Client.generateAuthUrl({
+  access_type: 'offline',
+  scope: scopes
 });

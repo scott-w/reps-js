@@ -5,6 +5,7 @@ const models = require('../../models');
 const jwt = require('../auth/jwt');
 
 const forms = require('./forms');
+const google = require('./google');
 
 
 const viewUser = function(request, reply) {
@@ -86,8 +87,13 @@ const changePassword = function(request, reply) {
   });
 };
 
+const googleAuth = function(request, reply) {
+  return reply.redirect(google.oauthUrl);
+};
+
 module.exports = {
   user: viewUser,
   update: updateUser,
-  password: changePassword
+  password: changePassword,
+  google: googleAuth
 };

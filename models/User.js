@@ -10,7 +10,11 @@ module.exports = function(sequelize, DataTypes) {
     password: DataTypes.STRING,
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
-    fit_token: DataTypes.STRING
+    fit_token: {
+      type: DataTypes.TEXT,
+      defaultValue: '',
+      allowNull: false
+    }
   }, {
     classMethods: {
       associate: function(models) {

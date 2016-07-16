@@ -26,5 +26,10 @@ module.exports = [
     method: 'PATCH',
     path: '/me/password',
     handler: views.password
+  },
+  {
+    method: 'GET',
+    path: '/me/google',
+    handler: views.google
   }
 ];
