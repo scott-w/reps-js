@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import query from 'query-string';
 import root from 'window-or-global';
 
 import Backbone from 'backbone';
@@ -81,6 +82,23 @@ export const UserModel = Backbone.Model.extend({
       ajaxSync: true,
       headers: getAuthHeader(this),
       success: () => this.save({password1: undefined, password2: undefined})
+    });
+  },
+
+  /** Update the user's fit_token with the system from the querystring. If the
+    searchString param is undefined, this does nothing.
+  */
+  updateFitToken: function(searchString) {
+    if (_.isUndefined(searchString)) {
+      return;
+    }
+
+    const parsed = query.parse(searchString);
+    return this.save({
+      fit_token: parsed.code
+    }, {
+      ajaxSync: true,
+      headers: getAuthHeader(this)
     });
   },
 

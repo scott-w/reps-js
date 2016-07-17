@@ -1,3 +1,5 @@
+import root from 'window-or-global';
+import Backbone from 'backbone';
 import Syphon from 'backbone.syphon';
 
 import {View} from 'backbone.marionette';
@@ -14,6 +16,10 @@ const PasswordView = View.extend({
 
   events: {
     'click @ui.changePassword': 'changePassword'
+  },
+
+  triggers: {
+    'click @ui.cancel': 'close:password'
   },
 
   changePassword: function() {
@@ -41,8 +47,8 @@ export const UserLayout = View.extend({
     }
   },
 
-  childEvents: {
-    'click @ui.cancel': 'closePassword'
+  childViewEvents: {
+    'close:password': 'closePassword'
   },
 
   events: {
@@ -53,6 +59,13 @@ export const UserLayout = View.extend({
 
   modelEvents: {
     sync: 'render'
+  },
+
+  onRender: function() {
+    if (root.location.search) {
+      this.model.updateFitToken(root.location.search);
+      Backbone.history.navigate('/profile'); // Clear the code
+    }
   },
 
   updateUser: function(e) {

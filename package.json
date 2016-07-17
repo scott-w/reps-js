@@ -81,6 +81,7 @@
     "mocha": "^2.4.5",
     "mock-browser": "^0.92.11",
     "phantomjs-prebuilt": "^2.1.7",
+    "query-string": "^4.2.2",
     "sequelize-fixtures": "^0.4.8",
     "shot": "^3.0.0",
     "sinon": "^1.17.3",
