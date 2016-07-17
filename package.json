@@ -36,7 +36,7 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node --harmony app.js",
+    "start": "npm run migrate && node --harmony app.js",
     "migrate": "sequelize db:migrate",
     "fulltest": "sequelize db:migrate && lab",
     "serveassets": "http-server ./assets",
