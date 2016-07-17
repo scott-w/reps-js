@@ -17,7 +17,8 @@ export const UserModel = Backbone.Model.extend({
     first_name: '',
     last_name: '',
     email: '',
-    token: ''
+    token: '',
+    fit_token: ''
   },
 
   /** Return the login state of the user client-side. This doesn't confirm the

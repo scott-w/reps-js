@@ -39,10 +39,18 @@
       </div>
     </div>
     <div class="col-lg-4">
-      <a class="btn" href="/me/google">
-        Connect your Google Fit Account
-        <img src="/img/google-logo.svg" width="33">
-      </a>
+      <% if (fit_token) { %>
+        Connected to Google Fit
+        <a class="btn" href="/me/google">
+          Reconnect
+          <img src="/img/google-logo.svg" width="33">
+        </a>
+      <% } else { %>
+      <% } %>
+        <a class="btn" href="/me/google">
+          Connect your Google Fit Account
+          <img src="/img/google-logo.svg" width="33">
+        </a>
     </div>
   </div>
   <div class="row">
