@@ -17,6 +17,8 @@ export const WorkoutModel = Backbone.Model.extend({
 
   defaults: () => ({
     workout_date: moment().format('YYYY-MM-DD'),
+    session_start: moment().format('YYYY-MM-DDTHH:MM:SS'),
+    session_end: null,
     summary: {}
   }),
 
@@ -33,11 +35,10 @@ export const WorkoutModel = Backbone.Model.extend({
 
   /** Save the workout against the server
   */
-  saveWorkout: function(attrs, options) {
+  saveWorkout: function(attrs  = {}, options = {}) {
+    this._setEndDateTime(attrs);
+
     let success = null;
-    if (_.isUndefined(options)) {
-      options = {};
-    }
 
     if (options.success) {
       success = options.success;
@@ -136,5 +137,9 @@ export const WorkoutModel = Backbone.Model.extend({
         presence: true
       }
     });
+  },
+
+  _setEndDateTime: function(attrs) {
+    attrs.session_end = moment().format('YYYY-MM-DDTHH:MM:SS');
   }
 });

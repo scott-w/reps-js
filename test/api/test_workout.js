@@ -258,6 +258,10 @@ describe('Create workout', () => {
       done();
     });
   });
+
+  it('will attempt to record the workout with Google Fit', done => {
+    done();
+  });
 });
 
 

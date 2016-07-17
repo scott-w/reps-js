@@ -11,35 +11,29 @@ import {UserModel, authSync} from '../../app/base/models/auth';
 describe('UserModel', function() {
   var model;
 
-  beforeEach(function(done) {
+  beforeEach(function() {
     model = new UserModel();
 
     sinon.spy(model, 'trigger');
     sinon.spy(model, 'sync');
-
-    done();
   });
 
-  afterEach(function(done) {
+  afterEach(function() {
     model.clear();
     model.trigger.restore();
     model.sync.restore();
-
-    done();
   });
 
-  it('marks the user as not logged in when token is empty', (done) => {
+  it('marks the user as not logged in when token is empty', () => {
     expect(model.isLoggedIn()).to.equal(false);
-    done();
   });
 
-  it('marks the user as logged in when token is set', (done) => {
+  it('marks the user as logged in when token is set', () => {
     model.save({token: 'abc'});
     expect(model.isLoggedIn()).to.equal(true);
-    done();
   });
 
-  it('can log users out', (done) => {
+  it('can log users out', () => {
     model.save({token: 'abc'});
 
     model.logout();
@@ -50,10 +44,9 @@ describe('UserModel', function() {
     const storedUser = JSON.parse(
       global.localStorage.getItem('UserModel-current'));
     expect(storedUser.token).to.equal('');
-    done();
   });
 
-  it('can update the user', (done) => {
+  it('can update the user', () => {
     model.updateUser({
       first_name: 'Test',
       last_name: 'User'
@@ -67,8 +60,26 @@ describe('UserModel', function() {
     expect(syncArgs[0]).to.equal('update');
     expect(syncArgs[1]).to.equal(model);
     expect(syncArgs[2].ajaxSync).to.equal(true);
+  });
 
-    done();
+  it('parses the querystring to set the fit_token', function() {
+    const code = '?code=abcdef';
+    model.updateFitToken(code);
+
+    expect(model.get('fit_token')).to.equal('abcdef');
+
+    const syncArgs = model.sync.getCall(0).args;
+
+    expect(syncArgs[0]).to.equal('update');
+    expect(syncArgs[1]).to.equal(model);
+    expect(syncArgs[2].ajaxSync).to.equal(true);
+  });
+
+  it('parses undefined and does nothing', function() {
+    model.set('fit_token', 'abcdef');
+    model.updateFitToken();
+
+    expect(model.get('fit_token')).to.equal('abcdef');
   });
 });
 

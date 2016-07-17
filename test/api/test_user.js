@@ -183,6 +183,25 @@ describe('Update user', () => {
     });
   });
 
+  it('can update a user\s Fit API Token', done => {
+    server.inject({
+      url: '/me',
+      headers: headers,
+      method: 'PUT',
+      payload: {
+        first_name: 'Test',
+        last_name: 'Name',
+        fit_token: 'abcdefghijkl'
+      }
+    }, (response) => {
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.first_name).to.equal('Test');
+      expect(response.result.last_name).to.equal('Name');
+      expect(response.result.fit_token).to.equal('abcdefghijkl');
+      done();
+    });
+  });
+
   it('can change a user\'s password', (done) => {
     server.inject({
       url: '/me/password',
