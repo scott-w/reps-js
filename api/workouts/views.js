@@ -6,6 +6,7 @@ const moment = require('moment');
 const models = require('../../models');
 const util = require('./util');
 const forms = require('./forms');
+// const google = require('./google');
 
 const _replyExercise = function(data, reply) {
   return reply({
@@ -327,6 +328,8 @@ const updateWorkout = function(request, reply) {
         }).code(201);
       });
     }
+
+    // google.sendWorkout(userId, request.payload);
   });
 };
 
