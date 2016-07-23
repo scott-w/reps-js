@@ -17,7 +17,7 @@ export const WorkoutModel = Backbone.Model.extend({
 
   defaults: () => ({
     workout_date: moment().format('YYYY-MM-DD'),
-    session_start: moment().format('YYYY-MM-DDTHH:MM:SS'),
+    session_start: moment().format(),
     session_end: null,
     summary: {}
   }),
@@ -140,6 +140,6 @@ export const WorkoutModel = Backbone.Model.extend({
   },
 
   _setEndDateTime: function(attrs) {
-    attrs.session_end = moment().format('YYYY-MM-DDTHH:MM:SS');
+    attrs.session_end = moment().format();
   }
 });
