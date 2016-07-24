@@ -6,7 +6,7 @@ const moment = require('moment');
 const models = require('../../models');
 const util = require('./util');
 const forms = require('./forms');
-// const google = require('./google');
+const google = require('./google');
 
 const _replyExercise = function(data, reply) {
   return reply({
@@ -297,9 +297,15 @@ const updateWorkout = function(request, reply) {
   const userId = request.auth.credentials.id;
   const workoutDate = request.params.workout_date;
 
+  const googlePayload = {
+    session_start: request.params.session_start,
+    session_end: request.params.session_end
+  };
+
   util.getWorkout(userId, workoutDate, [models.Set]).then((instance) => {
     if (instance) {
       console.log('Updating Workout');
+
       util.updateSets(
         instance.dataValues.Sets, request.payload.sets, instance.dataValues.id
       ).then((sets) => {
@@ -311,26 +317,42 @@ const updateWorkout = function(request, reply) {
           ).format('YYYY-MM-DD')
         };
 
-        reply(response).code(200);
+        googlePayload.uuid = instance.dataValues.uuid;
+
+        google.sendWorkout(
+          userId, googlePayload, _replyWithData(reply, response, 200));
       });
     }
     else {
       console.log('Creating Workout');
+
       util.createWorkout(
         workoutDate, userId, request.payload.sets, null
       ).then((instance) => {
         const workout = instance.dataValues;
-        reply({
+
+        const response = {
           id: workout.id,
           workout_date: moment(workout.workout_date).format('YYYY-MM-DD'),
           sets: _.map(instance.dataValues.Sets, util.mapSet),
           location: null
-        }).code(201);
+        };
+
+        googlePayload.uuid = instance.dataValues.uuid;
+        google.sendWorkout(
+          userId, googlePayload, _replyWithData(reply, response, 201));
       });
     }
-
-    // google.sendWorkout(userId, request.payload);
   });
+};
+
+
+const _replyWithData = function(reply, response, code) {
+  return function(err, googleResponse) {
+    console.log(err);
+    console.log(googleResponse);
+    return reply(response).code(code);
+  };
 };
 
 

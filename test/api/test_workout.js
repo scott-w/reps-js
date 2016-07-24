@@ -3,6 +3,7 @@
 
 const Code = require('code');
 const Lab = require('lab');
+const proxyquire = require('proxyquire');
 
 const lab = exports.lab = Lab.script();
 
@@ -23,6 +24,12 @@ const models = require('../../models');
 const _ = require('lodash');
 
 describe('Workout list', () => {
+  const googleapis = proxyquire('proxyquire', {
+    fitness: function() {
+      console.log(arguments);
+    }
+  });
+
   beforeEach((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });

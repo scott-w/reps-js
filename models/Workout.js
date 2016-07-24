@@ -2,7 +2,12 @@
 module.exports = function(sequelize, DataTypes) {
 
   var Workout = sequelize.define('Workout', {
-    workout_date: DataTypes.DATEONLY
+    workout_date: DataTypes.DATEONLY,
+    uuid: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      defaultValue: DataTypes.UUIDV4
+    }
   }, {
     classMethods: {
       associate: function(models) {
