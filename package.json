@@ -32,7 +32,8 @@
     "validate.js": "^0.9.0",
     "validator": "^4.5.0",
     "webpack": "^1.12.13",
-    "window-or-global": "^1.0.1"
+    "window-or-global": "^1.0.1",
+    "snyk": "^1.17.1"
   },
   "scripts": {
     "debug": "node debug app.js",
@@ -50,7 +51,9 @@
     "test:client:ci": "karma start --single-run --reporters junit",
     "test": "snyk test && npm run test:server",
     "createdb": "sudo -u postgres createuser -PRd workouts &&sudo -u postgres createdb -O workouts -T template0 -E UTF8 workouts",
-    "lint": "eslint app api models test"
+    "lint": "eslint app api models test",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "main": "app.js",
   "repository": {
@@ -84,7 +87,7 @@
     "query-string": "^4.2.2",
     "sequelize-fixtures": "^0.4.8",
     "shot": "^3.0.0",
-    "sinon": "^1.17.3",
-    "snyk": "^1.16.0"
-  }
+    "sinon": "^1.17.3"
+  },
+  "snyk": true
 }

@@ -55,4 +55,7 @@ ignore:
     - googleapis > google-auth-library > request:
         reason: Check GoogleAPIs Updates
         expires: '2016-08-15T18:38:43.561Z'
-patch: {}
+patch:
+  'npm:tough-cookie:20160722':
+    - googleapis > request > tough-cookie:
+        patched: '2016-07-25T10:15:04.152Z'
