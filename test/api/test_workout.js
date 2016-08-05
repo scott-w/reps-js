@@ -24,12 +24,6 @@ const models = require('../../models');
 const _ = require('lodash');
 
 describe('Workout list', () => {
-  const googleapis = proxyquire('proxyquire', {
-    fitness: function() {
-      console.log(arguments);
-    }
-  });
-
   beforeEach((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });
@@ -104,6 +98,23 @@ describe('Workout list', () => {
 });
 
 describe('Create workout', () => {
+  const g = proxyquire('../../api/workouts/google', {
+    googleapis: {
+      fitness: function() {
+        console.log('fit logged');
+        return {
+          users: {
+            sessions: {
+              update: function() {
+                console.log('update called');
+              }
+            }
+          }
+        };
+      }
+    }
+  });
+
   beforeEach((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });
@@ -273,6 +284,23 @@ describe('Create workout', () => {
 
 
 describe('Update workout', () => {
+  const g = proxyquire('../../api/workouts/google', {
+    googleapis: {
+      fitness: function() {
+        console.log('fit logged');
+        return {
+          users: {
+            sessions: {
+              update: function() {
+                console.log('update called');
+              }
+            }
+          }
+        };
+      }
+    }
+  });
+
   beforeEach((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });

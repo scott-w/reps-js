@@ -348,9 +348,8 @@ const updateWorkout = function(request, reply) {
 
 
 const _replyWithData = function(reply, response, code) {
-  return function(err, googleResponse) {
+  return function(err) {
     console.log(err);
-    console.log(googleResponse);
     return reply(response).code(code);
   };
 };

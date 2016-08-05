@@ -18,6 +18,9 @@ exports.sendWorkout = function(userId, payload, success) {
   const end = _getEnd(payload.session_end);
   const uuid = payload.uuid;
 
+  if (!uuid) {
+    return success('No UUID set');
+  }
   const workout = {
     activityType: 97,
     userId: 'me',
