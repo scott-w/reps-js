@@ -3,6 +3,7 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Syphon from 'backbone.syphon';
+import {Radio} from 'backbone.radio';
 
 import {FormError, ValidationError} from '../../base/behaviors/form';
 
@@ -60,6 +61,10 @@ const Login = Marionette.View.extend({
   },
 
   redirectLogin: function() {
+    const channel = Radio.channel('notification');
+
+    channel.request('clear:warning');
+
     Backbone.history.navigate('workout/', {trigger: true});
   }
 });
