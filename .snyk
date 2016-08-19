@@ -8,9 +8,6 @@ ignore:
     - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream > rimraf > glob > minimatch:
         reason: Affects only webpack
         expires: '2016-08-15T18:38:43.555Z'
-      webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > minimatch:
-        reason: In Webpack
-        expires: '2016-09-18T21:38:10.182Z'
     - sequelize-cli > gulp > vinyl-fs > glob-stream > glob > minimatch:
         reason: In Webpack
         expires: '2016-09-18T21:38:10.183Z'
@@ -29,28 +26,31 @@ ignore:
     - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > minimatch:
         reason: In Webpack
         expires: '2016-08-15T18:38:43.558Z'
-      webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > rimraf > glob > minimatch:
-        reason: In Webpack
-        expires: '2016-09-18T21:38:10.185Z'
     - sequelize-cli > gulp > vinyl-fs > glob-stream > minimatch:
         reason: In Sequelize-cli
         expires: '2016-08-15T18:38:43.558Z'
-      webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream > rimraf > glob > minimatch:
-        reason: In Webpack
-        expires: '2016-09-18T21:38:10.186Z'
     - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > fstream > rimraf > glob > minimatch:
         reason: In WebPack
         expires: '2016-08-15T18:38:43.559Z'
-      sequelize-cli > gulp > vinyl-fs > glob-stream > minimatch:
-        reason: In Webpack
-        expires: '2016-09-18T21:38:10.186Z'
     - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > rimraf > glob > minimatch:
         reason: In WebPack
         expires: '2016-08-15T18:38:43.560Z'
-      webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > fstream > rimraf > glob > minimatch:
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > tar > fstream > rimraf > glob > minimatch:
         reason: In Webpack
         expires: '2016-09-18T21:38:10.187Z'
-    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > tar > fstream > rimraf > glob > minimatch:
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > minimatch:
+        reason: In Webpack
+        expires: '2016-09-18T21:38:10.182Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > rimraf > glob > minimatch:
+        reason: In Webpack
+        expires: '2016-09-18T21:38:10.185Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream > rimraf > glob > minimatch:
+        reason: In Webpack
+        expires: '2016-09-18T21:38:10.186Z'
+    - sequelize-cli > gulp > vinyl-fs > glob-stream > minimatch:
+        reason: In Webpack
+        expires: '2016-09-18T21:38:10.186Z'
+    - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream-ignore > fstream > rimraf > glob > minimatch:
         reason: In Webpack
         expires: '2016-09-18T21:38:10.187Z'
   'npm:moment:20160126':
@@ -60,19 +60,19 @@ ignore:
     - hapi > statehood > joi > moment:
         reason: Update Hapi Manually
         expires: '2016-08-15T18:38:43.560Z'
-      hapi > catbox > joi > moment:
-        reason: Update Hapi Manually
-        expires: '2016-09-18T21:38:10.187Z'
     - hapi > catbox > joi > moment:
         reason: Update Hapi Manually
         expires: '2016-08-15T18:38:43.561Z'
-      hapi > heavy > joi > moment:
-        reason: Update Hapi Manually
-        expires: '2016-09-18T21:38:10.188Z'
     - hapi > heavy > joi > moment:
         reason: Update Hapi Manually
         expires: '2016-08-15T18:38:43.561Z'
-      hapi > statehood > joi > moment:
+    - hapi > catbox > joi > moment:
+        reason: Update Hapi Manually
+        expires: '2016-09-18T21:38:10.187Z'
+    - hapi > heavy > joi > moment:
+        reason: Update Hapi Manually
+        expires: '2016-09-18T21:38:10.188Z'
+    - hapi > statehood > joi > moment:
         reason: Update Hapi Manually
         expires: '2016-09-18T21:38:10.188Z'
   'npm:request:20160119':
@@ -83,4 +83,7 @@ ignore:
     - webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > tough-cookie:
         reason: None given
         expires: '2016-09-18T21:38:10.189Z'
+      googleapis > google-auth-library > request > tough-cookie:
+        reason: Update GoogleAPI manually
+        expires: '2016-09-18T21:44:06.616Z'
 patch: {}
