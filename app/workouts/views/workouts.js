@@ -1,6 +1,8 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 
+import Bricks from 'bricks.js';
+
 import {Page} from '../../base/behaviors/page';
 import {Loading} from '../../base/behaviors/loader';
 
@@ -61,8 +63,6 @@ const WorkoutDetailView = Marionette.View.extend({
 });
 
 const WorkoutItem = Marionette.View.extend({
-  className: 'col-md-6 col-lg-4 col-sm-12',
-
   template: require('../templates/workout/item.html'),
 
   templateContext: function() {
@@ -129,6 +129,19 @@ const WorkoutListLayout = Marionette.View.extend({
 
   onShowCreateWorkout: function() {
     Backbone.history.navigate('workout/create');
+  },
+
+  onAttach: function() {
+    const bricks = new Bricks({
+      container: '.workouts-list',
+      packed: 'packed',
+      sizes: [
+        { columns: 3, gutter: 10 },
+        { mq: '768px', columns: 3, gutter: 30 },
+        { mq: '1024px', columns: 3, gutter: 30 }
+      ]
+    });
+    bricks.pack();
   }
 });
 
