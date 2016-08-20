@@ -64,6 +64,7 @@
     "babel-preset-es2015": "^6.5.0",
     "bluebird": "^3.2.2",
     "bootstrap-sass": "^3.3.7",
+    "bricklayer": "^0.4.3",
     "bricks.js": "^1.7.0",
     "code": "^2.1.0",
     "css-loader": "^0.23.1",

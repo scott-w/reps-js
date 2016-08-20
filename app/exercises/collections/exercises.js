@@ -12,12 +12,12 @@ export const ExerciseList = PageableCollection.extend({
   sync: authSync,
 
   state: {
-    pageSize: 6
+    pageSize: 9
   },
 
   comparator: 'exercise_name',
 
-  initialize: function(data, options) {
+  initialize: function(data, options={}) {
     this.searchModel = options.searchModel;
   },
 

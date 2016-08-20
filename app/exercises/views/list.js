@@ -8,13 +8,13 @@ import {Loading} from '../../base/behaviors/loader';
 
 import {EmptyView, LoaderView} from '../../base/views/loader';
 
+import {ExerciseList} from '../collections/exercises';
 import {SetList} from '../../sets/collections/sets';
 
 import {SetListView} from './set';
 
 
 export const ExerciseContainerView = Marionette.View.extend({
-  className: 'col-lg-4',
   template: require('../templates/exercises/container.html'),
 
   regions: {
@@ -46,7 +46,7 @@ export const ExerciseContainerView = Marionette.View.extend({
 });
 
 const ExerciseListView = Marionette.CollectionView.extend({
-  className: 'row',
+  className: 'col-lg-4',
   childView: ExerciseContainerView,
 
   childViewOptions: function(model, index) {
@@ -57,12 +57,70 @@ const ExerciseListView = Marionette.CollectionView.extend({
   }
 });
 
+const ExerciseColumnsView = Marionette.View.extend({
+  className: 'row',
+  template: require('../templates/exercises/columns.html'),
+
+  collectionEvents: {
+    update: 'updateColumns'
+  },
+
+  regions: {
+    col1: '.col1-hook',
+    col2: '.col2-hook',
+    col3: '.col3-hook'
+  },
+
+  onRender: function() {
+    this.showColumns();
+  },
+
+  showColumns: function() {
+    const column1 = this.collection.filter((model, index) => index % 3 === 0);
+    const column2 = this.collection.filter((model, index) => index % 3 === 1);
+    const column3 = this.collection.filter((model, index) => index % 3 === 2);
+
+    this.showChildView('col1', new ExerciseListView({
+      collection: new ExerciseList(column1)
+    }));
+
+    this.showChildView('col2', new ExerciseListView({
+      collection: new ExerciseList(column2)
+    }));
+
+    this.showChildView('col3', new ExerciseListView({
+      collection: new ExerciseList(column3)
+    }));
+  },
+
+  updateColumns: function() {
+    this.updateColumn(1);
+    this.updateColumn(2);
+    this.updateColumn(3);
+  },
+
+  updateColumn: function(column) {
+    const region = `col${column}`;
+
+    if (!this.hasRegion(region)) {
+      return;  // Probably not initialized
+    }
+
+    const remainder = column - 1;
+    const collection = this.collection.filter(
+      (model, index) => index % 3 === remainder);
+
+    const child = this.getChildView(region);
+    child.collection.set(collection);
+  }
+});
+
 export const ExerciseLayoutView = Marionette.View.extend({
   behaviors: {
     page: Page,
     loader: {
       behaviorClass: Loading,
-      collectionView: ExerciseListView,
+      collectionView: ExerciseColumnsView,
       loadView: LoaderView,
       emptyView: EmptyView
     }
