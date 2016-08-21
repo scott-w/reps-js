@@ -1,10 +1,10 @@
 <ul class="pagination">
-   <li>
+   <li <% if (noPrev) { %>class="disabled"<% } %>>
      <a href="" aria-label="Previous" class="previous-page">
        <span aria-hidden="true">&laquo; previous</span>
      </a>
    </li>
-   <li>
+   <li <% if (noNext) { %>class="disabled"<% } %>>
      <a href="" aria-label="Next" class="next-page">
        <span aria-hidden="true">next &raquo;</span>
      </a>

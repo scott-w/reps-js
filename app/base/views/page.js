@@ -14,10 +14,22 @@ export const PageView = Mn.View.extend({
     'click @ui.prev': 'prevPage'
   },
 
+  collectionEvents: {
+    sync: 'render'
+  },
+
+  templateContext: function() {
+    return {
+      noNext: !this.collection.hasNextPage(),
+      noPrev: !this.collection.hasPreviousPage()
+    };
+  },
+
   nextPage: function(e) {
     e.preventDefault();
     if (this.collection.hasNextPage()) {
       this.collection.getNextPage();
+      this.triggerMethod('page:change');
     }
   },
 
@@ -25,6 +37,11 @@ export const PageView = Mn.View.extend({
     e.preventDefault();
     if (this.collection.hasPreviousPage()) {
       this.collection.getPreviousPage();
+      this.triggerMethod('page:change');
     }
+  },
+
+  onPageChange: function() {
+    this.render();
   }
 });

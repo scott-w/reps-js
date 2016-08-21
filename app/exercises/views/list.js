@@ -136,6 +136,10 @@ export const ExerciseLayoutView = Marionette.View.extend({
     }
   },
 
+  childViewEvents: {
+    'page:change': 'updateColumns'
+  },
+
   ui: {
     search: '.exercise_name',
     create: '.start-session'
@@ -154,5 +158,9 @@ export const ExerciseLayoutView = Marionette.View.extend({
   showCreate: function(e) {
     e.preventDefault();
     Backbone.history.navigate('workout/create', {trigger: true});
+  },
+
+  updateColumns: function() {
+    this.getChildView('list').updateColumns();
   }
 });
