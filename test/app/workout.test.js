@@ -79,6 +79,21 @@ describe('Workout Model', function () {
     expect(model.trigger.calledWith('save')).to.equal(true);
   });
 
+  it('provides a default start time', function() {
+    const session = model.get('session_start');
+
+    expect(session).to.not.equal(null);
+    expect(session).to.not.equal(undefined);
+  });
+
+  it('pushes up the start/end time to the server', function() {
+    model.saveWorkout();
+    const session = model.get('session_end');
+
+    expect(session).to.not.equal(null);
+    expect(session).to.not.equal(undefined);
+  });
+
   it('summarises the workout from the given sets', function() {
     model.summariseWorkout();
     expect(model.get('summary')).to.not.be(undefined);

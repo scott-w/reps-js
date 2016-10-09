@@ -3,13 +3,14 @@
 'use strict';
 
 const _ = require('lodash');
+const uuid = require('uuid');
 
 const models = require('../../models');
 
 /** Get a single workout. Returns a Promise for the workout */
 exports.getWorkout = (userId, workoutDate, joins) => models.Workout.findOne({
   attributes: [
-    'id', 'workout_date'
+    'id', 'workout_date', 'uuid'
   ],
   where: {
     workout_date: workoutDate,
@@ -86,6 +87,7 @@ exports.createWorkout = (workoutDate, userId, sets, locationId) => {
   let createData = {
     workout_date: workoutDate,
     UserId: userId,
+    uuid: uuid.v4(),
     Sets: _.map(
       sets, (set) => ({
         ExerciseId: set.exercise,

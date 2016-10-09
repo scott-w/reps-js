@@ -3,6 +3,7 @@
 
 const Code = require('code');
 const Lab = require('lab');
+const proxyquire = require('proxyquire');
 
 const lab = exports.lab = Lab.script();
 
@@ -97,6 +98,23 @@ describe('Workout list', () => {
 });
 
 describe('Create workout', () => {
+  proxyquire('../../api/workouts/google', {
+    googleapis: {
+      fitness: function() {
+        console.log('fit logged');
+        return {
+          users: {
+            sessions: {
+              update: function() {
+                console.log('update called');
+              }
+            }
+          }
+        };
+      }
+    }
+  });
+
   beforeEach((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });
@@ -266,6 +284,23 @@ describe('Create workout', () => {
 
 
 describe('Update workout', () => {
+  proxyquire('../../api/workouts/google', {
+    googleapis: {
+      fitness: function() {
+        console.log('fit logged');
+        return {
+          users: {
+            sessions: {
+              update: function() {
+                console.log('update called');
+              }
+            }
+          }
+        };
+      }
+    }
+  });
+
   beforeEach((done) => {
     construct.fixtures('./fixtures/workouts.yaml', done);
   });

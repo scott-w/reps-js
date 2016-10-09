@@ -2,12 +2,15 @@ machine:
   environment:
     NODE_ENV: ci
   node:
-    version: 5.7.0
+    version: 6.7.0
 test:
+  pre:
+    - npm run migrate
   post:
     - npm run test:client:ci
     - mv TEST*.xml $CIRCLE_TEST_REPORTS/
     - npm run lint
+    - snyk test
 
 deployment:
   production:
