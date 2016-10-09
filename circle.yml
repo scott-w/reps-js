@@ -2,7 +2,7 @@ machine:
   environment:
     NODE_ENV: ci
   node:
-    version: 5.7.0
+    version: 6.7.0
 test:
   pre:
     - npm run migrate
