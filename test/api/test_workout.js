@@ -98,7 +98,7 @@ describe('Workout list', () => {
 });
 
 describe('Create workout', () => {
-  const g = proxyquire('../../api/workouts/google', {
+  proxyquire('../../api/workouts/google', {
     googleapis: {
       fitness: function() {
         console.log('fit logged');
@@ -284,7 +284,7 @@ describe('Create workout', () => {
 
 
 describe('Update workout', () => {
-  const g = proxyquire('../../api/workouts/google', {
+  proxyquire('../../api/workouts/google', {
     googleapis: {
       fitness: function() {
         console.log('fit logged');
