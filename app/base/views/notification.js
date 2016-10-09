@@ -44,7 +44,7 @@ export const NotificationView = Marionette.CollectionView.extend({
 
   initialize: function() {
     const channel = Radio.channel(this.channelName);
-    Marionette.bindRadioRequests(this, channel, this.radioRequests);
+    Marionette.bindRequests(this, channel, this.radioRequests);
   },
 
   showSuccess: function(msg) {
