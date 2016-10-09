@@ -22,7 +22,7 @@
     "lodash": "^4.1.0",
     "moment": "^2.11.2",
     "pg": "^4.4.3",
-    "request": "^2.6.0",
+    "request": "^2.74.0",
     "rollbar": "^0.6.0",
     "sequelize": "^3.23.6",
     "sequelize-cli": "^2.3.0",
