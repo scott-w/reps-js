@@ -4,10 +4,13 @@ machine:
   node:
     version: 5.7.0
 test:
+  pre:
+    - npm run migrate
   post:
     - npm run test:client:ci
     - mv TEST*.xml $CIRCLE_TEST_REPORTS/
     - npm run lint
+    - snyk test
 
 deployment:
   production:
