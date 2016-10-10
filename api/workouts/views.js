@@ -319,7 +319,7 @@ const updateWorkout = function(request, reply) {
 
         googlePayload.uuid = instance.dataValues.uuid;
 
-        google.sendWorkout(
+        return google.sendWorkout(
           userId, googlePayload, _replyWithData(reply, response, 200));
       });
     }
@@ -339,7 +339,7 @@ const updateWorkout = function(request, reply) {
         };
 
         googlePayload.uuid = instance.dataValues.uuid;
-        google.sendWorkout(
+        return google.sendWorkout(
           userId, googlePayload, _replyWithData(reply, response, 201));
       });
     }

@@ -18,13 +18,15 @@ exports.sendWorkout = function(userId, payload, success) {
   const end = _getEnd(payload.session_end);
   const uuid = payload.uuid;
 
+  console.log(`uuid: ${uuid}`);
   if (!uuid) {
     return success('No UUID set');
   }
   const workout = {
+    id: uuid,
     activityType: 97,
     userId: 'me',
-    // sessionId: uuid,
+    sessionId: uuid,
     startTimeMillis: start,
     endTimeMillis: end,
     application: {
@@ -32,9 +34,10 @@ exports.sendWorkout = function(userId, payload, success) {
     },
     name: 'Pump3d workout'
   };
+  console.log('Workout', workout);
   const fit = googleapi.fitness({
     version: 'v1',
     auth: google.oauth2Client()
   });
-  fit.users.sessions.update(workout, success);
+  return fit.users.sessions.update(workout, success);
 };
