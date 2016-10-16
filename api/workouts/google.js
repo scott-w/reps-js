@@ -5,6 +5,9 @@ const googleapi = require('googleapis');
 
 const google = require('../user/google');
 
+const models = require('../../models');
+
+
 const _toMilliseconds = function(isoformat) {
   return moment(isoformat).format('x');
 };
@@ -34,12 +37,26 @@ exports.sendWorkout = function(userId, payload, success) {
     },
     name: 'Pump3d workout'
   };
-  const client = google.oauth2Client();
   console.log('Workout', workout);
-  console.log('Auth', client);
-  const fit = googleapi.fitness({
-    version: 'v1',
-    auth: client
+
+  const client = google.oauth2Client();
+
+  return models.User.findOne({
+    attributes: ['fit_token'],
+    where: {
+      id: userId
+    }
+  }).then(user => {
+    const token = user.dataValues.fit_token;
+    console.log('Token', token);
+
+    client.setCredentials(token);
+    const fit = googleapi.fitness({
+      version: 'v1',
+      auth: client
+    });
+
+    console.log('Auth', client);
+    return fit.users.sessions.update(workout, success);
   });
-  return fit.users.sessions.update(workout, success);
 };
