@@ -33,7 +33,6 @@ const updateUser = function(request, reply) {
     updateVals.last_name = last_name;
   }
   if (token) {
-    updateVals.fit_token = token;
     let client = google.oauth2Client();
     client.getToken(token, (err, tokens) => {
       if (err) {
@@ -43,10 +42,20 @@ const updateUser = function(request, reply) {
         console.log('Tokens', tokens);
         updateVals.fit_token = tokens;
       }
+      return updateUserAndReply(email, updateVals, reply);
     });
   }
+  else {
+    return updateUserAndReply(email, updateVals, reply);
+  }
+};
 
-  models.User.update(updateVals, {
+
+/** Setup the user update process with the given update values. This will then
+ * reply to the request.
+ */
+const updateUserAndReply = function(email, update, reply) {
+  models.User.update(update, {
     where: {
       email: email
     }
@@ -65,6 +74,7 @@ const updateUser = function(request, reply) {
     return reply({error: 'An error occurred'}).code(500);
   });
 };
+
 
 /** Change the user's password and return an updated Token for the user */
 const changePassword = function(request, reply) {
