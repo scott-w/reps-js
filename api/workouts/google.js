@@ -48,7 +48,7 @@ exports.sendWorkout = function(userId, payload, success) {
       id: userId
     }
   }).then(user => {
-    const token = parse(user.dataValues.fit_token);
+    const token = parse({}, user.dataValues.fit_token);
     console.log('Token', token);
 
     client.setCredentials(token);
