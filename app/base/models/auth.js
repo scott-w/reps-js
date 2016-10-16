@@ -95,6 +95,7 @@ export const UserModel = Backbone.Model.extend({
     }
 
     const parsed = query.parse(searchString);
+    console.log(parsed); // eslint-disable-line no-console
     return this.save({
       fit_token: parsed.code
     }, {

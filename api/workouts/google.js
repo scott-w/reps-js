@@ -34,10 +34,12 @@ exports.sendWorkout = function(userId, payload, success) {
     },
     name: 'Pump3d workout'
   };
+  const client = google.oauth2Client();
   console.log('Workout', workout);
+  console.log('Auth', client);
   const fit = googleapi.fitness({
     version: 'v1',
-    auth: google.oauth2Client()
+    auth: client
   });
   return fit.users.sessions.update(workout, success);
 };
