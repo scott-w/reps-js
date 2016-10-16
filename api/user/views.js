@@ -33,6 +33,16 @@ const updateUser = function(request, reply) {
   }
   if (token) {
     updateVals.fit_token = token;
+    let client = google.oauth2Client();
+    client.getToken(token, (err, tokens) => {
+      if (err) {
+        console.error(err);
+      }
+      else {
+        console.log('Tokens', tokens);
+        updateVals.fit_token = tokens;
+      }
+    });
   }
 
   models.User.update(updateVals, {
@@ -50,7 +60,7 @@ const updateUser = function(request, reply) {
       });
     });
   }).catch((err) => {
-    console.log(err);
+    console.error(err);
     return reply({error: 'An error occurred'}).code(500);
   });
 };
