@@ -1,7 +1,8 @@
 'use strict';
 const _ = require('lodash');
-const moment = require('moment');
 const googleapi = require('googleapis');
+const moment = require('moment');
+const parse = require('json-parse');
 
 const google = require('../user/google');
 
@@ -47,7 +48,7 @@ exports.sendWorkout = function(userId, payload, success) {
       id: userId
     }
   }).then(user => {
-    const token = user.dataValues.fit_token;
+    const token = parse(user.dataValues.fit_token);
     console.log('Token', token);
 
     client.setCredentials(token);

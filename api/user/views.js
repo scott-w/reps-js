@@ -1,5 +1,6 @@
 "use strict";
 const bcrypt = require('bcrypt');
+const stringify = require('json-stringify');
 
 const models = require('../../models');
 
@@ -40,7 +41,7 @@ const updateUser = function(request, reply) {
       }
       else {
         console.log('Tokens', tokens);
-        updateVals.fit_token = tokens;
+        updateVals.fit_token = stringify(tokens);
       }
       return updateUserAndReply(email, updateVals, reply);
     });
