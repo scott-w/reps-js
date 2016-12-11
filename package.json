@@ -17,7 +17,7 @@
     "hapi-auth-jwt2": "^5.3.2",
     "icecreambar": "^3.1.0",
     "inert": "^3.2.0",
-    "jquery": "^2.2.0",
+    "jquery": "^3.0.0",
     "json-parse": "^1.0.3",
     "json-stringify": "^1.0.0",
     "jsonwebtoken": "^5.5.4",
