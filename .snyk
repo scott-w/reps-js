@@ -3,20 +3,32 @@ ignore:
   'npm:call:20160705':
     - hapi > call:
         reason: Update Hapi Manually
-        expires: '2016-11-08T19:33:45.486Z'
+        expires: '2017-01-29T12:45:58.627Z'
   'npm:minimatch:20160620':
     - webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > fstream > rimraf > glob > minimatch:
         reason: Affects only webpack
         expires: '2016-08-15T18:38:43.555Z'
+      sequelize-cli > gulp > vinyl-fs > glob-stream > glob > minimatch:
+        reason: No Upgrade
+        expires: '2017-01-29T12:45:58.627Z'
     - sequelize-cli > gulp > vinyl-fs > glob-stream > glob > minimatch:
         reason: No Upgrade
         expires: '2016-08-15T18:38:43.556Z'
+      sequelize-cli > gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
+        reason: No Upgrade
+        expires: '2017-01-29T12:45:58.627Z'
     - sequelize-cli > gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
         reason: No Upgrade
         expires: '2016-08-15T18:38:43.556Z'
+      sequelize-cli > gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
+        reason: No Upgrade
+        expires: '2017-01-29T12:45:58.628Z'
     - sequelize-cli > gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
         reason: No Upgrade
         expires: '2016-08-15T18:38:43.557Z'
+      sequelize-cli > gulp > vinyl-fs > glob-stream > minimatch:
+        reason: No Upgrade
+        expires: '2017-01-29T12:45:58.628Z'
     - webpack > watchpack > chokidar > fsevents > node-pre-gyp > rimraf > glob > minimatch:
         reason: In Webpack
         expires: '2016-08-15T18:38:43.557Z'
@@ -53,16 +65,25 @@ ignore:
   'npm:moment:20160126':
     - hapi > joi > moment:
         reason: Update Hapi Manually
-        expires: '2016-11-08T19:33:45.487Z'
+        expires: '2017-01-29T12:45:58.628Z'
     - hapi > statehood > joi > moment:
         reason: Update Hapi Manually
         expires: '2016-08-15T18:38:43.560Z'
+      hapi > catbox > joi > moment:
+        reason: Update Hapi Manually
+        expires: '2017-01-29T12:45:58.628Z'
     - hapi > catbox > joi > moment:
         reason: Update Hapi Manually
         expires: '2016-08-15T18:38:43.561Z'
+      hapi > heavy > joi > moment:
+        reason: Update Hapi Manually
+        expires: '2017-01-29T12:45:58.628Z'
     - hapi > heavy > joi > moment:
         reason: Update Hapi Manually
         expires: '2016-08-15T18:38:43.561Z'
+      hapi > statehood > joi > moment:
+        reason: Update Hapi Manually
+        expires: '2017-01-29T12:45:58.628Z'
     - hapi > catbox > joi > moment:
         reason: Update Hapi Manually
         expires: '2016-11-08T19:33:45.487Z'
@@ -85,5 +106,18 @@ ignore:
   'npm:tough-cookie:20160722':
     - webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > tough-cookie:
         reason: None given
-        expires: '2016-11-08T19:33:45.488Z'
+        expires: '2017-01-29T12:45:58.628Z'
+  'npm:moment:20161019':
+    - hapi > joi > moment:
+        reason: None given
+        expires: '2017-01-29T12:45:58.629Z'
+    - hapi > catbox > joi > moment:
+        reason: None given
+        expires: '2017-01-29T12:45:58.629Z'
+    - hapi > heavy > joi > moment:
+        reason: None given
+        expires: '2017-01-29T12:45:58.629Z'
+    - hapi > statehood > joi > moment:
+        reason: None given
+        expires: '2017-01-29T12:45:58.629Z'
 patch: {}
