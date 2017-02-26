@@ -1,5 +1,5 @@
 import {Model} from 'backbone';
-import LocalStorage from 'backbone.localstorage';
+import LocalStorage from 'backbone.local';
 
 import moment from 'moment';
 import validate from 'validate.js';

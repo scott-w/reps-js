@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
-import LocalStorage from 'backbone.localstorage';
+import LocalStorage from 'backbone.local';
 
 
 /** Grab a list of locally stored identifiers to be subsequently pulled from the
