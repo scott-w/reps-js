@@ -3,7 +3,7 @@ import query from 'query-string';
 import root from 'window-or-global';
 
 import Backbone from 'backbone';
-import LocalStorage from 'backbone.local';
+import {LocalStorage} from 'backbone.localstorage';
 import Radio from 'backbone.radio';
 
 

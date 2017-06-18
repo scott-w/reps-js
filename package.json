@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "backbone": "1.3.3",
-    "backbone.local": "0.0.4",
+    "backbone.localstorage": "^2.0.0",
     "backbone.marionette": "^3.0.0",
     "backbone.paginator": "^2.0.5",
     "backbone.radio": "^2.0.0",

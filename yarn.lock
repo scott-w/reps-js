@@ -667,9 +667,9 @@ babylon@^6.11.0, babylon@^6.15.0:
   version "6.16.1"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.16.1.tgz#30c5a22f481978a9e7f8cdfdf496b11d94b404d3"
 
-backbone.local@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/backbone.local/-/backbone.local-0.0.4.tgz#1f67026f80b81cb2d34987cf5e4f5fb382c2c97d"
+backbone.localstorage@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/backbone.localstorage/-/backbone.localstorage-2.0.0.tgz#284fd5493a8a6e35ca8116e53b2d1dfb742d004e"
 
 backbone.marionette@^3.0.0:
   version "3.2.0"
@@ -4327,17 +4327,13 @@ punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
 
-qs@6.2.1:
+qs@6.2.1, qs@~6.2.0:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.2.1.tgz#ce03c5ff0935bc1d9d69a9f14cbd18e568d67625"
 
 qs@~2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-2.3.3.tgz#e9e85adbe75da0bbe4c8e0476a086290f863b404"
-
-qs@~6.2.0:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.2.2.tgz#d506a5ad5b2cae1fd35c4f54ec182e267e3ef586"
 
 qs@~6.3.0:
   version "6.3.1"
