@@ -25,7 +25,7 @@
     "moment": "^2.15.2",
     "pg": "^4.4.3",
     "request": "^2.74.0",
-    "rollbar": "^0.6.0",
+    "rollbar": "^2.2.9",
     "sequelize": "^3.24.3",
     "sequelize-cli": "^2.4.0",
     "underscore": "^1.8.3",
