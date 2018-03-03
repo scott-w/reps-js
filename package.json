@@ -33,7 +33,7 @@
     "uuid": "^2.0.2",
     "validate.js": "^0.9.0",
     "validator": "^4.5.0",
-    "webpack": "^1.12.13",
+    "webpack": "^2.2.0",
     "window-or-global": "^1.0.1"
   },
   "scripts": {
