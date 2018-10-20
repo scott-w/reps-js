@@ -27,7 +27,7 @@
     "request": "^2.74.0",
     "rollbar": "^0.6.0",
     "sequelize": "^3.24.3",
-    "sequelize-cli": "^2.4.0",
+    "sequelize-cli": "^5.0.1",
     "underscore": "^1.8.3",
     "underscore-template-loader": "^0.6.0",
     "uuid": "^2.0.2",
