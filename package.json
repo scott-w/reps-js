@@ -12,7 +12,7 @@
     "backbone.radio": "^2.0.0",
     "backbone.syphon": "^0.7.0",
     "bcrypt": "^0.8.5",
-    "googleapis": "^12.4.0",
+    "googleapis": "^16.0.0",
     "hapi": "^12.0.1",
     "hapi-auth-jwt2": "^5.3.2",
     "icecreambar": "^3.1.0",
@@ -27,14 +27,15 @@
     "request": "^2.74.0",
     "rollbar": "^0.6.0",
     "sequelize": "^3.24.3",
-    "sequelize-cli": "^2.4.0",
+    "sequelize-cli": "^3.0.0",
     "underscore": "^1.8.3",
     "underscore-template-loader": "^0.6.0",
     "uuid": "^2.0.2",
     "validate.js": "^0.9.0",
     "validator": "^4.5.0",
     "webpack": "^1.12.13",
-    "window-or-global": "^1.0.1"
+    "window-or-global": "^1.0.1",
+    "snyk": "^1.105.0"
   },
   "scripts": {
     "debug": "node debug app.js",
@@ -51,7 +52,9 @@
     "test:client:ci": "karma start --single-run --reporters junit",
     "test": "snyk test && npm run test:server",
     "createdb": "sudo -u postgres createuser -PRd workouts &&sudo -u postgres createdb -O workouts -T template0 -E UTF8 workouts",
-    "lint": "eslint app api models test"
+    "lint": "eslint app api models test",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "main": "app.js",
   "repository": {
@@ -86,7 +89,7 @@
     "query-string": "^4.2.2",
     "sequelize-fixtures": "^0.4.8",
     "shot": "^3.0.0",
-    "sinon": "^1.17.3",
-    "snyk": "^1.16.0"
-  }
+    "sinon": "^1.17.3"
+  },
+  "snyk": true
 }
